@@ -1,0 +1,15 @@
+.images{
+    background-size: 10px 20px
+}
+
+.linksContainer{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    cursor: pointer;
+    flex-direction: row;
+    overflow: hidden;
+    border-bottom: 3px solid grey;
+    max-width: 720px;
+    margin: auto auto
+}
