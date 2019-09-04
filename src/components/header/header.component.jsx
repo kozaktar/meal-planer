@@ -3,8 +3,9 @@ import {HeaderComponentDiv, LinksContainerDiv, OptionLink, LogoContainer} from '
 import {connect} from 'react-redux';
 import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions';
 import CustomButton from '../custom-button/cutom-button';
+import SignInDropDown from '../Sign-In-DropDown/signInDropDown.component';
 
-const HeaderComponent=({toggleDropdown})=>(
+const HeaderComponent=({toggleDropdown,hidden})=>(
    
     <HeaderComponentDiv>
         <LogoContainer to={'/'}>Recipe Box</LogoContainer>
@@ -15,6 +16,7 @@ const HeaderComponent=({toggleDropdown})=>(
                 Sign In
             </CustomButton>
         </LinksContainerDiv>
+        {!hidden?<SignInDropDown/>:null}
     </HeaderComponentDiv>
     
 )
@@ -22,4 +24,8 @@ const HeaderComponent=({toggleDropdown})=>(
 const mapDispatchToProps=dispatch=>({
     toggleDropdown:()=>dispatch(toggleDropdown())
 })
-export default connect(null,mapDispatchToProps)(HeaderComponent)
+
+const mapStateToProps=(state)=>({
+    hidden:state.signInModal.hidden
+});
+export default connect(mapStateToProps,mapDispatchToProps)(HeaderComponent)
