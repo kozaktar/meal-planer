@@ -1,7 +1,8 @@
 import React from 'react';
 import {HeaderComponentDiv, LinksContainerDiv, OptionLink, LogoContainer} from './header.styles';
 import {ReactComponent as Logo} from '../../assets/image2vector.svg';
-import './header.styles.css'
+import {connect} from 'react-redux';
+import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions'
 
 const HeaderComponent=()=>(
    
