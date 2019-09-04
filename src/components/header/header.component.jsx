@@ -1,19 +1,25 @@
 import React from 'react';
 import {HeaderComponentDiv, LinksContainerDiv, OptionLink, LogoContainer} from './header.styles';
-import {ReactComponent as Logo} from '../../assets/image2vector.svg';
 import {connect} from 'react-redux';
-import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions'
+import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions';
+import CustomButton from '../custom-button/cutom-button';
 
-const HeaderComponent=()=>(
+const HeaderComponent=({toggleDropdown})=>(
    
     <HeaderComponentDiv>
-        <LogoContainer>Recipe Box</LogoContainer>
+        <LogoContainer to={'/'}>Recipe Box</LogoContainer>
         <LinksContainerDiv>
-            <OptionLink>Home</OptionLink>
-            <OptionLink>Contact Us</OptionLink>
-            <OptionLink>Sign In</OptionLink>
+            <OptionLink to={'/'}>Home</OptionLink>
+            <OptionLink to ={'/contact'}>Contact Us</OptionLink>
+            <CustomButton HeaderButton onClick={toggleDropdown}>
+                Sign In
+            </CustomButton>
         </LinksContainerDiv>
     </HeaderComponentDiv>
     
 )
-export default HeaderComponent
+
+const mapDispatchToProps=dispatch=>({
+    toggleDropdown:()=>dispatch(toggleDropdown())
+})
+export default connect(null,mapDispatchToProps)(HeaderComponent)

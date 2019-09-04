@@ -2,6 +2,6 @@ import SignInModalActionTypes from './sign-in-modal.types';
 
 export const toggleDropdown=()=>(
     {
-        type: SignInModalActionTypes
+        type: SignInModalActionTypes.TOGGLE_DROPDOWN
     }
 )
