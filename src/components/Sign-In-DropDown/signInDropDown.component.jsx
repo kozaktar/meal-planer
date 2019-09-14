@@ -1,15 +1,23 @@
 import React from 'react';
-import './signInDropDown.styless.css';
+import {Modal, ModalContent, CloseButton, ModalHeader, ModalTitle} from './signInDropDown.styles';
+import {connect} from 'react-redux';
+import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions'
+import SignInPage from '../../pages/SignIn/SignIn.component';
 
-const SignInDropDown=()=>(
-<div id="myModal" className="modal">
-
-  <div className="modal-content">
-    <span className="close">&times;</span>
-    <p>Some text in the Modal..</p>
-  </div>
-
-</div>
+const SignInDropDown=({toggleDropdown})=>(
+<Modal>
+  <ModalContent>
+    <ModalHeader>
+      <ModalTitle>LogIn To Your Account</ModalTitle>
+      <CloseButton onClick={toggleDropdown}>&times;</CloseButton>
+    </ModalHeader>
+    <SignInPage/>
+  </ModalContent>
+  </Modal>
 )
 
-export default SignInDropDown;
+const mapDispatchToProps=dispatch=>({
+  toggleDropdown:()=>dispatch(toggleDropdown())
+})
+
+export default connect(null,mapDispatchToProps)(SignInDropDown);

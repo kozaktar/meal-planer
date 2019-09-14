@@ -1,6 +1,7 @@
-import styled from 'styled-components';
+import {css} from 'styled-components';
 
-export const Container=styled.div`
+
+export const Container=css`
     width:80%;
     margin: auto;
 `

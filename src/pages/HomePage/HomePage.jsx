@@ -5,7 +5,7 @@ import {HomePageDiv} from './HomePage.styles'
 
 const HomePage=()=>(
     <HomePageDiv>
-        Home Page
+        page
     </HomePageDiv>
 )
 

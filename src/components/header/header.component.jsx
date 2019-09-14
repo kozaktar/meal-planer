@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions';
 import CustomButton from '../custom-button/cutom-button';
 import SignInDropDown from '../Sign-In-DropDown/signInDropDown.component';
+import {selectHiddenSignInModal} from '../../redux/sign-in-modal/sign-in-modal.selector';
+import {createStructuredSelector} from 'reselect';
 
 const HeaderComponent=({toggleDropdown,hidden})=>(
    
@@ -25,7 +27,7 @@ const mapDispatchToProps=dispatch=>({
     toggleDropdown:()=>dispatch(toggleDropdown())
 })
 
-const mapStateToProps=(state)=>({
-    hidden:state.signInModal.hidden
+const mapStateToProps=createStructuredSelector({
+    hidden:selectHiddenSignInModal
 });
 export default connect(mapStateToProps,mapDispatchToProps)(HeaderComponent)

@@ -7,12 +7,13 @@ import {Switch, Route} from 'react-router-dom';
 
 function App() {
   return (
-    <Container>
-      <HeaderComponent/>
+    <div>
+    <HeaderComponent/>
       <Switch>
         <Route exact path='/' component={HomePage}/>
-      </Switch>  
-    </Container>  
+      </Switch> 
+      
+    </div>
   );
 }
 
