@@ -16,10 +16,10 @@ export const Modal=styled.div`
 export const ModalContent=styled.div`
   background-color: #fefefe;
    margin: 5% auto; /* 15% from the top and centered */
-  // padding: 20px;
+  padding-bottom: 1rem;
   border: 1px solid #888;
-  width: 20%; /* Could be more or less, depending on screen size */
-  height: 350px;
+  max-width: 20%; /* Could be more or less, depending on screen size */
+  max-height: 80vh;
   border-radius: 15px;
   
 `
@@ -51,3 +51,4 @@ export const ModalHeader=styled.div`
 export const ModalTitle=styled.span`
   
 `;
+

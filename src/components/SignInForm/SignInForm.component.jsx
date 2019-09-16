@@ -1,28 +1,47 @@
 import React from 'react';
 import CustomButton from '../custom-button/cutom-button'
-import {Form, SeparatorSpan} from './SignInForm.styles';
-import FormInput from '../../components/formInput/form-input.component'
+import { Form, SeparatorSpan, ButtonGroup, CreateAccountPrompt } from './SignInForm.styles';
+import FormInput from '../../components/formInput/form-input.component';
+import { signInCreateAccountSwitch } from '../../redux/sign-in-modal/sign-in-modal.actions';
+import { connect } from 'react-redux';
+import { signInWithGoogle, auth } from '../../firebase/firebase.utils';
 
-class SignInForm extends React.Component{
-    constructor(props){
-        super(props);
-        this.state={
-            email:'',
-            password:''
-        }
+class SignInForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: ''
     }
+  }
 
-    handleChange = event => {
-        const { value, name } = event.target;
+  handleSubmit = async event => {
+    event.preventDefault();
     
-        this.setState({ [name]: value });
-      };
+    const{email, password}=this.state;
+
+    try{
+      await auth.signInWithEmailAndPassword(email,password);
+      this.setState({ email: '', password: '' });
+
+    }
+    catch(error){
+      console.error(error);
+    }
+  }
+
+  handleChange = event => {
+    const { value, name } = event.target;
+
+    this.setState({ [name]: value });
+  };
 
 
-    render(){
-        return(
-         <Form onSubmit={this.handleSubmit}>
-             <FormInput
+  render() {
+    return (
+      <div>
+        <Form onSubmit={this.handleSubmit}>
+          <FormInput
             name='email'
             type='email'
             handleChange={this.handleChange}
@@ -38,12 +57,21 @@ class SignInForm extends React.Component{
             label='password'
             required
           />
-          <CustomButton type='submit' SignIn>Sign In</CustomButton>
-          <SeparatorSpan>Or</SeparatorSpan>
-          <CustomButton GoogleSignIn>Sign In With Google</CustomButton>
+          <ButtonGroup>
+            <CustomButton type='submit' SignIn>Sign In</CustomButton>
+            <SeparatorSpan>Or</SeparatorSpan>
+            <CustomButton GoogleSignIn type='button' onClick={signInWithGoogle}>Sign In With Google</CustomButton>
+          </ButtonGroup>
         </Form>
-            )
-    }
+        <CreateAccountPrompt>Don't Have An Account Yet?<CustomButton Link onClick={this.props.switchSignInCreate}>Sign Up.</CustomButton></CreateAccountPrompt>
+      </div>
+    )
+  }
 
 }
-export default SignInForm;
+
+const mapDispatchToProps = dispatch => ({
+  switchSignInCreate: () => dispatch(signInCreateAccountSwitch())
+})
+
+export default connect(null, mapDispatchToProps)(SignInForm);

@@ -27,7 +27,19 @@ const SignInButtonStyles=css`
     background-color: grey;
     color: white;
 }   
-`
+`;
+
+const LinkStyles=css`
+    color: blue;
+    padding:5px;
+    font-size:1rem;
+    background-color: rgba(0, 0, 0, 0);
+    &:hover{
+    color: black;
+}   
+`;
+
+
 
 const getButtonStyles=props=>{
     if(props.HeaderButton)
@@ -36,6 +48,8 @@ const getButtonStyles=props=>{
         return SignInButtonStyles;
     else if(props.GoogleSignIn)
         return GoogleButtonStyles;
+    else if(props.Link)
+        return LinkStyles
 }
 
 export const CustomButtonContainer=styled.button`

@@ -4,4 +4,10 @@ export const toggleDropdown=()=>(
     {
         type: SignInModalActionTypes.TOGGLE_DROPDOWN
     }
+);
+
+export const signInCreateAccountSwitch=()=>(
+    {
+        type: SignInModalActionTypes.SIGN_IN_CREATE_ACCOUNT_SWITCH
+    }
 )

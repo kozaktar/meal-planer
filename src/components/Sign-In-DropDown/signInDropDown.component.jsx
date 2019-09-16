@@ -1,23 +1,32 @@
 import React from 'react';
-import {Modal, ModalContent, CloseButton, ModalHeader, ModalTitle} from './signInDropDown.styles';
-import {connect} from 'react-redux';
-import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions'
-import SignInPage from '../../pages/SignIn/SignIn.component';
+import { Modal, ModalContent, CloseButton, ModalHeader, ModalTitle} from './signInDropDown.styles';
+import { connect } from 'react-redux';
+import { toggleDropdown } from '../../redux/sign-in-modal/sign-in-modal.actions'
+import {createStructuredSelector} from 'reselect';
+import {selectSignInCreateAccountSwitch} from '../../redux/sign-in-modal/sign-in-modal.selector';
+import SignInForm from '../SignInForm/SignInForm.component';
+import SignUpForm from '../SignUpForm/signUpForm';
 
-const SignInDropDown=({toggleDropdown})=>(
-<Modal>
+const SignInDropDown = ({signInCreateAccountSwitch, toggleDropdown})=>(
+  <Modal>
   <ModalContent>
     <ModalHeader>
-      <ModalTitle>LogIn To Your Account</ModalTitle>
+      <ModalTitle>{signInCreateAccountSwitch?'LogIn To Your Account':'Create New Account'}</ModalTitle>
       <CloseButton onClick={toggleDropdown}>&times;</CloseButton>
     </ModalHeader>
-    <SignInPage/>
+    {signInCreateAccountSwitch?<SignInForm/>: <SignUpForm/>}
   </ModalContent>
-  </Modal>
+</Modal>
 )
 
-const mapDispatchToProps=dispatch=>({
-  toggleDropdown:()=>dispatch(toggleDropdown())
+const mapDispatchToProps = dispatch => ({
+  toggleDropdown: () => dispatch(toggleDropdown())
 })
 
-export default connect(null,mapDispatchToProps)(SignInDropDown);
+const mapStateToProps=createStructuredSelector(
+  {
+    signInCreateAccountSwitch: selectSignInCreateAccountSwitch
+  }
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignInDropDown);

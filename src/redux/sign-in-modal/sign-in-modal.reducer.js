@@ -1,7 +1,8 @@
 import SignInModalActionTypes from './sign-in-modal.types';
 
 const INITIAL_STATE={
-    hidden:true
+    hidden:true,
+    signInFormDisplay:true,
 }
 
 const SignInModalReducer=(state=INITIAL_STATE ,action)=>{
@@ -9,8 +10,14 @@ const SignInModalReducer=(state=INITIAL_STATE ,action)=>{
         case SignInModalActionTypes.TOGGLE_DROPDOWN:
             return {
                 ...state,
-                hidden: !state.hidden
+                hidden: !state.hidden,
+                signInFormDisplay:true
             };
+        case SignInModalActionTypes.SIGN_IN_CREATE_ACCOUNT_SWITCH:
+                return {
+                    ...state,
+                    signInFormDisplay: !state.signInFormDisplay
+                };    
         default:
             return state;    
     }
