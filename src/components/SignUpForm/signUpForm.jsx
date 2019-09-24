@@ -4,7 +4,9 @@ import FormInput from '../formInput/form-input.component';
 import CustomButton from '../../components/custom-button/cutom-button';
 import { signInCreateAccountSwitch } from '../../redux/sign-in-modal/sign-in-modal.actions';
 import { connect } from 'react-redux';
-
+import {auth, createUserProfileDocument} from '../../firebase/firebase.utils';
+import {setCurrentUser} from '../../redux/user/user.actions';
+import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions';
 
 class SignUpFrom extends React.Component {
 
@@ -28,8 +30,25 @@ class SignUpFrom extends React.Component {
 
     }
 
-    handleSubmit = (event) => {
+    handleSubmit = async event => {
+        const {setCurrentUser, toggleDropdown}=this.props
+       const {displayName, email, confirmEmail, password, confirmPassword}=this.state;
         event.preventDefault()
+        if(email===confirmEmail && password===confirmPassword){
+        try{
+           const {user}=await auth.createUserWithEmailAndPassword(email, password);
+           const newUser=await createUserProfileDocument(user, displayName);
+           setCurrentUser(newUser);
+           toggleDropdown();
+
+        }
+        catch(e){
+            console.log(e);
+        }
+    }
+    else(
+        console.log("things dont match")
+    )
     }
 
     render() {
@@ -86,7 +105,9 @@ class SignUpFrom extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-    switchSignInCreate: () => dispatch(signInCreateAccountSwitch())
+    switchSignInCreate: () => dispatch(signInCreateAccountSwitch()),
+    setCurrentUser: user=>dispatch(setCurrentUser(user)),
+    toggleDropdown: ()=>dispatch(toggleDropdown())
 })
 
 export default connect(null, mapDispatchToProps)(SignUpFrom);

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 
 const userSchema = new mongoose.Schema({
-    userName: {
+    displayName: {
         type: String,
         required: true,
         trim: true
@@ -21,7 +21,8 @@ const userSchema = new mongoose.Schema({
     },
     authID:{
         type: String,
-        required:true
+        required:true,
+        unique:true
     }
 });
 

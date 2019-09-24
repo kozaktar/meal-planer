@@ -1,5 +1,8 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import axios from 'axios';
+
+const userAPIpath='http://localhost:3001/users'
 
 const config={
     apiKey: "AIzaSyCaEY2wI_BYydMA0FjcoJyd0DqJ3w5bEFc",
@@ -22,7 +25,32 @@ export const signInWithGoogle = () => {
 };
 
 
-export const createUserProfileDocument=async (userAuth, additionalData)=>{
+export const createUserProfileDocument=async (userAuth, name)=>{
+  if(!userAuth)
+    return
+  let user=null;
 
+  
 
+  const response=await axios.get(userAPIpath.concat('/'+userAuth.uid));
+  user=response.data;
+  
+
+  if(!user){
+    let {displayName, email}=userAuth;
+    if(name)
+      {displayName=name;
+        console.log("display name provided: ",displayName)}
+
+      user={
+      displayName: displayName,
+      email,
+      authID: userAuth.uid,
+    }
+
+    axios.post(userAPIpath,user).then(res=>console.log(res.data)).catch(e=>console.log(e))
+
+  }
+
+  return user;
   }
