@@ -11,8 +11,8 @@ export const HeaderComponentDiv=styled.div`
     z-index: 1;
     padding: 2rem;
     height:8vh;
-    border-bottom: 1px solid grey;
-    ${Container}
+    // border-bottom: 1px solid grey;
+    box-shadow: 0px 2px 13px 0px rgba(196,196,196,1);
 `
 
 export const LinksContainerDiv=styled.div`

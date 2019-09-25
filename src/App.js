@@ -2,13 +2,15 @@ import React from 'react';
 import './App.css';
 import HeaderComponent from './components/header/header.component'
 import HomePage from './pages/HomePage/HomePage';
-import {Switch, Route} from 'react-router-dom';
+import {Switch, Route, Redirect} from 'react-router-dom';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils'
 import { connect } from 'react-redux';
 import { setCurrentUser } from './redux/user/user.actions';
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './redux/user/user.selectors';
-import {toggleDropdown} from './redux/sign-in-modal/sign-in-modal.actions'
+import {toggleDropdown} from './redux/sign-in-modal/sign-in-modal.actions';
+import MyRecipies from './pages/MyRecipes/MyRecipies.component';
+import MyRecipeBoxPage from './pages/MyRecipeBox/MyRecipeBoxPage.component'
 
 class App extends React.Component{
 
@@ -32,11 +34,13 @@ class App extends React.Component{
   
   
   render(){
+    const {currentUser}=this.props;
     return (
-      <div>
+      <div className='main-container'>
       <HeaderComponent/>
         <Switch>
-          <Route exact path='/' component={HomePage}/>
+          <Route exact path='/' render={() => currentUser ? (<Redirect to='/myrecipebox/myrecipes' />) : (<HomePage />)}/>
+          <Route path='/myrecipebox' render={() => !currentUser ? (<Redirect to='/' />) : (<MyRecipeBoxPage/>)}/>
         </Switch> 
         
       </div>
