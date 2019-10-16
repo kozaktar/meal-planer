@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import TextField from '@material-ui/core/TextField';
 
 export const Form=styled.form`
     padding:0 5% 0 5%;
@@ -21,3 +22,8 @@ export const CreateAccountPrompt=styled.span`
   padding:0 5%;
   margin-bottom:1rem;
 `;
+
+export const CustomTextField=styled(TextField)`
+    width:100%
+`
+

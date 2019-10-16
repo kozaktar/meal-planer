@@ -6,9 +6,9 @@ export const HeaderComponentDiv=styled.div`
     display: flex;
     position: sticky;
     top:0;
-    background: inherit
+    background:white;
     justify-content: space-between;
-    z-index: 1;
+    z-index: 1201;
     padding: 2rem;
     height:8vh;
     // border-bottom: 1px solid grey;

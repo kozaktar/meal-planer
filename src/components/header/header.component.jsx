@@ -14,17 +14,16 @@ const HeaderComponent=({toggleDropdown,hidden, currentUser})=>(
     <HeaderComponentDiv>
         <LogoContainer to={'/'}>Recipe Box</LogoContainer>
         <LinksContainerDiv>
-            <OptionLink to={'/'}>Home</OptionLink>
-            <OptionLink to ={'/contact'}>Contact Us</OptionLink>
-            {currentUser ? (<CustomButton HeaderButton onClick={()=>{auth.signOut()}}>
+            <OptionLink to ={'/about'}>About</OptionLink>
+            {currentUser ? (<OptionLink to={'#'} onClick={()=>{auth.signOut()}}>
                 Sign Out
-            </CustomButton>) :
-            (<CustomButton HeaderButton onClick={toggleDropdown}>
+            </OptionLink>) :
+            (<OptionLink to={'#'} onClick={toggleDropdown}>
                 Sign In
-            </CustomButton>)
+            </OptionLink>)
             }
         </LinksContainerDiv>
-        {!hidden && !currentUser?<SignInDropDown/>:null}
+        <SignInDropDown/>
     </HeaderComponentDiv>
 )
 

@@ -13,6 +13,12 @@ const SignInModalReducer=(state=INITIAL_STATE ,action)=>{
                 hidden: !state.hidden,
                 signInFormDisplay:true
             };
+        case SignInModalActionTypes.COLAPSE_MODAL:
+            return {
+            ...state,
+            hidden: true,
+            signInFormDisplay:true
+            };
         case SignInModalActionTypes.SIGN_IN_CREATE_ACCOUNT_SWITCH:
                 return {
                     ...state,

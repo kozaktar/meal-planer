@@ -1,5 +1,6 @@
 const SignInModalActionTypes={
     TOGGLE_DROPDOWN:'TOGGLE_DROPDOWN',
+    COLAPSE_MODAL:'COLAPSE_MODAL',
     SIGN_IN_CREATE_ACCOUNT_SWITCH:'SIGN_IN_CREATE_ACCOUNT_SWITCH'
 }
 export default SignInModalActionTypes;

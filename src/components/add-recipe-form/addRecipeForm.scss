@@ -1,0 +1,32 @@
+.upload-image{
+    width: 240px;
+    height: 200px;
+    background:url('../../assets/placeholder.jpg') no-repeat center;
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.form{
+    margin:1rem;
+}
+
+.inputfile{
+    position: absolute;
+    z-index: -2;
+}
+
+.upload-lable{
+    margin: auto auto;
+    background:none;
+    padding:10px;
+    color: #3d4966;
+    font-size: 24px;
+    display: flex;
+    flex-flow: row;
+}
+
+.title-text{
+    font-size: 1rem;
+    margin-top:7px; 
+    margin-left: 3px;
+}

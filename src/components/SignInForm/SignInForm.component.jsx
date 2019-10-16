@@ -1,12 +1,13 @@
 import React from 'react';
 import CustomButton from '../custom-button/cutom-button'
-import { Form, SeparatorSpan, ButtonGroup, CreateAccountPrompt } from './SignInForm.styles';
+import { Form, SeparatorSpan, ButtonGroup, CreateAccountPrompt, CustomTextField } from './SignInForm.styles';
 import FormInput from '../../components/formInput/form-input.component';
 import { signInCreateAccountSwitch } from '../../redux/sign-in-modal/sign-in-modal.actions';
 import { connect } from 'react-redux';
 import { signInWithGoogle, auth, createUserProfileDocument } from '../../firebase/firebase.utils';
 import {setCurrentUser} from '../../redux/user/user.actions';
 import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions';
+
 
 class SignInForm extends React.Component {
   constructor(props) {
@@ -44,26 +45,35 @@ class SignInForm extends React.Component {
   };
 
 
+
   render() {
     return (
       <div>
         <Form onSubmit={this.handleSubmit}>
-          <FormInput
-            name='email'
-            type='email'
-            handleChange={this.handleChange}
-            value={this.state.email}
-            label='email'
-            required
-          />
-          <FormInput
-            name='password'
-            type='password'
-            value={this.state.password}
-            handleChange={this.handleChange}
-            label='password'
-            required
-          />
+        <CustomTextField
+        id="outlined-email-input"
+        label="Email"
+        type="email"
+        name="email"
+        autoComplete="email"
+        margin="normal"
+        variant="outlined"
+        value={this.state.email}
+        onChange={this.handleChange}
+        required
+      />
+        <CustomTextField
+        id="outlined-password-input"
+        label="Password"
+        type="password"
+        name="password"
+        autoComplete="password"
+        margin="normal"
+        variant="outlined"
+        value={this.state.password}
+        onChange={this.handleChange}
+        required
+        />
           <ButtonGroup>
             <CustomButton type='submit' SignIn>Sign In</CustomButton>
             <SeparatorSpan>Or</SeparatorSpan>
