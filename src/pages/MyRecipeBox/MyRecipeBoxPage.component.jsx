@@ -3,6 +3,8 @@ import {Route} from 'react-router-dom';
 import MyRecipiesComponent from '../MyRecipes/MyRecipies.component';
 import SideBar from '../../components/sidebar/Sidebar.component';
 import SideNavBar from '../../components/side-nav-bar/SideNavBar.component';
+import Container from '@material-ui/core/Container';
+
 
 const styles={
     flex:{
@@ -18,13 +20,13 @@ const styles={
 }
 
 const MyRecipeBoxPage=()=>(
-    <div style={styles.flex}>
+    <Container maxWidth="xl">
       <SideNavBar/>
     <div style={styles.fullPage}>
         <Route exact path={"/myrecipebox/myrecipes"} component={MyRecipiesComponent}/>
         <Route exact path={"/myrecipebox/mygrocerylist"} component={MyRecipiesComponent}/>
     </div>
-    </div>
+    </Container>
 )
 
 export default MyRecipeBoxPage;
