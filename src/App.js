@@ -39,10 +39,8 @@ class App extends React.Component{
       <HeaderComponent/>
         <Switch>
           <Route exact path='/' render={() => currentUser ? (<Redirect to='/myrecipebox/myrecipes' />) : (<HomePage />)}/>
-          <Route path='/myrecipebox' render={() => !currentUser ? (<Redirect to='/' />) : (<MyRecipeBoxPage/>)}/>
-          <Route path='/mygrocerylist' render={() => !currentUser ? (<Redirect to='/' />) : (<MyRecipeBoxPage/>)}/>
-        </Switch> 
-        
+          <Route path='/myrecipebox/' render={() => <MyRecipeBoxPage/>}/>
+        </Switch>    
       </div>
     );
 

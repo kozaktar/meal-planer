@@ -12,8 +12,13 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import FastfoodIcon from '@material-ui/icons/Fastfood';
+import {withRouter} from 'react-router-dom';
+import ListAltIcon from '@material-ui/icons/ListAlt';
 
-const drawerWidth = 240;
+
+
+const drawerWidth = 200;
 
 const useStyles = makeStyles(theme => ({
   drawer: {
@@ -58,7 +63,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SideNavBar=()=> {
+const SideNavBar=({location})=> {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -90,16 +95,18 @@ const SideNavBar=()=> {
       >
         <Divider />
         <List className={classes.menuItems}>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+            <ListItem button component="a" href="/myrecipebox/myrecipes" selected={location.pathname==="/myrecipebox/myrecipes"}>
+              <ListItemIcon><FastfoodIcon/></ListItemIcon>
+              <ListItemText primary={'Recipes'} />
             </ListItem>
-          ))}
+            <ListItem button component="a" href="/myrecipebox/mygrocerylist" selected={location.pathname==="/myrecipebox/mygrocerylist"}>
+              <ListItemIcon><ListAltIcon/></ListItemIcon>
+              <ListItemText primary={'Shopping List'} />
+            </ListItem>
         </List>
       </Drawer>
     </div>
   );
 }
 
-export default SideNavBar;
+export default withRouter(SideNavBar);

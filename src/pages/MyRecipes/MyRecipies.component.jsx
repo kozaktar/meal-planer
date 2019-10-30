@@ -1,9 +1,12 @@
 import React from 'react';
 import SearchBar from '../../components/search-bar/SearchBar.component'
-import './MyRecipies.styles.scss';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import Modal from '../../components/modal/modal.component';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import AddRecipeForm from '../../components/add-recipe-form/addRecipeForm.component'
 
 
 
@@ -28,7 +31,7 @@ const MyRecipies =()=>{
     
 const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
+  const handleOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
@@ -44,7 +47,12 @@ return(
           <SearchBar/>
         </Grid>
         <Grid item xs>
-          <Paper className={classes.paper}>xs=6 sm=3</Paper>
+        <Modal title="Add New Recipe" handleClose={handleClose} open={open}>
+          <AddRecipeForm/>
+      </Modal>
+    <Fab size="medium" color="secondary" aria-label="add" onClick={handleOpen}>
+          <AddIcon />
+        </Fab>
         </Grid>
         <Grid item xs>
           <Paper className={classes.paper}>xs=6 sm=3</Paper>

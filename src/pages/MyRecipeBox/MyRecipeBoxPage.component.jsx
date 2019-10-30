@@ -24,7 +24,7 @@ const MyRecipeBoxPage=()=>(
       <SideNavBar/>
     <div style={styles.fullPage}>
         <Route exact path={"/myrecipebox/myrecipes"} component={MyRecipiesComponent}/>
-        <Route exact path={"/myrecipebox/mygrocerylist"} component={MyRecipiesComponent}/>
+        <Route exact path={"/myrecipebox/mygrocerylist"} component={'hello'}/>
     </div>
     </Container>
 )
