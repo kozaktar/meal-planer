@@ -1,7 +1,6 @@
 import React from 'react';
 import {Route} from 'react-router-dom';
 import MyRecipiesComponent from '../MyRecipes/MyRecipies.component';
-import SideBar from '../../components/sidebar/Sidebar.component';
 import SideNavBar from '../../components/side-nav-bar/SideNavBar.component';
 import Container from '@material-ui/core/Container';
 

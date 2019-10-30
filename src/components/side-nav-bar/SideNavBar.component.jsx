@@ -15,6 +15,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
 import {withRouter} from 'react-router-dom';
 import ListAltIcon from '@material-ui/icons/ListAlt';
+import ListItemLink from '../listItemLink/ListItemLink.component'
 
 
 
@@ -95,14 +96,16 @@ const SideNavBar=({location})=> {
       >
         <Divider />
         <List className={classes.menuItems}>
-            <ListItem button component="a" href="/myrecipebox/myrecipes" selected={location.pathname==="/myrecipebox/myrecipes"}>
-              <ListItemIcon><FastfoodIcon/></ListItemIcon>
-              <ListItemText primary={'Recipes'} />
-            </ListItem>
-            <ListItem button component="a" href="/myrecipebox/mygrocerylist" selected={location.pathname==="/myrecipebox/mygrocerylist"}>
-              <ListItemIcon><ListAltIcon/></ListItemIcon>
-              <ListItemText primary={'Shopping List'} />
-            </ListItem>
+            <ListItemLink 
+            icon={<FastfoodIcon/>} 
+            primary='Recipes' 
+            to='/myrecipebox/myrecipes' 
+            selected={location.pathname==="/myrecipebox/myrecipes"}/>
+            <ListItemLink 
+            icon={<ListAltIcon/>}
+            primary='Shopping List'
+            to='/myrecipebox/mygrocerylist'
+             selected={location.pathname==="/myrecipebox/mygrocerylist"}/>
         </List>
       </Drawer>
     </div>
