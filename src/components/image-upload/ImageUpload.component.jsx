@@ -52,7 +52,7 @@ const ImageUpload=({onDrop})=>{
             <div   className={classes.centered}>
                 <Cloud className={classes.cloudImg}/>
             <input {...getInputProps()} accept="image/*"/>
-              <p>Drop files to upload</p>
+              <p>Drop image to upload</p>
               <p>or <u>browse</u></p>   
             </div>
             </div>
