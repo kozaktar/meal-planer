@@ -1,40 +1,43 @@
-import React from 'react';
-import './addRecipeForm.scss'
-import TextField from '@material-ui/core/TextField';
+import React, { Fragment, useState} from 'react';
+import ImageUpload from '../image-upload/ImageUpload.component'
+import RecipeInputTabs from '../recipeInputTabs/recipeInputTabs.component'
+import { makeStyles} from '@material-ui/core/styles';
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    display:'flex',
+    flexDirection:'row'
+  },
+}));
 
+const AddRecipeForm=() =>{
+ 
+  const [imgs, setImgs]=useState([]);
+  const [recipeInfo, setRecipeInfo]=useState({title:'', description:'', ingredients:'', directions:''})
 
-class AddRecipeForm extends React.Component {
-  state = { 'ingredients': ''};
+  const handleDrop=(acceptedFiles)=>{
+    setImgs([...imgs, ...acceptedFiles])
+    const url=URL.createObjectURL(acceptedFiles[0])
+    console.log(url);
+  }
 
-  handleChange = ({target: {name, value}}) => {
-    this.setState({...this.state, [name]: value });
-  };
+  const handleFormChange=event=>{
+    const { value, id } = event.target;
+    setRecipeInfo({
+      ...recipeInfo,
+      [id]:value
+    })
+    console.log(recipeInfo)
+  }
 
+  const classes=useStyles();
 
-
-  render () {
     return (
-     <form className="form">
-       <div className="upload-image">
-       <input type="file" name="file" id="file" className="inputfile" />
-      <label htmlFor="file" className="upload-lable"><i className="fas fa-upload"/><span className="title-text">Upload Pictures...</span></label>
-      </div>
-      <TextField
-        id="outlined-multiline-flexible"
-        label="Ingredients"
-        multiline
-        value={this.state.ingredients}
-        name="ingredients"
-        onChange={this.handleChange}
-        margin="normal"
-        variant="outlined"
-        rows="8"
-        helperText="Enter 1 Ingredient Per Line"
-      />
-     </form>
+     <div className={classes.root}>
+      <ImageUpload onDrop={handleDrop}/>
+      <RecipeInputTabs onFormChange={handleFormChange}/>
+     </div>
     );
   }
-}
 
 export default AddRecipeForm;

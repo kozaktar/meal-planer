@@ -18,7 +18,6 @@ router.post('/users', async (req, res) => {
 
 router.get('/users/:id', async (req, res)=>{
     const userId=req.params.id;
-    console.log(userId);
 
     try{
     const foundUser= await User.findOne({

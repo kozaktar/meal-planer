@@ -8,7 +8,7 @@ const styles={
 }
 const Modal=({open, handleClose, title, size, children})=>(
     <Fragment>
-    <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" >
+    <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" maxWidth='lg'>
     <DialogTitle onClose={handleClose}>{title}</DialogTitle>
     <Divider/>
     {children}
