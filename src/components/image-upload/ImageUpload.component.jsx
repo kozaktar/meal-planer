@@ -1,7 +1,11 @@
 import React, {useState, Fragment} from 'react'
 import { makeStyles} from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import  {ReactComponent as Cloud} from '../../assets/cloud-computing.svg';
 import Dropzone from 'react-dropzone';
+import Tooltip from '@material-ui/core/Tooltip';
+
 
 const useStyles = makeStyles(theme => ({
     box: {
@@ -30,10 +34,13 @@ const useStyles = makeStyles(theme => ({
         margin:'auto',
         display:'flex',
         flexDirection:'column'
+    },
+    deleteIcon:{
+        margin:10
     }
 }))
 
-const ImageUpload=({onDrop})=>{
+const ImageUpload=({onDrop, removeImages})=>{
 
     const [image, setImage]=useState(null)
     const classes=useStyles();
@@ -42,10 +49,24 @@ const ImageUpload=({onDrop})=>{
         setImage(URL.createObjectURL(acceptedFiles[0]));
         onDrop(acceptedFiles);
     }
+
+    const handleImageDelete=()=>{
+        removeImages();
+        setImage(null);
+    }
     
     return( 
         <Fragment>
-            {image?<img src={image} className={classes.img}></img>:(
+            {image?
+            <div>
+                <img src={image} className={classes.img}/>
+                <Tooltip title="Delete Image">
+                <IconButton aria-label="delete" className={classes.margin} className={classes.deleteIcon} onClick={handleImageDelete}>
+                 <DeleteIcon fontSize="small" />
+                </IconButton>
+                </Tooltip>
+            </div>
+            :(
         <Dropzone onDrop={handleUpload}> 
         {({getRootProps, getInputProps}) => ( 
             <div {...getRootProps()} className={classes.box}>

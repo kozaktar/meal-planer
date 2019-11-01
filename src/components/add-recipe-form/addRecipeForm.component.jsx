@@ -15,6 +15,8 @@ const AddRecipeForm=() =>{
   const [imgs, setImgs]=useState([]);
   const [recipeInfo, setRecipeInfo]=useState({title:'', description:'', ingredients:'', directions:''})
 
+  const removeImages=()=>setImgs([]);
+
   const handleDrop=(acceptedFiles)=>{
     setImgs([...imgs, ...acceptedFiles])
     const url=URL.createObjectURL(acceptedFiles[0])
@@ -34,7 +36,7 @@ const AddRecipeForm=() =>{
 
     return (
      <div className={classes.root}>
-      <ImageUpload onDrop={handleDrop}/>
+      <ImageUpload onDrop={handleDrop} removeImages={removeImages}/>
       <RecipeInputTabs onFormChange={handleFormChange}/>
      </div>
     );
