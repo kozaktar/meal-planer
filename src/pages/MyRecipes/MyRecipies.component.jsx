@@ -10,6 +10,7 @@ import AddRecipeForm from '../../components/add-recipe-form/addRecipeForm.compon
 
 
 
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
@@ -51,6 +52,7 @@ return(
           <AddRecipeForm/>
       </Modal>
     <Fab size="medium" color="secondary" aria-label="add" onClick={handleOpen}>
+
           <AddIcon />
         </Fab>
         </Grid>

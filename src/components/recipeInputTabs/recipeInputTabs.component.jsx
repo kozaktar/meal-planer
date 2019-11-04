@@ -9,6 +9,9 @@ import Box from '@material-ui/core/Box';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
+import RecipeDirectionsInput from '../recipe-directions-input/RecipeDirectionsInput.component';
+import Button from '@material-ui/core/Button';
+import RecipeIngredientInput from '../recipe-ingredients-input/RecipeIngredientsInput.component';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -47,10 +50,13 @@ const useStyles = makeStyles(theme => ({
   },
   noMargin:{
       margin:0
+  },
+  margin:{
+     marginBottom: 100
   }
 }));
 
- const RecipeInputTabs=({onFormChange})=> {
+ const RecipeInputTabs=({onFormChange, state, addDirections, deleteDirections, deleteIngredient, addIngredient})=> {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -84,37 +90,32 @@ const useStyles = makeStyles(theme => ({
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
             <InputLabel>Title</InputLabel>
-            <Input onChange={onFormChange} fullWidth id='title' style={{
+            <Input onChange={onFormChange} fullWidth name='title' style={{
                 marginBottom:30
             }}/>
-            <InputLabel>Description</InputLabel>
+        <InputLabel>Description</InputLabel>
         <TextField
           fullWidth
-          id="description"
+          name='description'
+          onChange={onFormChange}
           multiline
-          rows="4"
+          rows="2"
           margin="normal"
         />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-        <InputLabel>Ingredients</InputLabel>
-            <TextField
-            fullWidth
-            id="ingredients"
-            multiline
-            rows="8"
-            margin="normal"
-            />
+            {state.ingredients.map((ingredient, index)=>
+                <RecipeIngredientInput idx={index} handleChange={onFormChange} key={`ingredient-${index}`} deleteIngredient={deleteIngredient} state={state}/>)}
+        <Button variant="outlined" size="small" color="primary" onClick={addIngredient}>
+          + Ingredients
+        </Button>    
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-        <InputLabel>Directions</InputLabel>
-            <TextField
-            fullWidth
-            id="directions"
-            multiline
-            rows="8"
-            margin="normal"
-            />
+            {state.directions.map((direction, index)=>
+                <RecipeDirectionsInput idx={index} handleChange={onFormChange} key={`directions-${index}`} deleteDirections={deleteDirections} state={state}/>)}
+        <Button variant="outlined" size="small" color="primary" onClick={addDirections}>
+          + Step
+        </Button>    
         </TabPanel>
       </SwipeableViews>
     </div>
