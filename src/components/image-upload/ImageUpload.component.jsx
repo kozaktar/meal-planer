@@ -22,21 +22,22 @@ const useStyles = makeStyles(theme => ({
         maxHeight:50,
         margin:'auto'
     },
-    img:{
+    imgDiv:{
         width: 300,
         height: 400,
-        margin: 20,
-        padding:10,
-        display:'flex',
-        overflow:'auto'
+        margin: 20
     },
     centered:{
         margin:'auto',
         display:'flex',
         flexDirection:'column'
     },
-    deleteIcon:{
-        margin:10
+    img:{
+        width:'100%',
+        height:'100%'
+    },
+    deleteButton:{
+      marginLeft: -20
     }
 }))
 
@@ -58,10 +59,10 @@ const ImageUpload=({onDrop, removeImages})=>{
     return( 
         <Fragment>
             {image?
-            <div>
+            <div className={classes.imgDiv}>
                 <img src={image} className={classes.img}/>
-                <Tooltip title="Delete Image">
-                <IconButton aria-label="delete" className={classes.margin} className={classes.deleteIcon} onClick={handleImageDelete}>
+                <Tooltip title="Delete Image" className={classes.deleteButton}>
+                <IconButton aria-label="delete"  onClick={handleImageDelete}>
                  <DeleteIcon fontSize="small" />
                 </IconButton>
                 </Tooltip>

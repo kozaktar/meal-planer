@@ -49,7 +49,7 @@ return(
         </Grid>
         <Grid item xs>
         <Modal title="Add New Recipe" handleClose={handleClose} open={open}>
-          <AddRecipeForm/>
+          <AddRecipeForm onClose={handleClose}/>
       </Modal>
     <Fab size="medium" color="secondary" aria-label="add" onClick={handleOpen}>
 

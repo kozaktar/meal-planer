@@ -47,6 +47,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
     width: 500,
+    heigh:'100%'
   },
   noMargin:{
       margin:0

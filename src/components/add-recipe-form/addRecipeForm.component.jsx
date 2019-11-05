@@ -9,16 +9,17 @@ const useStyles = makeStyles(theme => ({
   root: {
     display:'flex',
     flexDirection:'row',
-    margin:30
+    margin:30,
+    height:'100%'
   },
   form:{
     display:'flex',
     flexDirection:'column',
     justifyContent:'space-between',
-    height:420
+    height:'100%'
   },
   buttonsGroup:{
-    marginTop:60
+    margin:30
   },
   cancelButton:{
     backgroundColor:'transparent',
@@ -130,7 +131,7 @@ const addIngredients=()=>(
 )
 
 
-const AddRecipeForm=() =>{
+const AddRecipeForm=({onClose}) =>{
 
   const [state, dispatch]= useReducer(reducer, initialState)
  
@@ -175,12 +176,12 @@ const AddRecipeForm=() =>{
      <div className={classes.root}>
       <ImageUpload onDrop={handleDrop} removeImages={removeImages}/>
       <div className={classes.form}>
-      <RecipeInputTabs onFormChange={handleFormChange} state={state} addDirections={()=>dispatch(addDirections())} deleteDirections={(value)=>dispatch(removeDirections(value))} addIngredient={()=>dispatch(addIngredients())} deleteIngredient={(value)=>dispatch(removeIngredients(value))}/>
+      <RecipeInputTabs onFormChange={handleFormChange} state={state} addDirections={()=>dispatch(addDirections())} deleteDirections={(value)=>dispatch(removeDirections(value))} addIngredient={()=>dispatch(addIngredients())} deleteIngredient={(value)=>dispatch(removeIngredients(value))} onClose={onClose}/>
      <div className={classes.buttonsGroup}>
      <Button variant="contained" size="large" color="primary" className={classes.margin}>
           Add Recipe
       </Button>
-      <Button variant="contained" size="large" className={classes.cancelButton}>
+      <Button variant="contained" size="large" className={classes.cancelButton} onClick={onClose}>
           Cancel
       </Button>
      </div>
