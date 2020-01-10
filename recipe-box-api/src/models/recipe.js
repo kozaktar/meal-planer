@@ -12,7 +12,7 @@ const recipeSchema=new mongoose.Schema({
         required: true
     },
     recipeDirections:{
-        type: String,
+        type: Array,
         required: true,
     },
     owner:{
@@ -23,6 +23,9 @@ const recipeSchema=new mongoose.Schema({
     visibility:{
         type: String,
         required: true,
+    },
+    picture:{
+        type:Buffer
     }
 })
 

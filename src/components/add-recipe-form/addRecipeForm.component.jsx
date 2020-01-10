@@ -141,7 +141,6 @@ const AddRecipeForm=({onClose}) =>{
 
   const handleDrop=(acceptedFiles)=>{
     setImgs([...imgs, acceptedFiles[0]])
-    const url=URL.createObjectURL(acceptedFiles[0])
   }
 
   const handleFormChange=event=>{

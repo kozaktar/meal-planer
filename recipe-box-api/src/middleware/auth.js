@@ -1,10 +1,12 @@
 const User=require('../models/user');
 
-//ensures that the u    ser is loged in and authernticated before they can perform any CRUD operation on the databse
+//ensures that the user is loged in and authernticated before they can perform any CRUD operation on the databse
 const auth = async (req, res, next) => {
     try {
-        const user = await User.findOne({authID: req.authID });
-
+        console.log("req body ....:",req.body)
+        
+        const user = await User.findOne({authID: req.body.authID });
+    
         if (!user) {
             throw new Error()
         }

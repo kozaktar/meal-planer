@@ -1,7 +1,6 @@
 import React from 'react';
 import CustomButton from '../custom-button/cutom-button'
 import { Form, SeparatorSpan, ButtonGroup, CreateAccountPrompt, CustomTextField } from './SignInForm.styles';
-import FormInput from '../../components/formInput/form-input.component';
 import { signInCreateAccountSwitch } from '../../redux/sign-in-modal/sign-in-modal.actions';
 import { connect } from 'react-redux';
 import { signInWithGoogle, auth, createUserProfileDocument } from '../../firebase/firebase.utils';

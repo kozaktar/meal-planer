@@ -7,13 +7,16 @@ import Modal from '../../components/modal/modal.component';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import AddRecipeForm from '../../components/add-recipe-form/addRecipeForm.component'
+import Card from '@material-ui/core/Card';
 
 
 
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    marginRight:15,
+    maxWidth: 1800
   },
   paper: {
     padding: theme.spacing(2),
@@ -26,6 +29,16 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  card:{
+    maxWidth: 345,
+    height:200,
+    border:'dashed 3px #E0E0E0'
+  },
+  addButton:{
+    display:'block',
+    margin:'auto',
+    marginTop:70
+  }
 }));
 
 const MyRecipies =()=>{
@@ -47,14 +60,15 @@ return(
         <Grid item xs={12} className={classes.alignItemsAndJustifyContent}>
           <SearchBar/>
         </Grid>
-        <Grid item xs>
+        <Grid item xs >
         <Modal title="Add New Recipe" handleClose={handleClose} open={open}>
           <AddRecipeForm onClose={handleClose}/>
       </Modal>
-    <Fab size="medium" color="secondary" aria-label="add" onClick={handleOpen}>
-
-          <AddIcon />
+      <Card className={classes.card}>
+      <Fab size="medium" color="secondary" aria-label="add" onClick={handleOpen} className={classes.addButton}>
+          <AddIcon/>
         </Fab>
+        </Card>
         </Grid>
         <Grid item xs>
           <Paper className={classes.paper}>xs=6 sm=3</Paper>

@@ -2,13 +2,50 @@ const express=require('express');
 const Recipe=require('../models/recipe');
 const router=new express.Router();
 const auth=require('../middleware/auth');
+const multer=require('multer');
+
+//used to handle image file uploads for recipe picture
+//only accempts file size up 2mb and only the following formats: jpg|jpeg|gif|bmp|png
+
+const upload = multer(
+    {
+        limits:{
+            fileSize:2000000
+        },
+        fileFilter(req,file,cb){
+            console.log(file.originalname.toLowerCase())
+            if(!file.originalname.toLowerCase().match(/\.(jpg|jpeg|gif|bmp|png)$/))
+              return cb(new Error('file must be an image'))
+
+            cb(undefined, true)
+        }
+
+        
+    }
+);
 
 //create recipe
-router.post('/recipes', auth, async (req, res) => {
-    const recipe = new Recipe({
-        ...req.body,
-        owner: req.user.authID //authID obtained from firebase auth api
+router.post('/recipes', upload.single('upload'), auth, async (req, res) => {
+    let recipe=null
+    if(req.file){
+    recipe = new Recipe({
+        recipeTitle: req.body.recipeTitle,
+        recipeIngredients: req.body.ingredients.split('||'),
+        recipeDirections: req.body.recipeDirections.split('||'),
+        owner: req.user.authID, //authID obtained from firebase auth api
+        visibility: req.body.visibility,
+        picture: req.file.buffer
     })
+}
+else{
+    recipe = new Recipe({
+        recipeTitle: req.body.recipeTitle,
+        recipeIngredients: req.body.ingredients.split('||'),
+        recipeDirections: req.body.recipeDirections.split('||'),
+        owner: req.user.authID, //authID obtained from firebase auth api
+        visibility: req.body.visibility
+    })
+}
 
     try {
         await recipe.save()
@@ -58,7 +95,7 @@ router.get('/recipes/:id', auth, async (req, res) => {
 
 router.patch('/recipes/:id', auth, async (req, res) => {
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['recipeTitle', 'recipeIngredients', 'recipeDirections', 'visibility']
+    const allowedUpdates = ['recipeTitle', 'recipeIngredients', 'recipeDirections', 'visibility', 'picture']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     if (!isValidOperation) {
@@ -73,6 +110,10 @@ router.patch('/recipes/:id', auth, async (req, res) => {
         }
 
         updates.forEach((update) => recipe[update] = req.body[update])
+
+        if(req.file){
+            recipe.picture=req.file.buffer
+        }
         await recipe.save()
         res.send(recipe)
     } catch (e) {
@@ -93,5 +134,17 @@ router.delete('/recipe/:id', auth, async (req, res) => {
         res.status(500).send()
     }
 })
+
+
+
+
+
+// router.post('/imageUpload', upload.single('upload'), async (req,res)=>{
+//     req.recipe.picture = req.file.buffer
+//     await req.recipe.save()
+//     res.send()
+// }, (error, req, res, next)=>{
+//     res.status(400).send({error: error.message })
+// });
 
 module.exports = router

@@ -10,7 +10,7 @@ const styles={
         display:'flex',
     },
     fullPage:{
-        width:'95%',
+        width:'94%',
         overflow:'hidden',
         margin:20,
         position: 'absolute',

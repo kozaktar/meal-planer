@@ -5,6 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles} from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
+import Input from '@material-ui/core/Input';
 
 
 const useStyles = makeStyles(theme => ({
@@ -21,7 +22,7 @@ const RecipeDirectionsInput=({ idx, handleChange, deleteDirections, state})=>{
    return (
    <div>
         <div className={classes.header}>
-            <Typography variant='h6'>{`Step ${idx+1}:`}</Typography>
+            <Typography variant='h6' style={{marginBottom:'0',padding:0}}>{`Step ${idx+1}:`}</Typography>
             <Tooltip title={`Delete Step ${idx+1}`}>
             <IconButton aria-label="delete" onClick={()=>deleteDirections(idx)}>
             <DeleteIcon fontSize="small"/>
@@ -37,6 +38,7 @@ const RecipeDirectionsInput=({ idx, handleChange, deleteDirections, state})=>{
             rowsMax="5"
             margin="normal"
             onChange={handleChange}
+
             />
     </div>
    )
