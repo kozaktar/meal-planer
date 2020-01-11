@@ -3,6 +3,11 @@ import ImageUpload from '../image-upload/ImageUpload.component'
 import RecipeInputTabs from '../recipeInputTabs/recipeInputTabs.component'
 import { makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import axios from 'axios';
+import { selectCurrentUser } from '../../redux/user/user.selectors';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -34,11 +39,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const initialState={
-  img:[],
+  img:null,
   title:'',
   description:'',
   ingredients:[''],
-  directions:['']
+  directions:[''],
+  visibility:"true"
 }
 
 const reducer=(state,action)=>{
@@ -66,7 +72,11 @@ const reducer=(state,action)=>{
     case 'removeIngredients':
         const ingredientsPostDeletion=[...state.ingredients];
         ingredientsPostDeletion.splice(action.idx,1);
-        return {...state, ingredients:ingredientsPostDeletion};  
+        return {...state, ingredients:ingredientsPostDeletion};
+    case 'addImage':
+        return {...state, img:action.payload};
+    case 'removeImage':
+      return {...state, img:null};
     default:
        return state;
   }
@@ -130,17 +140,28 @@ const addIngredients=()=>(
   }  
 )
 
+const addImage=(image)=>(
+  {
+    type:'addImage',
+    payload:image
+  }  
+)
 
-const AddRecipeForm=({onClose}) =>{
+const removeImage=()=>(
+  {
+    type:'removeImage'
+  }  
+)
+
+
+const AddRecipeForm=({onClose, currentUser}) =>{
 
   const [state, dispatch]= useReducer(reducer, initialState)
  
-  const [imgs, setImgs]=useState([]);
-
-  const removeImages=()=>setImgs([]);
+  const removeImages=()=>dispatch(removeImage());
 
   const handleDrop=(acceptedFiles)=>{
-    setImgs([...imgs, acceptedFiles[0]])
+    dispatch(addImage(acceptedFiles[0]))
   }
 
   const handleFormChange=event=>{
@@ -168,6 +189,22 @@ const AddRecipeForm=({onClose}) =>{
     }
   }
 
+  const handleSubmit=()=>{
+    const formData=new FormData()
+    formData.append('recipeTitle',state.title)
+    formData.append('recipeIngredients:state',state.ingredients)
+    formData.append('recipeDirections',state.directions)
+    formData.append('visibility',state.visibility)
+    formData.append( 'upload',state.img)
+    formData.append('authID',currentUser.authID)
+     
+    axios.post('http://localhost:3001/recipes',formData)
+    .then(response=> {console.log(response)
+                       onClose()})
+    .catch(error=> console.log(error));
+
+  }
+
   const classes=useStyles();
 
     return (
@@ -177,7 +214,7 @@ const AddRecipeForm=({onClose}) =>{
       <div className={classes.form}>
       <RecipeInputTabs onFormChange={handleFormChange} state={state} addDirections={()=>dispatch(addDirections())} deleteDirections={(value)=>dispatch(removeDirections(value))} addIngredient={()=>dispatch(addIngredients())} deleteIngredient={(value)=>dispatch(removeIngredients(value))} onClose={onClose}/>
      <div className={classes.buttonsGroup}>
-     <Button variant="contained" size="large" color="primary" className={classes.margin}>
+     <Button variant="contained" size="large" color="primary" className={classes.margin} onClick={handleSubmit}>
           Add Recipe
       </Button>
       <Button variant="contained" size="large" className={classes.cancelButton} onClick={onClose}>
@@ -190,4 +227,10 @@ const AddRecipeForm=({onClose}) =>{
     );
   }
 
-export default AddRecipeForm;
+  const mapStateToProps = createStructuredSelector(
+    {
+      currentUser: selectCurrentUser
+    }
+  )
+
+  export default connect(mapStateToProps)(AddRecipeForm);

@@ -27,11 +27,12 @@ const upload = multer(
 //create recipe
 router.post('/recipes', upload.single('upload'), auth, async (req, res) => {
     let recipe=null
+    console.log(req.file)
     if(req.file){
     recipe = new Recipe({
         recipeTitle: req.body.recipeTitle,
-        recipeIngredients: req.body.ingredients.split('||'),
-        recipeDirections: req.body.recipeDirections.split('||'),
+        recipeIngredients: req.body.ingredients,
+        recipeDirections: req.body.recipeDirections,
         owner: req.user.authID, //authID obtained from firebase auth api
         visibility: req.body.visibility,
         picture: req.file.buffer
@@ -40,8 +41,8 @@ router.post('/recipes', upload.single('upload'), auth, async (req, res) => {
 else{
     recipe = new Recipe({
         recipeTitle: req.body.recipeTitle,
-        recipeIngredients: req.body.ingredients.split('||'),
-        recipeDirections: req.body.recipeDirections.split('||'),
+        recipeIngredients: req.body.ingredients,
+        recipeDirections: req.body.recipeDirections,
         owner: req.user.authID, //authID obtained from firebase auth api
         visibility: req.body.visibility
     })
