@@ -15,21 +15,21 @@ class App extends React.Component{
 
   unsubscribeFromAuth=null;
 
-  componentDidMount(){
+//   componentDidMount(){
 
-    const { setCurrentUser, colapseSigninModal } = this.props;
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-  if (userAuth && userAuth.displayName) {
-      const user= await createUserProfileDocument(userAuth);
-      setCurrentUser(user);
-      colapseSigninModal();
-  }else{
-    setCurrentUser(null);
-  }
+//     const { setCurrentUser, colapseSigninModal } = this.props;
+//     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+//   if (userAuth && userAuth.displayName) {
+//       const user= await createUserProfileDocument(userAuth);
+//       setCurrentUser(user);
+//       colapseSigninModal();
+//   }else{
+//     setCurrentUser(null);
+//   }
 
    
-})
-  }
+// })
+//   }
   
   
   render(){

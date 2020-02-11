@@ -4,7 +4,7 @@ import { Form, SeparatorSpan, ButtonGroup, CreateAccountPrompt, CustomTextField 
 import { signInCreateAccountSwitch } from '../../redux/sign-in-modal/sign-in-modal.actions';
 import { connect } from 'react-redux';
 import { signInWithGoogle, auth, createUserProfileDocument } from '../../firebase/firebase.utils';
-import {setCurrentUser} from '../../redux/user/user.actions';
+import {setCurrentUser, googleSignInStart} from '../../redux/user/user.actions';
 import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions';
 
 
@@ -76,7 +76,7 @@ class SignInForm extends React.Component {
           <ButtonGroup>
             <CustomButton type='submit' SignIn>Sign In</CustomButton>
             <SeparatorSpan>Or</SeparatorSpan>
-            <CustomButton GoogleSignIn type='button' onClick={signInWithGoogle}>Sign In With Google</CustomButton>
+            <CustomButton GoogleSignIn type='button' onClick={this.props.googleSignIn}>Sign In With Google</CustomButton>
           </ButtonGroup>
         </Form>
         <CreateAccountPrompt>Don't Have An Account Yet?<CustomButton Link onClick={this.props.switchSignInCreate}>Sign Up.</CustomButton></CreateAccountPrompt>
@@ -89,7 +89,8 @@ class SignInForm extends React.Component {
 const mapDispatchToProps = dispatch => ({
   switchSignInCreate: () => dispatch(signInCreateAccountSwitch()),
   setCurrentUser: (user)=>dispatch(setCurrentUser(user)),
-  toggleDropdown: ()=>dispatch(toggleDropdown())
+  toggleDropdown: ()=>dispatch(toggleDropdown()),
+  googleSignIn: ()=>dispatch(googleSignInStart())
 })
 
 export default connect(null, mapDispatchToProps)(SignInForm);
