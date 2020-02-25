@@ -2,15 +2,14 @@ import React from 'react';
 import {HeaderComponentDiv, LinksContainerDiv, OptionLink, LogoContainer} from './header.styles';
 import {connect} from 'react-redux';
 import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions';
-import CustomButton from '../custom-button/cutom-button';
 import SignInDropDown from '../Sign-In-DropDown/signInDropDown.component';
 import {selectHiddenSignInModal} from '../../redux/sign-in-modal/sign-in-modal.selector';
 import {selectCurrentUser} from '../../redux/user/user.selectors';
-import {signOut} from '../../redux/user/user.actions'
+import {signOut, clearUserError} from '../../redux/user/user.actions'
 import {createStructuredSelector} from 'reselect';
 import {auth} from '../../firebase/firebase.utils';
 
-const HeaderComponent=({toggleDropdown,signOutUser, currentUser})=>(
+const HeaderComponent=({toggleDropdown,signOutUser, currentUser, clearLoginError})=>(
    
     <HeaderComponentDiv>
         <LogoContainer to={'/'}>Recipe Box</LogoContainer>
@@ -18,11 +17,11 @@ const HeaderComponent=({toggleDropdown,signOutUser, currentUser})=>(
             <OptionLink to ={'/about'}>About</OptionLink>
             {currentUser ? (<OptionLink to={'#'} onClick={()=>{
                 auth.signOut();
-                signOutUser() 
+                signOutUser();
                 }}>
                 Sign Out
             </OptionLink>) :
-            (<OptionLink to={'#'} onClick={toggleDropdown}>
+            (<OptionLink to={'#'} onClick={()=>{toggleDropdown(); clearLoginError()}}>
                 Sign In
             </OptionLink>)
             }
@@ -33,7 +32,8 @@ const HeaderComponent=({toggleDropdown,signOutUser, currentUser})=>(
 
 const mapDispatchToProps=dispatch=>({
     toggleDropdown:()=>dispatch(toggleDropdown()),
-    signOutUser:()=>dispatch(signOut())
+    signOutUser:()=>dispatch(signOut()),
+    clearLoginError:()=>dispatch(clearUserError())
 })
 
 const mapStateToProps=createStructuredSelector({

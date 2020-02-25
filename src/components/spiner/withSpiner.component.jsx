@@ -6,9 +6,9 @@ const spinerStyle={
     margin: 'auto'
 }
 
-const WithSpinner=WrappedComponent=>({isLoading, ...otherProps})=>{
-    console.log('isLoading',isLoading)
-    return isLoading ? <CircularProgress style={spinerStyle}/>:
+const WithSpinner=WrappedComponent=>({isloading, ...otherProps})=>{
+    console.log('isLoading',isloading)
+    return isloading ? <CircularProgress style={spinerStyle}/>:
     <WrappedComponent {...otherProps}/>
 }
 

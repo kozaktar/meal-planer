@@ -4,11 +4,12 @@ import { Form, SeparatorSpan, ButtonGroup, CreateAccountPrompt, CustomTextField 
 import { signInCreateAccountSwitch } from '../../redux/sign-in-modal/sign-in-modal.actions';
 import { connect } from 'react-redux';
 import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
-import {setCurrentUser, googleSignInStart} from '../../redux/user/user.actions';
+import {setCurrentUser, googleSignInStart, emailSignInStart} from '../../redux/user/user.actions';
 import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions';
 import WithSpinner from '../spiner/withSpiner.component';
 import { createStructuredSelector } from 'reselect';
-import {selectUserLoading} from '../../redux/user/user.selectors'
+import {selectUserLoading, selectUserError} from '../../redux/user/user.selectors';
+import ErrorMessage from '../error-message/error-message';
 
 
 const ButtonGroupWithSpinner=WithSpinner(ButtonGroup)
@@ -28,18 +29,6 @@ class SignInForm extends React.Component {
     const{email, password}=this.state;
     const {setCurrentUser, toggleDropdown}=this.props;
     
-    try{
-      const {user}=await auth.signInWithEmailAndPassword(email,password);
-      const logedUser=await createUserProfileDocument(user);
-      this.setState({ email: '', password: '' });
-
-      setCurrentUser(logedUser);
-      toggleDropdown();
-
-    }
-    catch(error){
-      console.error(error);
-    }
   }
 
   handleChange = event => {
@@ -51,7 +40,8 @@ class SignInForm extends React.Component {
 
 
   render() {
-    const {userLoading, googleSignIn}=this.props;
+    const {userLoading, googleSignIn, userLoginError, emailSignIn}=this.props;
+    const {email,password}=this.state;
     return (
       <div>
         <Form onSubmit={this.handleSubmit}>
@@ -63,7 +53,7 @@ class SignInForm extends React.Component {
         autoComplete="email"
         margin="normal"
         variant="outlined"
-        value={this.state.email}
+        value={email}
         onChange={this.handleChange}
         required
         disabled={userLoading}
@@ -76,20 +66,24 @@ class SignInForm extends React.Component {
         autoComplete="password"
         margin="normal"
         variant="outlined"
-        value={this.state.password}
+        value={password}
         onChange={this.handleChange}
         required
         disabled={userLoading}
         />
-          <ButtonGroupWithSpinner isLoading={userLoading}>
-            <CustomButton type='submit' isLoading={userLoading} disabled={userLoading} buttonType='SignIn'>Sign In</CustomButton>
+
+        {userLoginError?
+        <ErrorMessage>{`${userLoginError}`}</ErrorMessage>:null}
+
+          <ButtonGroupWithSpinner isloading={userLoading}>
+            <CustomButton disabled={userLoading} buttonType='SignIn' onClick={()=>emailSignIn(email, password)}>Sign In</CustomButton>
             <SeparatorSpan>Or</SeparatorSpan>
-            <CustomButton  isLoading={userLoading} disabled={userLoading} buttonType='GoogleSignIn' type='button' onClick={()=>{googleSignIn()
-          }} >Sign In With Google</CustomButton>
+            <CustomButton buttonType='GoogleSignIn' type='button' onClick={googleSignIn
+          } >Sign In With Google</CustomButton>
           </ButtonGroupWithSpinner>
         </Form>
         <CreateAccountPrompt>Don't Have An Account Yet?
-          <CustomButton buttonType='Link' disabled={userLoading} Link onClick={this.props.switchSignInCreate}>Sign Up</CustomButton>
+          <CustomButton buttonType='Link' disabled={userLoading} onClick={this.props.switchSignInCreate}>Sign Up</CustomButton>
         </CreateAccountPrompt>
       </div>
     )
@@ -101,12 +95,14 @@ const mapDispatchToProps = dispatch => ({
   switchSignInCreate: () => dispatch(signInCreateAccountSwitch()),
   setCurrentUser: (user)=>dispatch(setCurrentUser(user)),
   toggleDropdown: ()=>dispatch(toggleDropdown()),
-  googleSignIn: ()=>dispatch(googleSignInStart())
+  googleSignIn: ()=>dispatch(googleSignInStart()),
+  emailSignIn: (email, password)=>dispatch(emailSignInStart(email, password))
 })
 
 const mapStateToProps=createStructuredSelector(
   {
-    userLoading:selectUserLoading
+    userLoading:selectUserLoading,
+    userLoginError:selectUserError
   }
 )
 

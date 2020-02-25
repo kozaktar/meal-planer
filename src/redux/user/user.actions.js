@@ -27,9 +27,10 @@ export const googleSignInFailure=(error)=>(
     }
 )
 
-export const emailSignInStart=()=>(
+export const emailSignInStart=(email, password)=>(
     {
-    type: UserActionTypes.EMAIL_SIGN_IN_START
+    type: UserActionTypes.EMAIL_SIGN_IN_START,
+    payload:{email,password}
     }
 )
 
@@ -42,7 +43,7 @@ export const emailSignInSuccess=(userAndPassword)=>(
 
 export const emailSignInFailure=(error)=>(
     {
-    type: UserActionTypes.EMAIL_SIGN_IN_SUCCESS,
+    type: UserActionTypes.EMAIL_SIGN_IN_FAILURE,
     payload:error
     }
 )
@@ -50,5 +51,11 @@ export const emailSignInFailure=(error)=>(
 export const signOut=()=>(
     {
         type:UserActionTypes.SIGN_OUT
+    }
+)
+
+export const clearUserError=()=>(
+    {
+        type:UserActionTypes.CLEAR_USER_ERROR
     }
 )

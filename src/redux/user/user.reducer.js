@@ -20,19 +20,24 @@ const UserReducer=(state=INITIAL_STATE, action)=>{
             return{
                 ...state,
                 loading:true
-            }
+            };
         case UserActionTypes.GOOGLE_SIGN_IN_FAILURE:
         case UserActionTypes.EMAIL_SIGN_IN_FAILURE:
             return {
                 ...state,
                 error:action.payload,
                 loading:false
-            }
+            };
         case UserActionTypes.SIGN_OUT:
             return {
                 ...state,
                 currentUser:null
-            }    
+            };
+        case UserActionTypes.CLEAR_USER_ERROR:
+            return{
+                ...state,
+                error:null
+            };        
         default:
             return state;
     }
