@@ -26,11 +26,11 @@ export const signInWithGoogle = () => {
 
 
 export const createUserProfileDocument=async (userAuth, name)=>{
+ 
   if(!userAuth)
     return
   let user=null;
 
-  
 
   const response=await axios.get(userAPIpath.concat('/'+userAuth.uid));
   user=response.data;

@@ -8,11 +8,8 @@ import Modal from '../modal/modal.component';
 import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions'
 import {selectHiddenSignInModal} from '../../redux/sign-in-modal/sign-in-modal.selector'
 
-const styles={
-  marginTop: -400
-}
 const SignInDropDown = ({signInCreateAccountSwitch, toggleDropdown, hidden})=>(
-    <Modal title={signInCreateAccountSwitch?'LogIn To Your Account':'Create New Account'} handleClose={toggleDropdown} open={!hidden}>
+  <Modal title={signInCreateAccountSwitch?'LogIn To Your Account':'Create New Account'} handleClose={toggleDropdown} open={!hidden}>
     {signInCreateAccountSwitch ? <SignInForm/>: <SignUpForm/>}
 </Modal>
 )

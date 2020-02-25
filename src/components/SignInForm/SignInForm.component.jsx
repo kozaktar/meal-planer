@@ -3,10 +3,15 @@ import CustomButton from '../custom-button/cutom-button'
 import { Form, SeparatorSpan, ButtonGroup, CreateAccountPrompt, CustomTextField } from './SignInForm.styles';
 import { signInCreateAccountSwitch } from '../../redux/sign-in-modal/sign-in-modal.actions';
 import { connect } from 'react-redux';
-import { signInWithGoogle, auth, createUserProfileDocument } from '../../firebase/firebase.utils';
+import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
 import {setCurrentUser, googleSignInStart} from '../../redux/user/user.actions';
 import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions';
+import WithSpinner from '../spiner/withSpiner.component';
+import { createStructuredSelector } from 'reselect';
+import {selectUserLoading} from '../../redux/user/user.selectors'
 
+
+const ButtonGroupWithSpinner=WithSpinner(ButtonGroup)
 
 class SignInForm extends React.Component {
   constructor(props) {
@@ -46,6 +51,7 @@ class SignInForm extends React.Component {
 
 
   render() {
+    const {userLoading, googleSignIn}=this.props;
     return (
       <div>
         <Form onSubmit={this.handleSubmit}>
@@ -60,6 +66,7 @@ class SignInForm extends React.Component {
         value={this.state.email}
         onChange={this.handleChange}
         required
+        disabled={userLoading}
       />
         <CustomTextField
         id="outlined-password-input"
@@ -72,14 +79,18 @@ class SignInForm extends React.Component {
         value={this.state.password}
         onChange={this.handleChange}
         required
+        disabled={userLoading}
         />
-          <ButtonGroup>
-            <CustomButton type='submit' SignIn>Sign In</CustomButton>
+          <ButtonGroupWithSpinner isLoading={userLoading}>
+            <CustomButton type='submit' isLoading={userLoading} disabled={userLoading} buttonType='SignIn'>Sign In</CustomButton>
             <SeparatorSpan>Or</SeparatorSpan>
-            <CustomButton GoogleSignIn type='button' onClick={this.props.googleSignIn}>Sign In With Google</CustomButton>
-          </ButtonGroup>
+            <CustomButton  isLoading={userLoading} disabled={userLoading} buttonType='GoogleSignIn' type='button' onClick={()=>{googleSignIn()
+          }} >Sign In With Google</CustomButton>
+          </ButtonGroupWithSpinner>
         </Form>
-        <CreateAccountPrompt>Don't Have An Account Yet?<CustomButton Link onClick={this.props.switchSignInCreate}>Sign Up.</CustomButton></CreateAccountPrompt>
+        <CreateAccountPrompt>Don't Have An Account Yet?
+          <CustomButton buttonType='Link' disabled={userLoading} Link onClick={this.props.switchSignInCreate}>Sign Up</CustomButton>
+        </CreateAccountPrompt>
       </div>
     )
   }
@@ -93,4 +104,10 @@ const mapDispatchToProps = dispatch => ({
   googleSignIn: ()=>dispatch(googleSignInStart())
 })
 
-export default connect(null, mapDispatchToProps)(SignInForm);
+const mapStateToProps=createStructuredSelector(
+  {
+    userLoading:selectUserLoading
+  }
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignInForm);

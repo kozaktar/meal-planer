@@ -9,8 +9,9 @@ export function* signInWithGoogle(){
     try{
         const authRef= yield auth.signInWithPopup(googleProvider)
         const user=yield createUserProfileDocument(authRef.user)
+        
         yield put(toggleDropdown());
-        yield put(googleSignInSuccess(user));
+        yield put(googleSignInSuccess(user));       
     }
     catch(error){
         yield put(googleSignInFailure(error))
