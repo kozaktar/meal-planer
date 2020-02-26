@@ -46,7 +46,8 @@ export function* isUserAuthenticated(){
     try{
         const userAuth=yield getCurrentUser()
         if(!userAuth) return;
-        yield createUserProfileDocument()
+        const user=yield createUserProfileDocument(userAuth);
+        yield put(googleSignInSuccess(user))
     }
     catch(error){
         yield put(googleSignInFailure(error))

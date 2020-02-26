@@ -58,7 +58,6 @@ export const createUserProfileDocument=async (userAuth, name)=>{
   export const getCurrentUser=()=>{
     return new Promise((resolve,reject)=>{
       const usubscribe =auth.onAuthStateChanged(userAuth=>{
-        unsubscribe();
         resolve(userAuth);
       },reject
       )
