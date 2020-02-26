@@ -3,9 +3,8 @@ import './App.css';
 import HeaderComponent from './components/header/header.component'
 import HomePage from './pages/HomePage/HomePage';
 import {Switch, Route, Redirect} from 'react-router-dom';
-import { auth, createUserProfileDocument } from './firebase/firebase.utils'
 import { connect } from 'react-redux';
-import { setCurrentUser } from './redux/user/user.actions';
+import { checkUserSession } from './redux/user/user.actions';
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './redux/user/user.selectors';
 import {colapseSigninModal} from './redux/sign-in-modal/sign-in-modal.actions';
@@ -15,21 +14,11 @@ class App extends React.Component{
 
   unsubscribeFromAuth=null;
 
-  componentDidMount(){
-
-    const { setCurrentUser, colapseSigninModal } = this.props;
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-  if (userAuth && userAuth.displayName) {
-      const user= await createUserProfileDocument(userAuth);
-      setCurrentUser(user);
-      colapseSigninModal();
-  }else{
-    setCurrentUser(null);
-  }
-
-   
-})
-  }
+componentDidMount(){
+  const {checkCurrentUser}=this.props
+  checkCurrentUser();
+  
+}
   
   
   render(){
@@ -56,7 +45,7 @@ const mapStateToProps = createStructuredSelector(
 
 const mapDispatchToProps = dispatch => (
   {
-    setCurrentUser: user => dispatch(setCurrentUser(user)),
+    checkCurrentUser: ()=>dispatch(checkUserSession()),
     colapseSigninModal: ()=>dispatch(colapseSigninModal())
   }
 )

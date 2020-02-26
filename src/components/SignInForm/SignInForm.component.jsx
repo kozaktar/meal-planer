@@ -3,11 +3,19 @@ import CustomButton from '../custom-button/cutom-button'
 import { Form, SeparatorSpan, ButtonGroup, CreateAccountPrompt, CustomTextField } from './SignInForm.styles';
 import { signInCreateAccountSwitch } from '../../redux/sign-in-modal/sign-in-modal.actions';
 import { connect } from 'react-redux';
-import { signInWithGoogle, auth, createUserProfileDocument } from '../../firebase/firebase.utils';
-import {setCurrentUser} from '../../redux/user/user.actions';
+import {setCurrentUser, googleSignInStart, emailSignInStart} from '../../redux/user/user.actions';
 import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions';
+<<<<<<< HEAD
 import {googleSignInStart} from '../../redux/user/user.actions';
+=======
+import WithSpinner from '../spiner/withSpiner.component';
+import { createStructuredSelector } from 'reselect';
+import {selectUserLoading, selectUserError} from '../../redux/user/user.selectors';
+import ErrorMessage from '../error-message/error-message';
+>>>>>>> tmp
 
+
+const ButtonGroupWithSpinner=WithSpinner(ButtonGroup)
 
 class SignInForm extends React.Component {
   constructor(props) {
@@ -15,26 +23,6 @@ class SignInForm extends React.Component {
     this.state = {
       email: '',
       password: ''
-    }
-  }
-
-  handleSubmit = async event => {
-    event.preventDefault();
-    
-    const{email, password}=this.state;
-    const {setCurrentUser, toggleDropdown}=this.props;
-    
-    try{
-      const {user}=await auth.signInWithEmailAndPassword(email,password);
-      const logedUser=await createUserProfileDocument(user);
-      this.setState({ email: '', password: '' });
-
-      setCurrentUser(logedUser);
-      toggleDropdown();
-
-    }
-    catch(error){
-      console.error(error);
     }
   }
 
@@ -47,6 +35,8 @@ class SignInForm extends React.Component {
 
 
   render() {
+    const {userLoading, googleSignIn, userLoginError, emailSignIn}=this.props;
+    const {email,password}=this.state;
     return (
       <div>
         <Form onSubmit={this.handleSubmit}>
@@ -58,9 +48,10 @@ class SignInForm extends React.Component {
         autoComplete="email"
         margin="normal"
         variant="outlined"
-        value={this.state.email}
+        value={email}
         onChange={this.handleChange}
         required
+        disabled={userLoading}
       />
         <CustomTextField
         id="outlined-password-input"
@@ -70,17 +61,30 @@ class SignInForm extends React.Component {
         autoComplete="password"
         margin="normal"
         variant="outlined"
-        value={this.state.password}
+        value={password}
         onChange={this.handleChange}
         required
+        disabled={userLoading}
         />
-          <ButtonGroup>
-            <CustomButton type='submit' SignIn>Sign In</CustomButton>
+
+        {userLoginError?
+        <ErrorMessage>{`${userLoginError}`}</ErrorMessage>:null}
+
+          <ButtonGroupWithSpinner isloading={userLoading}>
+            <CustomButton disabled={userLoading} buttonType='SignIn' onClick={()=>emailSignIn(email, password)}>Sign In</CustomButton>
             <SeparatorSpan>Or</SeparatorSpan>
+<<<<<<< HEAD
             <CustomButton GoogleSignIn type='button' onClick={this.props.googleSignInStart}>Sign In With Google</CustomButton>
           </ButtonGroup>
+=======
+            <CustomButton buttonType='GoogleSignIn' type='button' onClick={googleSignIn
+          } >Sign In With Google</CustomButton>
+          </ButtonGroupWithSpinner>
+>>>>>>> tmp
         </Form>
-        <CreateAccountPrompt>Don't Have An Account Yet?<CustomButton Link onClick={this.props.switchSignInCreate}>Sign Up.</CustomButton></CreateAccountPrompt>
+        <CreateAccountPrompt>Don't Have An Account Yet?
+          <CustomButton buttonType='Link' disabled={userLoading} onClick={this.props.switchSignInCreate}>Sign Up</CustomButton>
+        </CreateAccountPrompt>
       </div>
     )
   }
@@ -91,8 +95,20 @@ const mapDispatchToProps = dispatch => ({
   switchSignInCreate: () => dispatch(signInCreateAccountSwitch()),
   setCurrentUser: (user)=>dispatch(setCurrentUser(user)),
   toggleDropdown: ()=>dispatch(toggleDropdown()),
+<<<<<<< HEAD
   googleSignInStart: ()=>dispatch(googleSignInStart())
 
+=======
+  googleSignIn: ()=>dispatch(googleSignInStart()),
+  emailSignIn: (email, password)=>dispatch(emailSignInStart(email, password))
+>>>>>>> tmp
 })
 
-export default connect(null, mapDispatchToProps)(SignInForm);
+const mapStateToProps=createStructuredSelector(
+  {
+    userLoading:selectUserLoading,
+    userLoginError:selectUserError
+  }
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignInForm);
