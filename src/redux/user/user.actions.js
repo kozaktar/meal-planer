@@ -59,3 +59,9 @@ export const clearUserError=()=>(
         type:UserActionTypes.CLEAR_USER_ERROR
     }
 )
+
+export const checkUserSession=()=>(
+    {
+        type:UserActionTypes.CHECK_USER_SESSION
+    }
+)

@@ -1,8 +1,9 @@
 import {takeLatest, put,all, call} from 'redux-saga/effects';
 import UserActionTypes from './user.types'
-import {auth,createUserProfileDocument, googleProvider} from '../../firebase/firebase.utils';
+import {auth,createUserProfileDocument, googleProvider, getCurrentUser} from '../../firebase/firebase.utils';
 import {googleSignInSuccess, googleSignInFailure, emailSignInSuccess, emailSignInFailure} from './user.actions';
-import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions'
+import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions';
+
 
 
 export function* signInWithGoogle(){
@@ -40,6 +41,18 @@ function* onEmailSignInStart(){
     yield takeLatest(UserActionTypes.EMAIL_SIGN_IN_START,signInWithEmail)
 }
 
-export function* userSagas(){
-    yield all([call(onGoogleSignInStart), call(onEmailSignInStart)])
+export function* isUserAuthenticated(){
+    try{
+        const userAuth=yield getCurrentUser()
+        if(!userAuth) return;
+        yield createUserProfileDocument()
+    }
+    catch(error){
+        yield put(googleSignInFailure(error))
+    }
 }
+
+export function* userSagas(){
+    yield all([call(onGoogleSignInStart), call(onEmailSignInStart), call(isUserAuthenticated)])
+}
+

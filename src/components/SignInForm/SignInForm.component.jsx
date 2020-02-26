@@ -3,7 +3,6 @@ import CustomButton from '../custom-button/cutom-button'
 import { Form, SeparatorSpan, ButtonGroup, CreateAccountPrompt, CustomTextField } from './SignInForm.styles';
 import { signInCreateAccountSwitch } from '../../redux/sign-in-modal/sign-in-modal.actions';
 import { connect } from 'react-redux';
-import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
 import {setCurrentUser, googleSignInStart, emailSignInStart} from '../../redux/user/user.actions';
 import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions';
 import WithSpinner from '../spiner/withSpiner.component';
@@ -21,14 +20,6 @@ class SignInForm extends React.Component {
       email: '',
       password: ''
     }
-  }
-
-  handleSubmit = async event => {
-    event.preventDefault();
-    
-    const{email, password}=this.state;
-    const {setCurrentUser, toggleDropdown}=this.props;
-    
   }
 
   handleChange = event => {
