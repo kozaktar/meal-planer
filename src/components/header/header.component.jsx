@@ -5,9 +5,8 @@ import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions';
 import SignInDropDown from '../Sign-In-DropDown/signInDropDown.component';
 import {selectHiddenSignInModal} from '../../redux/sign-in-modal/sign-in-modal.selector';
 import {selectCurrentUser} from '../../redux/user/user.selectors';
-import {signOut, clearUserError} from '../../redux/user/user.actions'
+import {signOutStart, clearUserError} from '../../redux/user/user.actions'
 import {createStructuredSelector} from 'reselect';
-import {auth} from '../../firebase/firebase.utils';
 
 const HeaderComponent=({toggleDropdown,signOutUser, currentUser, clearLoginError})=>(
    
@@ -16,7 +15,6 @@ const HeaderComponent=({toggleDropdown,signOutUser, currentUser, clearLoginError
         <LinksContainerDiv>
             <OptionLink to ={'/about'}>About</OptionLink>
             {currentUser ? (<OptionLink to={'#'} onClick={()=>{
-                auth.signOut();
                 signOutUser();
                 }}>
                 Sign Out
@@ -32,7 +30,7 @@ const HeaderComponent=({toggleDropdown,signOutUser, currentUser, clearLoginError
 
 const mapDispatchToProps=dispatch=>({
     toggleDropdown:()=>dispatch(toggleDropdown()),
-    signOutUser:()=>dispatch(signOut()),
+    signOutUser:()=>dispatch(signOutStart()),
     clearLoginError:()=>dispatch(clearUserError())
 })
 

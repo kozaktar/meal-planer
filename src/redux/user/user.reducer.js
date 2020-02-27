@@ -8,8 +8,7 @@ const INITIAL_STATE={
 
 const UserReducer=(state=INITIAL_STATE, action)=>{
     switch(action.type){
-        case UserActionTypes.GOOGLE_SIGN_IN_SUCCESS:
-        case UserActionTypes.EMAIL_SIGN_IN_SUCCESS:
+        case UserActionTypes.SIGN_IN_SUCCESS:
             return {
                 ...state,
                 currentUser:action.payload,
@@ -17,22 +16,35 @@ const UserReducer=(state=INITIAL_STATE, action)=>{
                 loading:false
             };
         case UserActionTypes.GOOGLE_SIGN_IN_START:
+        case UserActionTypes.EMAIL_SIGN_IN_START:    
             return{
                 ...state,
                 loading:true
             };
-        case UserActionTypes.GOOGLE_SIGN_IN_FAILURE:
-        case UserActionTypes.EMAIL_SIGN_IN_FAILURE:
+        case UserActionTypes.SIGN_IN_FAILURE:
             return {
                 ...state,
                 error:action.payload,
                 loading:false
             };
-        case UserActionTypes.SIGN_OUT:
+        case UserActionTypes.SIGN_OUT_START:
             return {
                 ...state,
-                currentUser:null
+                loading:true
             };
+        case UserActionTypes.SIGN_OUT_SUCCESS:
+             return {
+                 ...state,
+                currentUser:null,
+                error:null,
+                loading:false
+                    };
+        case UserActionTypes.SIGN_IN_FAILURE:
+            return {
+                ...state,
+                error:action.payload,
+                loading:false
+                    };    
         case UserActionTypes.CLEAR_USER_ERROR:
             return{
                 ...state,
