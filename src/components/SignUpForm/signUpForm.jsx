@@ -1,16 +1,14 @@
 import React from 'react'
-import { Form, CreateAccountPrompt } from '../SignInForm/SignInForm.styles';
-import FormInput from '../formInput/form-input.component';
+import { Form, CreateAccountPrompt, CustomTextField} from '../SignInForm/SignInForm.styles';
 import CustomButton from '../../components/custom-button/cutom-button';
 import { signInCreateAccountSwitch } from '../../redux/sign-in-modal/sign-in-modal.actions';
 import { connect } from 'react-redux';
 import {auth, createUserProfileDocument} from '../../firebase/firebase.utils';
-import {setCurrentUser} from '../../redux/user/user.actions';
-import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions';
+import {signUpStart} from '../../redux/user/user.actions';
 
 class SignUpFrom extends React.Component {
 
-    constructor(props) {
+    constructor() {
         super();
 
         this.state = {
@@ -31,74 +29,73 @@ class SignUpFrom extends React.Component {
     }
 
     handleSubmit = async event => {
-        const {setCurrentUser, toggleDropdown}=this.props
-       const {displayName, email, confirmEmail, password, confirmPassword}=this.state;
+        console.log('hello')
+        const {startSignUp}=this.props
+        const {displayName, email, confirmEmail, password, confirmPassword}=this.state;
         event.preventDefault()
-        if(email===confirmEmail && password===confirmPassword){
-        try{
-           const {user}=await auth.createUserWithEmailAndPassword(email, password);
-           const newUser=await createUserProfileDocument(user, displayName);
-           setCurrentUser(newUser);
-           toggleDropdown();
+        startSignUp(email,confirmEmail,password,confirmPassword, displayName);
+        
 
-        }
-        catch(e){
-            console.log(e);
-        }
-    }
-    else(
-        console.log("things dont match")
-    )
     }
 
     render() {
-
+        const {displayName, email, confirmEmail, password, confirmPassword}=this.state;
         return (
-            <div>
+            <div style={{maxWidth:"500px"}}>
                 <Form onSubmit={this.handleSubmit}>
-                    <FormInput
-                        name='displayName'
-                        type='text'
-                        handleChange={this.handleChange}
-                        value={this.state.displayName}
-                        label='Display Name'
+                    <CustomTextField
+                        label="Display Name"
+                        type="text"
+                        name="displayName"
+                        margin="normal"
+                        variant="outlined"
+                        value={displayName}
+                        onChange={this.handleChange}
                         required
                     />
-                    <FormInput
-                        name='email'
-                        type='email'
-                        handleChange={this.handleChange}
-                        value={this.state.email}
-                        label='email'
+                    <CustomTextField
+                        label="Email"
+                        type="email"
+                        name="email"
+                        margin="normal"
+                        variant="outlined"
+                        value={email}
+                        onChange={this.handleChange}
                         required
                     />
-                    <FormInput
-                        name='confirmEmail'
-                        type='email'
-                        handleChange={this.handleChange}
-                        value={this.state.confirmEmail}
-                        label='confirm your email'
+                    <CustomTextField
+                        label="Confirm Email"
+                        type="email"
+                        name="confirmEmail"
+                        margin="normal"
+                        variant="outlined"
+                        value={confirmEmail}
+                        onChange={this.handleChange}
                         required
                     />
-                    <FormInput
-                        name='password'
-                        type='password'
-                        value={this.state.password}
-                        handleChange={this.handleChange}
-                        label='password'
+                    <CustomTextField
+                         label="Passowrd"
+                         type="password"
+                         name="password"
+                         margin="normal"
+                         variant="outlined"
+                         value={password}
+                         onChange={this.handleChange}
+                         required
+                    />
+                    <CustomTextField
+                        label="Confirm Password"
+                        type="password"
+                        name="confirmPassword"
+                        margin="normal"
+                        variant="outlined"
+                        value={confirmPassword}
+                        onChange={this.handleChange}
                         required
                     />
-                    <FormInput
-                        name='confirmPassword'
-                        type='password'
-                        value={this.state.confirmPassword}
-                        handleChange={this.handleChange}
-                        label='confirm your password'
-                        required
-                    />
-                    <CustomButton SignIn type="submit">Sign Up</CustomButton>
+                    <CustomButton style={{display:'block'}} buttonType='SignIn' type="submit">Sign Up</CustomButton>
                 </Form>
-                <CreateAccountPrompt>Already Have An Account?<CustomButton Link onClick={this.props.switchSignInCreate}>Log In.</CustomButton></CreateAccountPrompt>
+                <CreateAccountPrompt>Already Have An Account?<CustomButton buttonType='Link' onClick={this.props.switchSignInCreate}>Log In.</CustomButton></CreateAccountPrompt>
             </div>
         )
     }
@@ -106,8 +103,7 @@ class SignUpFrom extends React.Component {
 
 const mapDispatchToProps = dispatch => ({
     switchSignInCreate: () => dispatch(signInCreateAccountSwitch()),
-    setCurrentUser: user=>dispatch(setCurrentUser(user)),
-    toggleDropdown: ()=>dispatch(toggleDropdown())
+    startSignUp: (email, confirmEmail,password, confirmPassword, userName)=>dispatch(signUpStart(email, confirmEmail,password, confirmPassword, userName))
 })
 
 export default connect(null, mapDispatchToProps)(SignUpFrom);

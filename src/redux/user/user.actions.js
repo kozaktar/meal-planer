@@ -22,7 +22,7 @@ export const signInSuccess=(user)=>(
 
 export const signInFailure=(error)=>(
     {
-    type: UserActionTypes.signInFailure,
+    type: UserActionTypes.SIGN_IN_FAILURE,
     payload:error
     }
 )
@@ -62,5 +62,12 @@ export const clearUserError=()=>(
 export const checkUserSession=()=>(
     {
         type:UserActionTypes.CHECK_USER_SESSION
+    }
+)
+
+export const signUpStart=(email, confirmEmail, password, confirmPassword, username)=>(
+    {
+    type: UserActionTypes.SIGN_UP_START,
+    payload:{email,confirmEmail,password,confirmPassword,username}
     }
 )
