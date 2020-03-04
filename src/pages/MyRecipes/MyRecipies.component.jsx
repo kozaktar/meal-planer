@@ -8,6 +8,10 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import AddRecipeForm from '../../components/add-recipe-form/addRecipeForm.component'
 import Card from '@material-ui/core/Card';
+import {connect} from 'react-redux';
+import {fetchRecipesStart} from '../../redux/recipes/recipes.actions';
+import { createStructuredSelector } from 'reselect';
+import { selectCurrentUser } from './../../redux/user/user.selectors';
 
 
 
@@ -41,7 +45,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const MyRecipies =()=>{
+const MyRecipies =({getRecipes, currentUser})=>{
+
+  React.useEffect(function(){
+    getRecipes(currentUser.authID);
+ }, []);
     
 const [open, setOpen] = React.useState(false);
 
@@ -94,4 +102,14 @@ return(
     
 }
 
-export default MyRecipies;
+const mapDispatchToProps = dispatch => (
+  {
+    getRecipes: (user)=>dispatch(fetchRecipesStart(user))
+  }
+)
+
+const mapStateToProps=createStructuredSelector({
+    currentUser: selectCurrentUser
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(MyRecipies);

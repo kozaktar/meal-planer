@@ -3,8 +3,13 @@ import { Form, CreateAccountPrompt, CustomTextField} from '../SignInForm/SignInF
 import CustomButton from '../../components/custom-button/cutom-button';
 import { signInCreateAccountSwitch } from '../../redux/sign-in-modal/sign-in-modal.actions';
 import { connect } from 'react-redux';
-import {auth, createUserProfileDocument} from '../../firebase/firebase.utils';
 import {signUpStart} from '../../redux/user/user.actions';
+import WithSpinner from '../spiner/withSpiner.component';
+import { createStructuredSelector } from 'reselect';
+import {selectUserLoading, selectUserError} from '../../redux/user/user.selectors';
+import ErrorMessage from '../error-message/error-message';
+
+const ButtonWithSpinner=WithSpinner(CustomButton)
 
 class SignUpFrom extends React.Component {
 
@@ -29,7 +34,6 @@ class SignUpFrom extends React.Component {
     }
 
     handleSubmit = async event => {
-        console.log('hello')
         const {startSignUp}=this.props
         const {displayName, email, confirmEmail, password, confirmPassword}=this.state;
         event.preventDefault()
@@ -40,6 +44,8 @@ class SignUpFrom extends React.Component {
 
     render() {
         const {displayName, email, confirmEmail, password, confirmPassword}=this.state;
+        const {userLoading, userLoginError}=this.props;
+
         return (
             <div style={{maxWidth:"500px"}}>
                 <Form onSubmit={this.handleSubmit}>
@@ -52,6 +58,7 @@ class SignUpFrom extends React.Component {
                         value={displayName}
                         onChange={this.handleChange}
                         required
+                        disabled={userLoading}
                     />
                     <CustomTextField
                         label="Email"
@@ -62,6 +69,7 @@ class SignUpFrom extends React.Component {
                         value={email}
                         onChange={this.handleChange}
                         required
+                        disabled={userLoading}
                     />
                     <CustomTextField
                         label="Confirm Email"
@@ -72,6 +80,7 @@ class SignUpFrom extends React.Component {
                         value={confirmEmail}
                         onChange={this.handleChange}
                         required
+                        disabled={userLoading}
                     />
                     <CustomTextField
                          label="Passowrd"
@@ -82,6 +91,7 @@ class SignUpFrom extends React.Component {
                          value={password}
                          onChange={this.handleChange}
                          required
+                         disabled={userLoading}
                     />
                     <CustomTextField
                         label="Confirm Password"
@@ -92,10 +102,15 @@ class SignUpFrom extends React.Component {
                         value={confirmPassword}
                         onChange={this.handleChange}
                         required
+                        disabled={userLoading}
                     />
-                    <CustomButton style={{display:'block'}} buttonType='SignIn' type="submit">Sign Up</CustomButton>
+
+                    {userLoginError?
+                        <ErrorMessage>{`${userLoginError}`}</ErrorMessage>:null}
+
+                    <ButtonWithSpinner style={{display:'block'}} buttonType='SignIn' type="submit" isloading={userLoading}>Sign Up</ButtonWithSpinner>
                 </Form>
-                <CreateAccountPrompt>Already Have An Account?<CustomButton buttonType='Link' onClick={this.props.switchSignInCreate}>Log In.</CustomButton></CreateAccountPrompt>
+                <CreateAccountPrompt>Already Have An Account?<CustomButton buttonType='Link' onClick={this.props.switchSignInCreate} disabled={userLoading}>Log In.</CustomButton></CreateAccountPrompt>
             </div>
         )
     }
@@ -106,4 +121,11 @@ const mapDispatchToProps = dispatch => ({
     startSignUp: (email, confirmEmail,password, confirmPassword, userName)=>dispatch(signUpStart(email, confirmEmail,password, confirmPassword, userName))
 })
 
-export default connect(null, mapDispatchToProps)(SignUpFrom);
+const mapStateToProps=createStructuredSelector(
+    {
+      userLoading:selectUserLoading,
+      userLoginError:selectUserError
+    }
+  )
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpFrom);

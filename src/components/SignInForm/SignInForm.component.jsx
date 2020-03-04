@@ -3,7 +3,7 @@ import CustomButton from '../custom-button/cutom-button'
 import { Form, SeparatorSpan, ButtonGroup, CreateAccountPrompt, CustomTextField } from './SignInForm.styles';
 import { signInCreateAccountSwitch } from '../../redux/sign-in-modal/sign-in-modal.actions';
 import { connect } from 'react-redux';
-import {setCurrentUser, googleSignInStart, emailSignInStart} from '../../redux/user/user.actions';
+import { googleSignInStart, emailSignInStart} from '../../redux/user/user.actions';
 import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions';
 import WithSpinner from '../spiner/withSpiner.component';
 import { createStructuredSelector } from 'reselect';
@@ -84,7 +84,6 @@ class SignInForm extends React.Component {
 
 const mapDispatchToProps = dispatch => ({
   switchSignInCreate: () => dispatch(signInCreateAccountSwitch()),
-  setCurrentUser: (user)=>dispatch(setCurrentUser(user)),
   toggleDropdown: ()=>dispatch(toggleDropdown()),
   googleSignIn: ()=>dispatch(googleSignInStart()),
   emailSignIn: (email, password)=>dispatch(emailSignInStart(email, password))

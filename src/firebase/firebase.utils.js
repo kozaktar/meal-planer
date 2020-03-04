@@ -40,7 +40,7 @@ export const createUserProfileDocument=async (userAuth, name)=>{
     let {displayName, email}=userAuth;
     if(name)
       {displayName=name;
-        console.log("display name provided: ",displayName)}
+        }
 
       user={
       displayName: displayName,
@@ -51,6 +51,7 @@ export const createUserProfileDocument=async (userAuth, name)=>{
     axios.post(userAPIpath,user).then(res=>console.log(res.data)).catch(e=>console.log(e))
 
   }
+
 
   return user;
   }

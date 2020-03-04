@@ -192,7 +192,7 @@ const AddRecipeForm=({onClose, currentUser}) =>{
   const handleSubmit=()=>{
     const formData=new FormData()
     formData.append('recipeTitle',state.title)
-    formData.append('recipeIngredients:state',state.ingredients)
+    formData.append('recipeIngredients',state.ingredients)
     formData.append('recipeDirections',state.directions)
     formData.append('visibility',state.visibility)
     formData.append( 'upload',state.img)

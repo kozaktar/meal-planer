@@ -27,7 +27,6 @@ const upload = multer(
 //create recipe
 router.post('/recipes', upload.single('upload'), auth, async (req, res) => {
     let recipe=null
-    console.log(req.file)
     if(req.file){
     recipe = new Recipe({
         recipeTitle: req.body.recipeTitle,
@@ -60,6 +59,7 @@ else{
 // GET /recipes?limit=10&skip=20
 //match can be used to filter out reicpes (feature to be implemented later)
 router.get('/recipes', auth, async (req, res) => {
+    console.log("user", req.user)
     const match = {}
 
     try {
