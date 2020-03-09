@@ -1,19 +1,31 @@
 import RecipeActionTypes from './recipes.types';
 
 const INITIAL_STATE={
-    recipes:null,
-    loading:false,
-    recipesError:null
+    recipes:[],     //stores recipes collection  
+    loading:false,    //true when recies are being fetched
+    addingRecipe:false, //true when uploading recipe in progress
+    recipesError:null,   //contains error message for recipes
+    addingRecipeError:true
 }
 
 const recipesReducer=(state=INITIAL_STATE,action)=>{
     switch(action.type){
         case RecipeActionTypes.FETCH_RECIPES_START:
-            return {loading:true,...state}
+            return {...state, loading:true}
+        case RecipeActionTypes.ADD_RECIPES_START:
+            return {...state, addingRecipe:true}
         case RecipeActionTypes.FETCH_RECIPES_SUCCESS:
-            return {loading:false, recipes:action.payload, recipesError:null};  
+            {
+                console.log(action.payload)
+                return {...state, loading:false, recipes:[...state.recipes , ...action.payload], recipesError:null}; 
+            }
+           
+        case RecipeActionTypes.ADD_RECIPES_SUCCESS:
+            return {...state, addingRecipe:false, recipes:[...state.recipes, action.payload], addingRecipeError:null};     
         case RecipeActionTypes.FETCH_RECIPES_FAILURE:
-            return {recipesError:action.payload,...state};
+            return {...state, recipesError:action.payload};
+        case RecipeActionTypes.ADD_RECIPES_FAILURE:
+            return {...state, addingRecipeError:action.payload};
         default:
             return state;  
     }

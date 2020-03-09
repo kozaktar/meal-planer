@@ -1,14 +1,17 @@
-import React, { Fragment, useState, useReducer} from 'react';
+import React, {useReducer} from 'react';
 import ImageUpload from '../image-upload/ImageUpload.component'
 import RecipeInputTabs from '../recipeInputTabs/recipeInputTabs.component'
 import { makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import axios from 'axios';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import {addRecipeStart} from '../../redux/recipes/recipes.actions'
+import {selectRecipeAddingProgress, selectAddRecipeError } from '../../redux/recipes/recipes.selectors';
+import WithSpinner from '../spiner/withSpiner.component';
+import ErrorMessage from '../error-message/error-message';
 
-
+const ButtonWithSpinner=WithSpinner(Button);
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -154,7 +157,7 @@ const removeImage=()=>(
 )
 
 
-const AddRecipeForm=({onClose, currentUser}) =>{
+const AddRecipeForm=({onClose, currentUser, addRecipe, addingRecipeLoad, recipeError}) =>{
 
   const [state, dispatch]= useReducer(reducer, initialState)
  
@@ -190,18 +193,20 @@ const AddRecipeForm=({onClose, currentUser}) =>{
   }
 
   const handleSubmit=()=>{
-    const formData=new FormData()
-    formData.append('recipeTitle',state.title)
-    formData.append('recipeIngredients',state.ingredients)
-    formData.append('recipeDirections',state.directions)
-    formData.append('visibility',state.visibility)
-    formData.append( 'upload',state.img)
-    formData.append('authID',currentUser.authID)
+    const recipe={'recipeTitle':state.title,
+    'recipeIngredients':state.ingredients,
+    'recipeDirections':state.directions,
+    'visibility':state.visibility,
+    'picture':state.img,
+    'author':currentUser.displayName}
+
+    addRecipe(recipe);
+
+    
+    if(!addingRecipeLoad && recipeError===null)
+      onClose()
      
-    axios.post('http://localhost:3001/recipes',formData)
-    .then(response=> {console.log(response)
-                       onClose()})
-    .catch(error=> console.log(error));
+    
 
   }
 
@@ -214,9 +219,9 @@ const AddRecipeForm=({onClose, currentUser}) =>{
       <div className={classes.form}>
       <RecipeInputTabs onFormChange={handleFormChange} state={state} addDirections={()=>dispatch(addDirections())} deleteDirections={(value)=>dispatch(removeDirections(value))} addIngredient={()=>dispatch(addIngredients())} deleteIngredient={(value)=>dispatch(removeIngredients(value))} onClose={onClose}/>
      <div className={classes.buttonsGroup}>
-     <Button variant="contained" size="large" color="primary" className={classes.margin} onClick={handleSubmit}>
+     <ButtonWithSpinner isloading={addingRecipeLoad} variant="contained" size="large" color="primary" className={classes.margin} onClick={handleSubmit}>
           Add Recipe
-      </Button>
+      </ButtonWithSpinner>
       <Button variant="contained" size="large" className={classes.cancelButton} onClick={onClose}>
           Cancel
       </Button>
@@ -229,8 +234,16 @@ const AddRecipeForm=({onClose, currentUser}) =>{
 
   const mapStateToProps = createStructuredSelector(
     {
-      currentUser: selectCurrentUser
+      currentUser: selectCurrentUser,
+      addingRecipeLoad: selectRecipeAddingProgress,
+      recipeError: selectAddRecipeError
     }
   )
 
-  export default connect(mapStateToProps)(AddRecipeForm);
+  const mapDispatchToProps = dispatch => (
+    {
+      addRecipe: (recipe)=>dispatch(addRecipeStart(recipe)),
+    }
+  )
+
+  export default connect(mapStateToProps,mapDispatchToProps)(AddRecipeForm);

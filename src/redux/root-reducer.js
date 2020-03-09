@@ -6,7 +6,7 @@ import RecipesReducer from './recipes/recipes.reducer'
 const rootReducer=combineReducers({
     signInModal: SignInModalReducer,
     user: UserReducer,
-    recipes:RecipesReducer
+    recipes: RecipesReducer
 })
 
 export default rootReducer;

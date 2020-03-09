@@ -10,16 +10,16 @@ const styles={
         display:'flex',
     },
     fullPage:{
-        width:'94%',
-        overflow:'hidden',
-        margin:20,
-        position: 'absolute',
-        left:60
+        
+        // overflow:'hidden',
+        marginLeft:'-30px',
+        //position: 'absolute',
+       // left:60
     }
 }
 
 const MyRecipeBoxPage=()=>(
-    <Container maxWidth="xl">
+    <Container>
       <SideNavBar/>
     <div style={styles.fullPage}>
         <Route exact path={"/myrecipebox/myrecipes"} component={MyRecipiesComponent}/>

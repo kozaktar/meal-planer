@@ -20,3 +20,24 @@ export const fetchRecipesFailure=(error)=>(
         payload:error
     }
 );
+
+export const addRecipeStart=(recipe)=>(
+    {
+        type:RecipeActionTypes.ADD_RECIPES_START,
+        payload:recipe
+    }
+);
+
+export const addRecipeSuccess=(recipe)=>(
+    {
+        type:RecipeActionTypes.ADD_RECIPES_SUCCESS,
+        payload:recipe
+    }
+);
+
+export const addRecipesFailure=(error)=>(
+    {
+        type:RecipeActionTypes.ADD_RECIPES_FAILURE,
+        payload:error
+    }
+);
