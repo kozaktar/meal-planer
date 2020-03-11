@@ -12,6 +12,10 @@ import {connect} from 'react-redux';
 import {fetchRecipesStart} from '../../redux/recipes/recipes.actions';
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './../../redux/user/user.selectors';
+import { selectUserRecipes } from './../../redux/recipes/recipes.selectors';
+import RecipeCard from '../../components/recipe-card/RecipeCard';
+import Button from '@material-ui/core/Button';
+
 
 
 
@@ -19,8 +23,10 @@ import { selectCurrentUser } from './../../redux/user/user.selectors';
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    marginRight:15,
-    maxWidth: '80%'
+    marginRight:'10px',
+    maxWidth: '92vw',
+    marginLeft:'50px',
+    textAlign:'center'
   },
   paper: {
     padding: theme.spacing(2),
@@ -45,11 +51,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const MyRecipies =({getRecipes, currentUser})=>{
+const MyRecipies =({recipes, })=>{
 
-  React.useEffect(function(){
-    getRecipes(currentUser.authID);
- }, []);
     
 const [open, setOpen] = React.useState(false);
 
@@ -64,38 +67,28 @@ const classes=useStyles();
 
 return(
   <div className={classes.root}>
-      <Grid container spacing={2}>
+      <Grid container spacing={1}>
         <Grid item xs={12} className={classes.alignItemsAndJustifyContent}>
           <SearchBar/>
+          <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          style={{marginLeft:'2vw'}}
+          onClick={handleOpen}
+          >
+            Add Recipe 
+          </Button>
+          <Modal title="Add New Recipe" handleClose={handleClose} open={open}>
+            <AddRecipeForm onClose={handleClose}/>
+          </Modal>
         </Grid>
-        <Grid item xs >
-        <Modal title="Add New Recipe" handleClose={handleClose} open={open}>
-          <AddRecipeForm onClose={handleClose}/>
-      </Modal>
-      <Card className={classes.card}>
-      <Fab size="medium" color="secondary" aria-label="add" onClick={handleOpen} className={classes.addButton}>
-          <AddIcon/>
-        </Fab>
-        </Card>
-        </Grid>
-        <Grid item xs>
-          <Paper className={classes.paper}>xs=6 sm=3</Paper>
-        </Grid>
-        <Grid item xs>
-          <Paper className={classes.paper}>xs=6 sm=3</Paper>
-        </Grid>
-        <Grid item xs>
-          <Paper className={classes.paper}>xs=6 sm=3</Paper>
-        </Grid>
-        <Grid item xs>
-          <Paper className={classes.paper}>xs=6 sm=3</Paper>
-        </Grid>
-        <Grid item xs>
-          <Paper className={classes.paper}>xs=6 sm=3</Paper>
-        </Grid>
-        <Grid item xs>
-          <Paper className={classes.paper}>xs=6 sm=3</Paper>
-        </Grid>
+        
+        { recipes.map(item=>(<Grid item key={item._id}>
+            <RecipeCard recipe={item}/>
+          </Grid>)
+        )}
+        
       </Grid>
   </div>
         )
@@ -109,7 +102,8 @@ const mapDispatchToProps = dispatch => (
 )
 
 const mapStateToProps=createStructuredSelector({
-    currentUser: selectCurrentUser
+    currentUser: selectCurrentUser,
+    recipes: selectUserRecipes
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(MyRecipies);

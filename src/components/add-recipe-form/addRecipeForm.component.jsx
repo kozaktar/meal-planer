@@ -172,19 +172,15 @@ const AddRecipeForm=({onClose, currentUser, addRecipe, addingRecipeLoad, recipeE
     switch(name){
       case 'title':
         dispatch(updateTitle(value))
-        console.log(state)
         break;
       case 'description':
           dispatch(updateDescription(value))
-          console.log('description update')
           break;
       case 'directions':
-          dispatch(updateDirections(value,event.target.id.replace('directions-','')))  
-          console.log(state)  
+          dispatch(updateDirections(value,event.target.id.replace('directions-','')))    
           break;
       case 'ingredients':
-          dispatch(updateIngredients(value,event.target.id.replace('ingredient-','')))  
-          console.log(state)  
+          dispatch(updateIngredients(value,event.target.id.replace('ingredient-','')))   
           break;    
       default:
         console.log('reducer error')
@@ -194,6 +190,7 @@ const AddRecipeForm=({onClose, currentUser, addRecipe, addingRecipeLoad, recipeE
 
   const handleSubmit=()=>{
     const recipe={'recipeTitle':state.title,
+    'recipeDescription':state.description,
     'recipeIngredients':state.ingredients,
     'recipeDirections':state.directions,
     'visibility':state.visibility,

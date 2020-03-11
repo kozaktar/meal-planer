@@ -1,8 +1,9 @@
 import {takeLatest, put,all, call} from 'redux-saga/effects';
 import UserActionTypes from './user.types'
 import {auth,createUserProfileDocument, googleProvider, getCurrentUser} from '../../firebase/firebase.utils';
-import {signInSuccess, signInFailure, signOutFailure, signOutSuccess,signUpStart} from './user.actions';
+import {signInSuccess, signInFailure, signOutFailure, signOutSuccess} from './user.actions';
 import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions';
+import {fetchRecipesStart} from '../recipes/recipes.actions'
 
 
 
@@ -12,7 +13,8 @@ export function* signInWithGoogle(){
         const user=yield createUserProfileDocument(authRef.user)
         
         yield put(toggleDropdown());
-        yield put(signInSuccess(user));       
+        yield put(signInSuccess(user)); 
+        yield put(fetchRecipesStart(user.authID))      
     }
     catch(error){
         yield put(signInFailure(error))
@@ -29,7 +31,8 @@ export function* signInWithEmail({payload:{email,password}}){
         const user=yield createUserProfileDocument(authRef.user)
         
         yield put(toggleDropdown());
-        yield put(signInSuccess(user));       
+        yield put(signInSuccess(user));
+        yield put(fetchRecipesStart(user.authID))        
     }
     catch(error){
         yield put(signInFailure(error))
@@ -54,12 +57,13 @@ function* onSingOutStart(){
     yield takeLatest(UserActionTypes.SIGN_OUT_START,signOut)
 }
 
-export function* isUserAuthenticated(){
+function* isUserAuthenticated(){
     try{
         const userAuth=yield getCurrentUser()
         if(!userAuth) return;
         const user=yield createUserProfileDocument(userAuth);
         yield put(signInSuccess(user))
+        yield put(fetchRecipesStart(user.authID)) 
     }
     catch(error){
         yield put(signInFailure(error))
@@ -85,7 +89,7 @@ function* signUp({payload:{email,confirmEmail,password,confirmPassword,username}
 }
 
 
-export function* onSignUpStart(){
+function* onSignUpStart(){
     yield takeLatest(UserActionTypes.SIGN_UP_START,signUp)
 }
 

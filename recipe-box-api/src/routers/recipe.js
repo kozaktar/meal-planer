@@ -13,7 +13,6 @@ const upload = multer(
             fileSize:2000000
         },
         fileFilter(req,file,cb){
-            console.log(file.originalname.toLowerCase())
             if(!file.originalname.toLowerCase().match(/\.(jpg|jpeg|gif|bmp|png)$/))
               return cb(new Error('file must be an image'))
 
@@ -25,33 +24,33 @@ const upload = multer(
 );
 
 //create recipe
-router.post('/recipes', upload.single('upload'), auth, async (req, res) => {
+router.post('/recipes', upload.single('picture'), auth, async (req, res) => {
     let recipe=null
-    if(req.file){
+    console.log('file:',req.body)
+    console.log('file:',req.file)
+    
     recipe = new Recipe({
         recipeTitle: req.body.recipeTitle,
         recipeIngredients: req.body.ingredients,
         recipeDirections: req.body.recipeDirections,
         owner: req.user.authID, //authID obtained from firebase auth api
         visibility: req.body.visibility,
-        picture: req.file.buffer
+        author: req.body.author,
+        recipeDescription: req.body.recipeDescription
     })
-}
-else{
-    recipe = new Recipe({
-        recipeTitle: req.body.recipeTitle,
-        recipeIngredients: req.body.ingredients,
-        recipeDirections: req.body.recipeDirections,
-        owner: req.user.authID, //authID obtained from firebase auth api
-        visibility: req.body.visibility
-    })
-}
+    
+    if(req.file){
+        recipe.picture=req.file.buffer
+    }
+
+
 
     try {
         await recipe.save()
         res.status(201).send(recipe)
     } catch (e) {
         res.status(400).send(e)
+        console.log(e);
     }
 })
 

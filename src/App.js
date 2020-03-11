@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import './App.css';
 import HeaderComponent from './components/header/header.component'
 import HomePage from './pages/HomePage/HomePage';
@@ -9,6 +9,7 @@ import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './redux/user/user.selectors';
 import {colapseSigninModal} from './redux/sign-in-modal/sign-in-modal.actions';
 import MyRecipeBoxPage from './pages/MyRecipeBox/MyRecipeBoxPage.component'
+
 
 class App extends React.Component{
 
@@ -24,13 +25,13 @@ componentDidMount(){
   render(){
     const {currentUser}=this.props;
     return (
-      <div className='main-container'>
+      <Fragment>
       <HeaderComponent/>
         <Switch>
           <Route exact path='/' render={() => currentUser ? (<Redirect to='/myrecipebox/myrecipes' />) : (<HomePage />)}/>
           <Route path='/myrecipebox/' render={() => currentUser ? <MyRecipeBoxPage/>: (<Redirect to='/' />)}/>
         </Switch>    
-      </div>
+      </Fragment>
     );
 
   }

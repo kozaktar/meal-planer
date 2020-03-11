@@ -21,3 +21,8 @@ export const selectAddRecipeError=createSelector(
     [selectRecipes],
     recipes=>recipes.addingRecipeError
 );
+
+export const selectUserRecipes=createSelector(
+    [selectRecipes],
+    recipes=>recipes.recipes
+)

@@ -1,8 +1,3 @@
 .App {
   text-align: center;
 }
-
-.main-cointainer{
-  display: flex;
-  overflow: hidden;
-}
