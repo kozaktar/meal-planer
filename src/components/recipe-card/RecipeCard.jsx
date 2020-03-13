@@ -30,6 +30,7 @@ const useStyles = makeStyles(theme => ({
 const RecipeCard=({recipe})=>{
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const image=new Buffer(recipe.picture).toString('base64')
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -43,7 +44,7 @@ const RecipeCard=({recipe})=>{
       {recipe.picture?
        <CardMedia
        className={classes.media}
-       image={recipe.picture}
+       image={`data:imgage;base64,${image}`}
        title={recipe.recipeTitle}
      />:null}
      
