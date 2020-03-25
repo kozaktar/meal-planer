@@ -41,3 +41,9 @@ export const addRecipesFailure=(error)=>(
         payload:error
     }
 );
+
+export const clearRecipes=()=>(
+    {
+        type:RecipeActionTypes.CLEAR_RECIPES
+    }
+);

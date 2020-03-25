@@ -15,10 +15,7 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
         case RecipeActionTypes.ADD_RECIPES_START:
             return {...state, addingRecipe:true}
         case RecipeActionTypes.FETCH_RECIPES_SUCCESS:
-            {
-                return {...state, loading:false, recipes:[...state.recipes , ...action.payload], recipesError:null}; 
-            }
-           
+            return {...state, loading:false, recipes:[...state.recipes , ...action.payload], recipesError:null}; 
         case RecipeActionTypes.ADD_RECIPES_SUCCESS:
             {
                 const newRecipe=action.payload;
