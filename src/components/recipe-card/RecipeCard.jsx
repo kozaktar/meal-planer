@@ -42,7 +42,6 @@ const RecipeCard=({recipe, history})=>{
       <CardHeader
         title={recipe.recipeTitle}
       />
-      {/* <Link to={recipe._id} style={styles.link}> */}
       <CardActionArea onClick={()=>history.push(`/recipes/${recipe._id}`)}>
       {recipe.picture?
        <CardMedia

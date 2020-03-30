@@ -3,7 +3,8 @@ import UserActionTypes from './user.types'
 import {auth,createUserProfileDocument, googleProvider, getCurrentUser} from '../../firebase/firebase.utils';
 import {signInSuccess, signInFailure, signOutFailure, signOutSuccess} from './user.actions';
 import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions';
-import {fetchRecipesStart} from '../recipes/recipes.actions'
+import {fetchRecipesStart} from '../recipes/recipes.actions';
+import {clearRecipes} from '../recipes/recipes.actions';
 
 
 
@@ -47,6 +48,7 @@ function* signOut(){
     try{
         yield auth.signOut()
         yield put(signOutSuccess())
+        yield put(clearRecipes())
     }
     catch(error){
         yield put(signOutFailure(error))

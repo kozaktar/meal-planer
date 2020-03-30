@@ -26,6 +26,8 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
             return {...state, recipesError:action.payload};
         case RecipeActionTypes.ADD_RECIPES_FAILURE:
             return {...state, addingRecipeError:action.payload};
+        case RecipeActionTypes.CLEAR_RECIPES:
+            return {...state, recipes:[]}
         default:
             return state;  
     }

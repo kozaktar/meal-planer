@@ -9,6 +9,7 @@ import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './redux/user/user.selectors';
 import {colapseSigninModal} from './redux/sign-in-modal/sign-in-modal.actions';
 import MyRecipeBoxPage from './pages/MyRecipeBox/MyRecipeBoxPage.component'
+import RecipePage from './pages/RecipePage/RecipePage.component'
 
 
 class App extends React.Component{
@@ -30,6 +31,7 @@ componentDidMount(){
         <Switch>
           <Route exact path='/' render={() => currentUser ? (<Redirect to='/myrecipebox/myrecipes' />) : (<HomePage />)}/>
           <Route path='/myrecipebox/' render={() => currentUser ? <MyRecipeBoxPage/>: (<Redirect to='/' />)}/>
+          <Route path='/recipes/:recipe' component={RecipePage}/>
         </Switch>    
       </Fragment>
     );
