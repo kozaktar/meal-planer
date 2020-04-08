@@ -1,13 +1,9 @@
 import React from 'react';
 import SearchBar from '../../components/search-bar/SearchBar.component'
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Modal from '../../components/modal/modal.component';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 import AddRecipeForm from '../../components/add-recipe-form/addRecipeForm.component'
-import Card from '@material-ui/core/Card';
 import {connect} from 'react-redux';
 import {fetchRecipesStart} from '../../redux/recipes/recipes.actions';
 import { createStructuredSelector } from 'reselect';
@@ -15,9 +11,7 @@ import { selectCurrentUser } from './../../redux/user/user.selectors';
 import { selectUserRecipes } from './../../redux/recipes/recipes.selectors';
 import RecipeCard from '../../components/recipe-card/RecipeCard';
 import Button from '@material-ui/core/Button';
-
-
-
+import {selectRecipeAddingProgress, selectAddRecipeError } from '../../redux/recipes/recipes.selectors';
 
 
 const useStyles = makeStyles(theme => ({
@@ -51,7 +45,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const MyRecipies =({recipes, })=>{
+const MyRecipies =({recipes, addingRecipeLoad, recipeError})=>{
 
     
 const [open, setOpen] = React.useState(false);
@@ -103,7 +97,9 @@ const mapDispatchToProps = dispatch => (
 
 const mapStateToProps=createStructuredSelector({
     currentUser: selectCurrentUser,
-    recipes: selectUserRecipes
+    recipes: selectUserRecipes,
+    addingRecipeLoad: selectRecipeAddingProgress,
+    recipeError: selectAddRecipeError
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(MyRecipies);

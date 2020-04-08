@@ -4,36 +4,36 @@ const mongoose = require('mongoose');
 const recipeSchema=new mongoose.Schema({
     recipeTitle:{
         type: String,
-        //required: true,
+        required: true,
         trim: true
     },
     recipeDescription:{
         type: String,
-        //required: true
+        required: true
     },
     recipeIngredients:{
         type: Array,
-        //required: true
+        required: true
     },
     recipeDirections:{
         type: Array,
-        //required: true,
+        required: true,
     },
     owner:{
         type: String,
-        //required: true,
+        required: true,
         ref:'User'
     },
     visibility:{
         type: String,
-        //required: true,
+        required: true,
     },
     picture:{
         type:Buffer
     },
     author:{
         type: String,
-       // required: true
+        required: true
     },
 })
 

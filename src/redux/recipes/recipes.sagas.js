@@ -10,7 +10,12 @@ function* FetchRecipes({payload}){
     try{
         yield axios.defaults.headers.common['userID'] =payload 
         const recipes=yield axios.get(recipesAPIpath)
-        yield put(fetchRecipesSuccess(recipes.data))
+        //convert images to basse 64
+        const convertedImgRecipes=recipes.data.map(recipe=>{if(recipe.picture){
+            recipe.picture=new Buffer(recipe.picture).toString('base64')
+            return recipe
+        }})
+        yield put(fetchRecipesSuccess(convertedImgRecipes))
     }
     catch(error){
        yield put(fetchRecipesFailure(error))
@@ -27,7 +32,6 @@ function* onRecipesAddStart(){
 }
 
 function* AddRecipes({payload}){
-    yield console.log('file',payload.picture)
     const formData=new FormData()
     yield formData.append('recipeTitle',payload.recipeTitle)
     yield formData.append('recipeIngredients',payload.recipeIngredients)
@@ -41,7 +45,7 @@ function* AddRecipes({payload}){
         yield put(addRecipeSuccess(payload))
     }
     catch(error){
-       yield put(addRecipesFailure(error))
+       yield put(addRecipesFailure(error.message))
     }
 
 }

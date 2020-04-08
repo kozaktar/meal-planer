@@ -197,25 +197,25 @@ const AddRecipeForm=({onClose, currentUser, addRecipe, addingRecipeLoad, recipeE
     'picture':state.img,
     'author':currentUser.displayName}
 
-    addRecipe(recipe);
+    addRecipe(recipe)
 
-    
-    if(!addingRecipeLoad && recipeError===null)
+    if(!addingRecipeLoad && !recipeError){
       onClose()
-     
+    }
+       
+
     
 
   }
 
-  const classes=useStyles();
-
+    const classes=useStyles();
     return (
-  
      <div className={classes.root}>
       <ImageUpload onDrop={handleDrop} removeImages={removeImages}/>
       <div className={classes.form}>
       <RecipeInputTabs onFormChange={handleFormChange} state={state} addDirections={()=>dispatch(addDirections())} deleteDirections={(value)=>dispatch(removeDirections(value))} addIngredient={()=>dispatch(addIngredients())} deleteIngredient={(value)=>dispatch(removeIngredients(value))} onClose={onClose}/>
      <div className={classes.buttonsGroup}>
+       <ErrorMessage>{recipeError}</ErrorMessage>
      <ButtonWithSpinner isloading={addingRecipeLoad} variant="contained" size="large" color="primary" className={classes.margin} onClick={handleSubmit}>
           Add Recipe
       </ButtonWithSpinner>

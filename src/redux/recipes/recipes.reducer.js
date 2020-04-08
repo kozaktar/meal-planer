@@ -3,9 +3,9 @@ import RecipeActionTypes from './recipes.types';
 const INITIAL_STATE={
     recipes:[],     //stores recipes collection  
     loading:true,    //true when recies are being fetched
-    addingRecipe:false, //true when uploading recipe in progress
     recipesError:null,   //contains error message for recipes
-    addingRecipeError:null
+    addingRecipeError:null,
+    addingRecipe:false //true when uploading recipe in progress
 }
 
 const recipesReducer=(state=INITIAL_STATE,action)=>{
@@ -25,7 +25,7 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
         case RecipeActionTypes.FETCH_RECIPES_FAILURE:
             return {...state, recipesError:action.payload};
         case RecipeActionTypes.ADD_RECIPES_FAILURE:
-            return {...state, addingRecipeError:action.payload};
+            return {...state, addingRecipeError:action.payload, addingRecipe:false};
         case RecipeActionTypes.CLEAR_RECIPES:
             return {...state, recipes:[]}
         default:

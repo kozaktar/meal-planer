@@ -8,15 +8,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
 import CardActionArea from '@material-ui/core/CardActionArea';
-import {Link, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 
-const styles={
-  link:{
-    '&:hover': {
-      backgroundColor:'yellow',
- }
-  }
-}
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,11 +23,9 @@ const useStyles = makeStyles(theme => ({
 
 const RecipeCard=({recipe, history})=>{
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
-  const image=new Buffer(recipe.picture).toString('base64')
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
+  const handleActionAreaClick = () => {
+    history.push(`/recipes/${recipe.recipeTitle}`)
   };
  
   return (
@@ -42,11 +33,11 @@ const RecipeCard=({recipe, history})=>{
       <CardHeader
         title={recipe.recipeTitle}
       />
-      <CardActionArea onClick={()=>history.push(`/recipes/${recipe._id}`)}>
+      <CardActionArea onClick={handleActionAreaClick}>
       {recipe.picture?
        <CardMedia
        className={classes.media}
-       image={`data:imgage;base64,${image}`}
+       image={`data:image;base64,${recipe.picture}`}
        title={recipe.recipeTitle}
      />:null}
      

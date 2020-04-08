@@ -7,10 +7,13 @@ import { connect } from 'react-redux';
 import { checkUserSession } from './redux/user/user.actions';
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './redux/user/user.selectors';
+import {selectRecipeLoading} from './redux/recipes/recipes.selectors';
 import {colapseSigninModal} from './redux/sign-in-modal/sign-in-modal.actions';
-import MyRecipeBoxPage from './pages/MyRecipeBox/MyRecipeBoxPage.component'
-import RecipePage from './pages/RecipePage/RecipePage.component'
+import MyRecipeBoxPage from './pages/MyRecipeBox/MyRecipeBoxPage.component';
+import RecipePage from './pages/RecipePage/RecipePage.component';
+import WithSpinner from './components/spiner/withSpiner.component';
 
+const RecipeWithSpinner=WithSpinner(RecipePage);
 
 class App extends React.Component{
 
@@ -19,19 +22,18 @@ class App extends React.Component{
 componentDidMount(){
   const {checkCurrentUser}=this.props
   checkCurrentUser();
-  
 }
   
   
   render(){
-    const {currentUser}=this.props;
+    const {currentUser, loadingRecipe}=this.props;
     return (
       <Fragment>
       <HeaderComponent/>
         <Switch>
           <Route exact path='/' render={() => currentUser ? (<Redirect to='/myrecipebox/myrecipes' />) : (<HomePage />)}/>
           <Route path='/myrecipebox/' render={() => currentUser ? <MyRecipeBoxPage/>: (<Redirect to='/' />)}/>
-          <Route path='/recipes/:recipe' component={RecipePage}/>
+          <Route path='/recipes/:recipe' render={()=><RecipeWithSpinner isloading={loadingRecipe}/>}/>
         </Switch>    
       </Fragment>
     );
@@ -42,7 +44,8 @@ componentDidMount(){
 
 const mapStateToProps = createStructuredSelector(
   {
-    currentUser: selectCurrentUser
+    currentUser: selectCurrentUser,
+    loadingRecipe: selectRecipeLoading
   }
 )
 
