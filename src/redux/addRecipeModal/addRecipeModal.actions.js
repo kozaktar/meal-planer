@@ -2,7 +2,7 @@ import AddRecipeModalTypes from './addRecipeModal.types'
 
 export const toggleAddRecipeDropdown=()=>(
     {
-        type: AddRecipeModalTypes
+        type: AddRecipeModalTypes.TOGGLE_ADDRECIPE_DROPDOWN
     }
 );
 

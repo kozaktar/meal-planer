@@ -6,7 +6,9 @@ const INITIAL_STATE={
 const AddRecipeModalReduce=(state=INITIAL_STATE, action)=>{
     switch(action.type){
         case AddRecipeModalTypes.TOGGLE_ADDRECIPE_DROPDOWN:
-            return {...state, add_recipe_modal_visible:!state.add_recipe_modal_visible}
+            return {...state, add_recipe_modal_visible:!state.add_recipe_modal_visible};
+        default:
+            return state
     }
 }
 

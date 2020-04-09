@@ -2,6 +2,7 @@ import {takeLatest, put,all, call} from 'redux-saga/effects';
 import RecipeActionTypes from './recipes.types';
 import axios from 'axios';
 import {fetchRecipesSuccess, fetchRecipesFailure, addRecipeSuccess, addRecipesFailure} from './recipes.actions';
+import toggleAddRecipeDropdown from '../addRecipeModal/addRecipeModal.actions';
 
 const recipesAPIpath='http://localhost:3001/recipes?limit=10'
 
@@ -43,6 +44,7 @@ function* AddRecipes({payload}){
     try{
         yield axios.post('http://localhost:3001/recipes',formData).then((response)=>console.log(response))
         yield put(addRecipeSuccess(payload))
+        yield put(toggleAddRecipeDropdown())
     }
     catch(error){
        yield put(addRecipesFailure(error.message))

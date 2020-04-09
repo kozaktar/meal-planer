@@ -7,7 +7,9 @@ import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import {addRecipeStart} from '../../redux/recipes/recipes.actions'
+import toggleAddRecipeDropdown from '../../redux/addRecipeModal/addRecipeModal.actions';
 import {selectRecipeAddingProgress, selectAddRecipeError } from '../../redux/recipes/recipes.selectors';
+import {selectAdd_Recipe_Modal_Visible} from '../../redux/addRecipeModal/addRecipeModal.selectors'
 import WithSpinner from '../spiner/withSpiner.component';
 import ErrorMessage from '../error-message/error-message';
 
@@ -157,7 +159,7 @@ const removeImage=()=>(
 )
 
 
-const AddRecipeForm=({onClose, currentUser, addRecipe, addingRecipeLoad, recipeError}) =>{
+const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,toggleAddRecipeDropdown}) =>{
 
   const [state, dispatch]= useReducer(reducer, initialState)
  
@@ -199,13 +201,6 @@ const AddRecipeForm=({onClose, currentUser, addRecipe, addingRecipeLoad, recipeE
 
     addRecipe(recipe)
 
-    if(!addingRecipeLoad && !recipeError){
-      onClose()
-    }
-       
-
-    
-
   }
 
     const classes=useStyles();
@@ -213,13 +208,13 @@ const AddRecipeForm=({onClose, currentUser, addRecipe, addingRecipeLoad, recipeE
      <div className={classes.root}>
       <ImageUpload onDrop={handleDrop} removeImages={removeImages}/>
       <div className={classes.form}>
-      <RecipeInputTabs onFormChange={handleFormChange} state={state} addDirections={()=>dispatch(addDirections())} deleteDirections={(value)=>dispatch(removeDirections(value))} addIngredient={()=>dispatch(addIngredients())} deleteIngredient={(value)=>dispatch(removeIngredients(value))} onClose={onClose}/>
+      <RecipeInputTabs onFormChange={handleFormChange} state={state} addDirections={()=>dispatch(addDirections())} deleteDirections={(value)=>dispatch(removeDirections(value))} addIngredient={()=>dispatch(addIngredients())} deleteIngredient={(value)=>dispatch(removeIngredients(value))}/>
      <div className={classes.buttonsGroup}>
        <ErrorMessage>{recipeError}</ErrorMessage>
      <ButtonWithSpinner isloading={addingRecipeLoad} variant="contained" size="large" color="primary" className={classes.margin} onClick={handleSubmit}>
           Add Recipe
       </ButtonWithSpinner>
-      <Button variant="contained" size="large" className={classes.cancelButton} onClick={onClose}>
+      <Button variant="contained" size="large" className={classes.cancelButton} onClick={()=>toggleAddRecipeDropdown()}>
           Cancel
       </Button>
      </div>
@@ -233,13 +228,15 @@ const AddRecipeForm=({onClose, currentUser, addRecipe, addingRecipeLoad, recipeE
     {
       currentUser: selectCurrentUser,
       addingRecipeLoad: selectRecipeAddingProgress,
-      recipeError: selectAddRecipeError
+      recipeError: selectAddRecipeError,
+      addRecipeDropdownVisible: selectAdd_Recipe_Modal_Visible
     }
   )
 
   const mapDispatchToProps = dispatch => (
     {
       addRecipe: (recipe)=>dispatch(addRecipeStart(recipe)),
+      toggleAddRecipeDropdown:()=>dispatch(toggleAddRecipeDropdown())
     }
   )
 

@@ -11,7 +11,8 @@ import { selectCurrentUser } from './../../redux/user/user.selectors';
 import { selectUserRecipes } from './../../redux/recipes/recipes.selectors';
 import RecipeCard from '../../components/recipe-card/RecipeCard';
 import Button from '@material-ui/core/Button';
-import {selectRecipeAddingProgress, selectAddRecipeError } from '../../redux/recipes/recipes.selectors';
+import {selectAdd_Recipe_Modal_Visible} from '../../redux/addRecipeModal/addRecipeModal.selectors';
+import toggleAddRecipeDropdown from '../../redux/addRecipeModal/addRecipeModal.actions';
 
 
 const useStyles = makeStyles(theme => ({
@@ -45,17 +46,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const MyRecipies =({recipes, addingRecipeLoad, recipeError})=>{
+const MyRecipies =({recipes, addRecipeVisible,toggleAddRecipeDropdown})=>{
 
-    
-const [open, setOpen] = React.useState(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
 
 const classes=useStyles();
 
@@ -69,12 +61,12 @@ return(
           color="primary"
           size="large"
           style={{marginLeft:'2vw'}}
-          onClick={handleOpen}
+          onClick={()=>toggleAddRecipeDropdown()}
           >
             Add Recipe 
           </Button>
-          <Modal title="Add New Recipe" handleClose={handleClose} open={open}>
-            <AddRecipeForm onClose={handleClose}/>
+          <Modal title="Add New Recipe" handleClose={toggleAddRecipeDropdown} open={addRecipeVisible}>
+            <AddRecipeForm onClose={toggleAddRecipeDropdown}/>
           </Modal>
         </Grid>
         
@@ -91,15 +83,15 @@ return(
 
 const mapDispatchToProps = dispatch => (
   {
-    getRecipes: (user)=>dispatch(fetchRecipesStart(user))
+    getRecipes: (user)=>dispatch(fetchRecipesStart(user)),
+    toggleAddRecipeDropdown: ()=>dispatch(toggleAddRecipeDropdown())
   }
 )
 
 const mapStateToProps=createStructuredSelector({
     currentUser: selectCurrentUser,
     recipes: selectUserRecipes,
-    addingRecipeLoad: selectRecipeAddingProgress,
-    recipeError: selectAddRecipeError
+    addRecipeVisible: selectAdd_Recipe_Modal_Visible
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(MyRecipies);
