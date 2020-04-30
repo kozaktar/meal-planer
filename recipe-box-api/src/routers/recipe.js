@@ -26,13 +26,14 @@ const upload = multer(
 //create recipe
 router.post('/recipes', upload.single('picture'), auth, async (req, res) => {
     let recipe=null
-    console.log('file:',req.body)
+    //let data=JSON.parse(req.body)
     console.log('file:',req.file)
+
     
     recipe = new Recipe({
         recipeTitle: req.body.recipeTitle,
-        recipeIngredients: req.body.ingredients,
-        recipeDirections: req.body.recipeDirections,
+        recipeIngredients: JSON.parse(req.body.recipeIngredients),
+        recipeDirections: JSON.parse(req.body.recipeDirections),
         owner: req.user.authID, //authID obtained from firebase auth api
         visibility: req.body.visibility,
         author: req.body.author,

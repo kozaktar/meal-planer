@@ -11,14 +11,14 @@ const recipeSchema=new mongoose.Schema({
         type: String,
         required: true
     },
-    recipeIngredients:{
-        type: Array,
+    recipeIngredients:[{
+        type: String,
         required: true
-    },
-    recipeDirections:{
-        type: Array,
+    }],
+    recipeDirections:[{
+        type: String,
         required: true,
-    },
+    }],
     owner:{
         type: String,
         required: true,

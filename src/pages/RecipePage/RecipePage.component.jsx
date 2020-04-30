@@ -6,17 +6,35 @@ import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './../../redux/user/user.selectors';
 import { selectUserRecipes } from './../../redux/recipes/recipes.selectors';
 import {withRouter} from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import TimelapseIcon from '@material-ui/icons/Timelapse';
+import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
+import IngredientList from '../../components/ingredient-list/IngredientList.component';
 
-const styles={
+
+const styles=makeStyles(
+    {
+    wrapper:{
+            display:'flex',
+            flexDirection:'row',
+            flexWrap:'wrap'
+    },
+    wrapperReverse:{
+        display:'flex',
+        flexDirection:'column-reverse',
+        flexWrap:'wrap'
+    },
     image:{
         display: 'block',
         marginLeft: 'auto',
         marginRight: 'auto',
-        maxWidth: '100%',
-        maxHeight: '100%'
+        maxWidth: '50%',
+        maxHeight: 'auto',
+        padding:'10px'
     },
     paper:{
         paddingLeft:'10px',
@@ -24,12 +42,28 @@ const styles={
     },
     author:{
         marginTop:'-20px',
-        marginBottom:'5vh'
+        marginBottom:'2vh'
+    },
+    grey:{
+        color:'grey'
+    },
+    portions:{
+        marginLeft:'40px'
+    },
+    timeAndPortions:{
+        marginTop:'30px',
+        fontSize:'24px'
+    },
+    gridComponent:{
+        maxWidth:'50%'
     }
-}
+
+    
+})
 
 const RecipePage=({currentUser,recipes, location})=>{
-
+    const matches = useMediaQuery('(max-width: 800px)');
+    const classes=styles();
     const recipeName=location.pathname.replace('/recipes/','');
     let recipe=null;
     if(currentUser){
@@ -42,23 +76,22 @@ const RecipePage=({currentUser,recipes, location})=>{
 
     return(
         <Container>
-            <Paper style={styles.paper}>
+            <Paper className={classes.paper}>
             <RecipePageHeader>{recipe.recipeTitle}</RecipePageHeader>
-        <Grid container spacing={3}>
-        <Grid item xs={12} sm={6} >
-            <p style={styles.author}>Recipe By:{recipe.author}</p>
-            <p>{`"${recipe.recipeDescription}"`}</p>
-
-        </Grid>
-        <Grid item xs={12} sm={6}>
-        <img src={`data:image;base64,${recipe.picture}`} alt="recipe" style={styles.image}/>
-
-        </Grid>
-        </Grid>
-
-            <Typography variant="body2" color="textSecondary" component="p">
-          {recipe.recipeDescription}
-            </Typography>
+            <div className={classes.author}><span className={classes.grey}>Recipe By: </span>{recipe.author}</div>
+            <div className={matches?classes.wrapperReverse:classes.wrapper}>
+                <div className={classes.gridComponent}>
+                     <div>{`"${recipe.recipeDescription}"`}</div>
+                     <Typography variant="h5">
+                        Ingredients:<span style={{marginLeft:'60px'}}><Tooltip title="Cooking Time"><AccessTimeIcon/></Tooltip> 4 hours <span className={classes.portions}><Tooltip title="Portions"><TimelapseIcon/></Tooltip> 5 Portions</span></span>
+                     </Typography>
+                     <IngredientList ingredients={recipe.recipeIngredients}/>
+                </div>
+                <img src={`data:image;base64,${recipe.picture}`} alt="recipe" className={classes.image}/>
+            </div>
+            
+           
+       
             </Paper>
         </Container>
     )

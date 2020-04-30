@@ -35,12 +35,12 @@ function* onRecipesAddStart(){
 function* AddRecipes({payload}){
     const formData=new FormData()
     yield formData.append('recipeTitle',payload.recipeTitle)
-    yield formData.append('recipeIngredients',payload.recipeIngredients)
-    yield formData.append('recipeDirections',payload.recipeDirections)
+    yield formData.append('recipeIngredients',JSON.stringify(payload.recipeIngredients))
+    yield formData.append('recipeDirections',JSON.stringify(payload.recipeDirections))
     yield formData.append('visibility',payload.visibility)
     yield formData.append( 'picture',payload.picture)
     yield formData.append('author',payload.author)
-    yield formData.append('recipeDescription',payload.recipeDescription,)
+    yield formData.append('recipeDescription',payload.recipeDescription)
     try{
         yield axios.post('http://localhost:3001/recipes',formData).then((response)=>console.log(response))
         yield put(addRecipeSuccess(payload))
