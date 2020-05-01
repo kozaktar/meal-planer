@@ -32,6 +32,12 @@ userSchema.virtual('recipes', {
     foreignField: 'owner'
 })
 
+userSchema.virtual('recipes', {
+    ref: 'ShopingList',
+    localField: 'authID',
+    foreignField: 'owner'
+})
+
 const User = mongoose.model('User', userSchema)
 
 module.exports = User
