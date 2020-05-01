@@ -2,6 +2,13 @@ import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
+const styles={
+    list:{
+        listStyleType:'none',
+        columnCount:'2',
+        columnWidth:'200px'
+    }
+}
 
 class IngredientList extends React.Component{
     constructor(props){
@@ -12,9 +19,8 @@ class IngredientList extends React.Component{
     }
 
     render(){
-        {console.log(this.props)}
         return(
-    <ul>
+    <ul style={styles.list}>
         {this.props.ingredients.map((ingredient, idx)=>(
         <li key={idx}>
             <IconButton>
