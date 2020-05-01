@@ -17,8 +17,6 @@ const RecipeWithSpinner=WithSpinner(RecipePage);
 
 class App extends React.Component{
 
-  unsubscribeFromAuth=null;
-
 componentDidMount(){
   const {checkCurrentUser}=this.props
   checkCurrentUser();

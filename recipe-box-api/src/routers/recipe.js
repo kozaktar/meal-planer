@@ -26,8 +26,7 @@ const upload = multer(
 //create recipe
 router.post('/recipes', upload.single('picture'), auth, async (req, res) => {
     let recipe=null
-    //let data=JSON.parse(req.body)
-    console.log('file:',req.file)
+    console.log('body:',req.body)
 
     
     recipe = new Recipe({

@@ -1,6 +1,8 @@
 import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import { connect } from 'react-redux';
+import {addToShopingList} from '../../redux/shopingList/shopingList.actions'
 
 const styles={
     list:{
@@ -10,28 +12,32 @@ const styles={
     }
 }
 
-class IngredientList extends React.Component{
-    constructor(props){
-        super(props);
-        this.state={
-            ingredients:this.props.ingredients
-        }
+
+const IngredientList=({ingredients,addIngredientToList})=>{
+    
+    const addIngredient=(idx)=>{
+        const item=ingredients[idx]
+        addIngredientToList(item);
     }
 
-    render(){
         return(
     <ul style={styles.list}>
-        {this.props.ingredients.map((ingredient, idx)=>(
+        {ingredients.map((ingredient, idx)=>(
         <li key={idx}>
-            <IconButton>
+            <IconButton onClick={()=>addIngredient(idx)}>
                 <AddCircleIcon/>
             </IconButton>
             {ingredient}
         </li>))}
     </ul>
         )
-    }
     
 }
 
-export default IngredientList
+const mapDispatchToProp=dispatch=>({
+    addIngredientToList: (ingredient)=>dispatch(addToShopingList(ingredient))
+})
+
+
+
+export default connect(null,mapDispatchToProp)(IngredientList)

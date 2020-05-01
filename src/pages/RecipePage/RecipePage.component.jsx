@@ -104,12 +104,8 @@ const RecipePage=({currentUser,recipes, location})=>{
                 </div>
                 <img src={`data:image;base64,${recipe.picture}`} alt="recipe" className={`${classes.image} ${matches?classes.fullWidth:classes.halfWidth}`}/>
             </div>
-            <div>
-                <Typography variant="h5" className={classes.heading}>
-                        Instructions:
-                </Typography>
-                <RecipeInstructions recipeDirections={recipe.recipeDirections}/>
-            </div>
+            <RecipeInstructions recipeDirections={recipe.recipeDirections}/>
+
             
            
        
