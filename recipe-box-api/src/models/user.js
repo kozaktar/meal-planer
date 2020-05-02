@@ -32,7 +32,7 @@ userSchema.virtual('recipes', {
     foreignField: 'owner'
 })
 
-userSchema.virtual('recipes', {
+userSchema.virtual('shopingList', {
     ref: 'ShopingList',
     localField: 'authID',
     foreignField: 'owner'

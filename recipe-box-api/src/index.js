@@ -2,7 +2,7 @@ const express=require('express');
 require('./db/mongoose');
 const userRout=require('./routers/user');
 const recipeRout=require('./routers/recipe');
-const recipePictureRoute=require('./routers/recipePicture')
+const shopingListRout=require('./routers/shopingList')
 const cors = require('cors');
 
 const app=express();
@@ -12,6 +12,7 @@ app.use(express.json());
 app.use(cors());
 app.use(userRout);
 app.use(recipeRout);
+app.use(shopingListRout);
 // app.use(recipePictureRoute);
 
 

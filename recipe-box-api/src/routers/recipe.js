@@ -70,6 +70,7 @@ router.get('/recipes', auth, async (req, res) => {
                 skip: parseInt(req.query.skip),
             }
         }).execPopulate()
+        console.log('user-->',req.user)
         res.send(req.user.recipes)
     } catch (e) {
         res.status(500).send()
