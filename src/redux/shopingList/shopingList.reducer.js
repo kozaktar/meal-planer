@@ -2,7 +2,7 @@ import ShopingListTypes from './shopingList.types';
 
 const INITAIL_STATE={
     shopingList:[],
-    loading:true,
+    loading:false,
     shopingListError:null
 }
 
