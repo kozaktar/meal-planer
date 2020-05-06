@@ -13,6 +13,7 @@ import MyRecipeBoxPage from './pages/MyRecipeBox/MyRecipeBoxPage.component';
 import RecipePage from './pages/RecipePage/RecipePage.component';
 import WithSpinner from './components/spiner/withSpiner.component';
 
+
 const RecipeWithSpinner=WithSpinner(RecipePage);
 
 class App extends React.Component{
@@ -21,7 +22,8 @@ componentDidMount(){
   const {checkCurrentUser}=this.props
   checkCurrentUser();
 }
-  
+
+
   
   render(){
     const {currentUser, loadingRecipe}=this.props;
@@ -43,14 +45,14 @@ componentDidMount(){
 const mapStateToProps = createStructuredSelector(
   {
     currentUser: selectCurrentUser,
-    loadingRecipe: selectRecipeLoading
+    loadingRecipe: selectRecipeLoading,
   }
 )
 
 const mapDispatchToProps = dispatch => (
   {
     checkCurrentUser: ()=>dispatch(checkUserSession()),
-    colapseSigninModal: ()=>dispatch(colapseSigninModal())
+    colapseSigninModal: ()=>dispatch(colapseSigninModal()),
   }
 )
 

@@ -3,8 +3,8 @@ import UserActionTypes from './user.types'
 import {auth,createUserProfileDocument, googleProvider, getCurrentUser} from '../../firebase/firebase.utils';
 import {signInSuccess, signInFailure, signOutFailure, signOutSuccess} from './user.actions';
 import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions';
-import {fetchRecipesStart} from '../recipes/recipes.actions';
-import {clearRecipes} from '../recipes/recipes.actions';
+import {fetchRecipesStart, clearRecipes} from '../recipes/recipes.actions';
+import {fetchShopingListStart} from '../shopingList/shopingList.actions'
 
 
 
@@ -15,7 +15,8 @@ export function* signInWithGoogle(){
         
         yield put(toggleDropdown());
         yield put(signInSuccess(user)); 
-        yield put(fetchRecipesStart(user.authID))      
+        yield put(fetchShopingListStart(user.authID));
+        yield put(fetchRecipesStart(user.authID));     
     }
     catch(error){
         yield put(signInFailure(error))
@@ -33,6 +34,7 @@ export function* signInWithEmail({payload:{email,password}}){
         
         yield put(toggleDropdown());
         yield put(signInSuccess(user));
+        yield put(fetchShopingListStart(user.authID));
         yield put(fetchRecipesStart(user.authID))        
     }
     catch(error){
@@ -65,6 +67,7 @@ function* isUserAuthenticated(){
         if(!userAuth) return;
         const user=yield createUserProfileDocument(userAuth);
         yield put(signInSuccess(user))
+        yield put(fetchShopingListStart(user.authID));
         yield put(fetchRecipesStart(user.authID)) 
     }
     catch(error){
