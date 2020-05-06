@@ -36,7 +36,7 @@ export const updateShopingListSuccess=()=>(
 
 export const updateShopingListFailure=(error)=>(
     {
-        type:ShopingListActionTypes,
+        type:ShopingListActionTypes.FETCH_ShopingList_FAILURE,
         payload:error
     }
 );

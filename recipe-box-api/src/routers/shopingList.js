@@ -28,7 +28,9 @@ router.get('/shoping-list', auth, async (req, res) => {
 })
 
 router.patch('/shoping-list', auth, async (req, res) => {
-    const updatedShopingList=JSON.parse(req.body.shopingList)
+    console.log('shoping list patch:->',req.body.shopingList)
+    const updatedShopingList=req.body.shopingList
+
     
     try {
         const shopingList = await ShopingList.findOne({ owner: req.user.authID})
@@ -37,11 +39,12 @@ router.patch('/shoping-list', auth, async (req, res) => {
         shopingList.list=updatedShopingList
 
         await shopingList.save()
-        res.status().send()
+        res.status(200).send()
         
 
     } catch (e) {
-        res.status(400).send(e)
+        res.status(500).send(e)
+        console.log(e)
     }
 
 })

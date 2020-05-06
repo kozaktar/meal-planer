@@ -23,7 +23,7 @@ function* UpdateShopingList({payload}){
         shopingList:payload
     }
     try{
-        yield axios.post(shopingListAPIpath,shopingListObj).then((response)=>console.log(response))
+        yield axios.patch(shopingListAPIpath,shopingListObj).then((response)=>console.log(response))
         yield put(updateShopingListSuccess(payload))
     }
     catch(error){
