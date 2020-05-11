@@ -7,6 +7,7 @@ import WithSpinner from '../../components/spiner/withSpiner.component'
 import { createStructuredSelector } from 'reselect';
 import { selectRecipeLoading, selectUserRecipes } from '../../redux/recipes/recipes.selectors';
 import {connect} from 'react-redux';
+import ShopingListPage from './../ShopingListPage/ShopingListPage.component';
 
 const MyRecipiesComponentWithSpinner=WithSpinner(MyRecipiesComponent);
 
@@ -28,7 +29,7 @@ const MyRecipeBoxPage=({recipesLoading, recipes})=>(
       <SideNavBar/>
     <div style={styles.fullPage}>
         <Route exact path={"/myrecipebox/myrecipes"} render={()=><MyRecipiesComponentWithSpinner isloading={recipesLoading}/>}/>
-        <Route exact path={"/myrecipebox/mygrocerylist"} component={'hello'}/>
+        <Route exact path={"/myrecipebox/mygrocerylist"} component={ShopingListPage}/>
     </div>
     </Container>
 )

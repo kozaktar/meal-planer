@@ -10,7 +10,7 @@ function* FetchShopingList({payload}){
         yield axios.defaults.headers.common['userID'] =payload 
         const shopingList=yield axios.get(shopingListAPIpath)
         
-        yield put(fetchShopingListSuccess(shopingList))
+        yield put(fetchShopingListSuccess(shopingList.data))
     }
     catch(error){
        yield put(fetchShopingListFailure(error))

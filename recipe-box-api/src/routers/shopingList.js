@@ -6,19 +6,18 @@ const auth=require('../middleware/auth');
 router.get('/shoping-list', auth, async (req, res) => {
     try{
     let shopingList = await ShopingList.findOne({ owner: req.user.authID})
-    console.log('shopping list: ', shopingList)
+    console.log('shopping list!!!!!!!: ', shopingList)
 
     if (!shopingList) {
-        console.log('here!!!')
         shopingList=new ShopingList({
             shopingList:[], //for now just creates an empty shopping list
             owner: req.user.authID
         })
         await shopingList.save()
-        res.status(201).send()
+        res.status(201).send([])
     }
     else{
-        res.status(201).send(shopingList.ShopingList)
+        res.status(201).send(shopingList.list)
     }
 
 } catch (e) {

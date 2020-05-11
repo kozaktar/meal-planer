@@ -47,3 +47,10 @@ export const addToShopingList=(item)=>(
         payload:item
     }
 );
+
+export const removeFromShopingList=(list)=>(
+    {
+        type:ShopingListActionTypes.REMOVE_FROM_ShopingList,
+        payload:list
+    }
+)
