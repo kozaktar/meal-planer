@@ -27,16 +27,24 @@ componentDidMount(){
   
   render(){
     const {currentUser, loadingRecipe}=this.props;
-    return (
+    if(currentUser)
+      return (
       <Fragment>
       <HeaderComponent/>
         <Switch>
-          <Route exact path='/' render={() => currentUser ? (<Redirect to='/myrecipebox/myrecipes' />) : (<HomePage />)}/>
-          <Route path='/myrecipebox/' render={() => currentUser ? <MyRecipeBoxPage/>: (<Redirect to='/' />)}/>
+          <Route exact path='/' render={() =>  <Redirect to='/myrecipebox/myrecipes' />}/>
+          <Route path='/myrecipebox/' render={() => <MyRecipeBoxPage/>}/>
           <Route path='/recipes/:recipe' render={()=><RecipeWithSpinner isloading={loadingRecipe}/>}/>
         </Switch>    
       </Fragment>
     );
+    else
+        return (
+          <Fragment>
+            <HeaderComponent/>
+            <HomePage/>
+          </Fragment>
+        )
 
   }
  

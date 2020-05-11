@@ -40,13 +40,15 @@ class ShopingList extends React.Component{
                 key={item}
                 control={
                   <Checkbox
-                    checked={this.state.item}
                     onChange={this.handleChange}
                     name={item}
                     color="primary"
                   />
                 }
                 label={item}
+                style={{
+                    textDecoration: this.state[item]? 'line-through': null
+                }}
               />
             ))}
             </FormGroup>
