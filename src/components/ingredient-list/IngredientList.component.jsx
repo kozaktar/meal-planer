@@ -22,17 +22,15 @@ class IngredientList extends React.Component{
         super();
     }
 
-    componentWillUnmount(){
-        const {updateShopingList, shopingList}=this.props;
-        updateShopingList(shopingList);
-    }
-
-   
     
     addIngredient=(idx)=>{
-        const {ingredients, addIngredientToList}=this.props
+        const {ingredients, addIngredientToList, updateShopingList, shopingList}=this.props
         const item=ingredients[idx]
+        if(!shopingList.includes(item)){
         addIngredientToList(item);
+        shopingList.push(item)
+        updateShopingList(shopingList);
+        }
     }
 
     render(){

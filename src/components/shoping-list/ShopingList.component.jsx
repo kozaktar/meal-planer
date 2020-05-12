@@ -6,6 +6,10 @@ import {removeFromShopingList} from '../../redux/shopingList/shopingList.actions
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import Button from '@material-ui/core/Button';
+import {updateShopingListStart} from '../../redux/shopingList/shopingList.actions';
+
+Array.prototype.diff=function(array2){return this.filter(x=>!array2.includes(x))};
 
 const styles={
     list:{
@@ -22,6 +26,13 @@ class ShopingList extends React.Component{
                 ...obj, [item]:false
             }
         }, {})
+    }
+
+    removeCompletedItems=()=>{
+        const itemsToRemove=Object.keys(this.state).filter(item=>this.state[item])
+        const newList=this.props.userShopingList.diff(itemsToRemove)
+        this.props.removeFromList(newList)
+        this.props.updateShopingList(newList)
     }
     
     handleChange=(event)=>{
@@ -52,6 +63,7 @@ class ShopingList extends React.Component{
               />
             ))}
             </FormGroup>
+            <Button variant="contained" size="small" color="primary" style={{marginLeft:'30px', marginTop:'10px'}} onClick={this.removeCompletedItems}>Remove</Button>
         </div>
         )
     }
@@ -62,7 +74,8 @@ const mapStateToProps=createStructuredSelector({
 
 const mapDispatchToPros=dispatch=>(
     {
-        removeFromList: (list)=>dispatch(removeFromShopingList(list))
+        removeFromList: (list)=>dispatch(removeFromShopingList(list)),
+        updateShopingList:(list)=>dispatch(updateShopingListStart(list))
     }
 )
 export default connect(mapStateToProps, mapDispatchToPros)(ShopingList);
