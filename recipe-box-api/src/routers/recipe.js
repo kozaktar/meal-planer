@@ -71,7 +71,22 @@ router.get('/recipes', auth, async (req, res) => {
             }
         }).execPopulate()
         console.log('user-->',req.user)
+
+        const titles= await Recipe.find({owner: req.user.authID}, {recipeTitle: 1})
+        console.log('titles:', titles)
         res.send(req.user.recipes)
+    } catch (e) {
+        res.status(500).send()
+    }
+})
+
+//send all user's recipe titles for search
+router.get('/recipes/mytitles', auth, async (req, res) => {
+
+    try {
+      const titles= await Recipe.find({owner: req.user.authID}, {recipeTitle: 1})
+        console.log('titles:', titles)
+        res.send(titles)
     } catch (e) {
         res.status(500).send()
     }

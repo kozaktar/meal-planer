@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const styles=makeStyles(
     {
     paper:{
-        height:'92vh',
+        height:'91vh',
         padding:'20px'
     },
     title:{

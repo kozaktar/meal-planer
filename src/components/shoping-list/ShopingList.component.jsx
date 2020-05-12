@@ -39,7 +39,7 @@ class ShopingList extends React.Component{
     render(){
         const {userShopingList}=this.props
         return(
-        <div>
+        <div style={{marginLeft:'20px', marginTop:'20px'}}>
             <FormGroup>
             {userShopingList.map(item=>(
                 <FormControlLabel

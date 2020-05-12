@@ -42,7 +42,7 @@ const styles=makeStyles(
     paper:{
         paddingLeft:'10px',
         paddingRight:'10px',
-        height:'92vh'
+        minHeight:'92vh'
 
     },
     author:{

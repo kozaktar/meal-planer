@@ -1,10 +1,11 @@
 import {takeLatest, put,all, call} from 'redux-saga/effects';
 import RecipeActionTypes from './recipes.types';
 import axios from 'axios';
-import {fetchRecipesSuccess, fetchRecipesFailure, addRecipeSuccess, addRecipesFailure} from './recipes.actions';
+import {fetchRecipesSuccess, fetchRecipesFailure, addRecipeSuccess, addRecipesFailure, fetchUserRecipeTitlesFailure, fetchUserRecipeTitlesSuccess} from './recipes.actions';
 import toggleAddRecipeDropdown from '../addRecipeModal/addRecipeModal.actions';
 
 const recipesAPIpath='http://localhost:3001/recipes?limit=10'
+const userRecipesTitlesAPIpath='http://localhost:3001/recipes/mytitles'
 
 
 function* FetchRecipes({payload}){
@@ -24,8 +25,26 @@ function* FetchRecipes({payload}){
 
 }
 
+function* FetchUserRecipeTitles({payload}){
+    try{
+        yield axios.defaults.headers.common['userID'] =payload 
+        const recipeTitles=yield axios.get(userRecipesTitlesAPIpath)
+        //convert images to basse 64
+    
+        yield put(fetchUserRecipeTitlesSuccess(recipeTitles))
+    }
+    catch(error){
+       yield put(fetchUserRecipeTitlesFailure(error))
+    }
+
+}
+
 function* onRecipesFetchStart(){
     yield takeLatest(RecipeActionTypes.FETCH_RECIPES_START, FetchRecipes)
+}
+
+function* onUserRecipeTitlesFetchStart(){
+    yield takeLatest(RecipeActionTypes.FETCH_USER_RECIPES_TITLES_START, FetchUserRecipeTitles)
 }
 
 function* onRecipesAddStart(){
@@ -55,6 +74,6 @@ function* AddRecipes({payload}){
 
 
 export function* recipeSagas(){
-    yield all([call(onRecipesFetchStart), call(onRecipesAddStart)])
+    yield all([call(onRecipesFetchStart), call(onRecipesAddStart), call(onUserRecipeTitlesFetchStart)])
 }
 
