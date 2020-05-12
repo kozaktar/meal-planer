@@ -41,7 +41,9 @@ const styles=makeStyles(
     },
     paper:{
         paddingLeft:'10px',
-        paddingRight:'10px'
+        paddingRight:'10px',
+        height:'92vh'
+
     },
     author:{
         marginTop:'-20px',
@@ -105,10 +107,6 @@ const RecipePage=({currentUser,recipes, location})=>{
                 <img src={`data:image;base64,${recipe.picture}`} alt="recipe" className={`${classes.image} ${matches?classes.fullWidth:classes.halfWidth}`}/>
             </div>
             <RecipeInstructions recipeDirections={recipe.recipeDirections}/>
-
-            
-           
-       
             </Paper>
         </Container>
     )

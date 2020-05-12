@@ -1,10 +1,31 @@
 import React from 'react';
-import ShopingList from '../../components/shoping-list/ShopingList.component' 
+import ShopingList from '../../components/shoping-list/ShopingList.component'
+import Container from '@material-ui/core/Container'; 
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
 
-const ShopingListPage=()=>(
-    <div>
+const styles=makeStyles(
+    {
+    paper:{
+        height:'92vh',
+        padding:'20px'
+    },
+    title:{
+        textAlign:'center',
+        },
+})
+
+const ShopingListPage=()=>{
+    const classes=styles();
+
+    return (
+    <Container>
+        <Paper className={classes.paper}>
+        <Typography variant="h4" className={classes.title}>Shoping List</Typography>
         <ShopingList/>
-    </div>
-)
+        </Paper>
+    </Container>
+)}
 
 export default ShopingListPage;

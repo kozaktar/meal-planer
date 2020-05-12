@@ -9,13 +9,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import {updateShopingListStart} from '../../redux/shopingList/shopingList.actions';
 
+//find the difference between 2 arrays
 Array.prototype.diff=function(array2){return this.filter(x=>!array2.includes(x))};
-
-const styles={
-    list:{
-        marginLeft:'200px'
-    }
-}
 
 class ShopingList extends React.Component{
 
@@ -44,7 +39,7 @@ class ShopingList extends React.Component{
     render(){
         const {userShopingList}=this.props
         return(
-        <div style={styles.list}>
+        <div>
             <FormGroup>
             {userShopingList.map(item=>(
                 <FormControlLabel
@@ -63,7 +58,11 @@ class ShopingList extends React.Component{
               />
             ))}
             </FormGroup>
-            <Button variant="contained" size="small" color="primary" style={{marginLeft:'30px', marginTop:'10px'}} onClick={this.removeCompletedItems}>Remove</Button>
+            {console.log('length:',Object.keys(this.state).length)}
+            {
+                this.props.userShopingList.length>0?<Button variant="contained" size="small" color="primary" style={{marginLeft:'30px', marginTop:'10px'}} onClick={this.removeCompletedItems}>Remove</Button>:null
+            }
+            
         </div>
         )
     }
