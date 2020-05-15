@@ -31,7 +31,7 @@ function* FetchUserRecipeTitles({payload}){
         const recipeTitles=yield axios.get(userRecipesTitlesAPIpath)
         //convert images to basse 64
     
-        yield put(fetchUserRecipeTitlesSuccess(recipeTitles))
+        yield put(fetchUserRecipeTitlesSuccess(recipeTitles.data))
     }
     catch(error){
        yield put(fetchUserRecipeTitlesFailure(error))

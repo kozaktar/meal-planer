@@ -26,3 +26,8 @@ export const selectUserRecipes=createSelector(
     [selectRecipes],
     recipes=>recipes.recipes
 )
+
+export const selectUserRecipesTitles=createSelector(
+    [selectRecipes],
+    recipes=>recipes.userRecipesTitles
+)
