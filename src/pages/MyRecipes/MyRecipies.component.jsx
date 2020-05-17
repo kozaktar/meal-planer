@@ -13,14 +13,16 @@ import RecipeCard from '../../components/recipe-card/RecipeCard';
 import Button from '@material-ui/core/Button';
 import {selectAdd_Recipe_Modal_Visible} from '../../redux/addRecipeModal/addRecipeModal.selectors';
 import toggleAddRecipeDropdown from '../../redux/addRecipeModal/addRecipeModal.actions';
-
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import IconButton from '@material-ui/core/IconButton';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     marginRight:'10px',
     maxWidth: '92vw',
-    marginLeft:'50px',
+    marginLeft:'60px',
     textAlign:'center'
   },
   paper: {
@@ -40,14 +42,20 @@ const useStyles = makeStyles(theme => ({
     border:'dashed 3px #E0E0E0'
   },
   addButton:{
-    display:'block',
-    margin:'auto',
-    marginTop:70
+    [theme.breakpoints.down('sm')]:{
+      marginLeft:'-5px'
+    }
+  },
+    addIcon:{
+      fontSize:  40,
+      [theme.breakpoints.down('sm')]:{
+      fontSize: 35
+    }
   }
+    
 }));
 
 const MyRecipies =({recipes, addRecipeVisible,toggleAddRecipeDropdown})=>{
-
 
 const classes=useStyles();
 
@@ -56,7 +64,7 @@ return(
       <Grid container spacing={1}>
         <Grid item xs={12} className={classes.alignItemsAndJustifyContent}>
           <SearchBar/>
-          <Button
+          {/* <Button
           variant="contained"
           color="primary"
           size="large"
@@ -64,7 +72,11 @@ return(
           onClick={()=>toggleAddRecipeDropdown()}
           >
             Add Recipe 
-          </Button>
+          </Button> */}
+          <IconButton className={classes.addButton} onClick={()=>toggleAddRecipeDropdown()}>
+             <AddCircleIcon color="primary" className={classes.addIcon}/>
+          </IconButton>
+
           <Modal title="Add New Recipe" handleClose={toggleAddRecipeDropdown} open={addRecipeVisible}>
             <AddRecipeForm onClose={toggleAddRecipeDropdown}/>
           </Modal>
