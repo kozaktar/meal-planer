@@ -40,15 +40,24 @@ const SearchBar=({recipeTitles})=>{
     const classes = useStyles();
 
     const [searchQuery, setSearchQuery]= useState('');
+    const [queryEntered, setQueryEntered]= useState(false);
 
     const handleSubmit=(event)=>{
       event.preventDefault();
-      console.log('query', )
+      console.log('query', searchQuery)
     }
 
 
-    const handleChange=(event)=>{
-      setSearchQuery(event.target.value)
+    const handleChange=(event, newValue)=>{
+        setSearchQuery(newValue)
+      
+    }
+
+    const handleQueryChange=(event)=>{
+      if(event.target.value.length>0)
+        setQueryEntered(true)
+      else
+        setQueryEntered(false)
     }
 
         return(
@@ -57,16 +66,19 @@ const SearchBar=({recipeTitles})=>{
               <SearchIcon style={{marginLeft:"10px", color:'grey'}}/>
               
               <Autocomplete
+                value={searchQuery}
+                onChange={handleChange}
                 className={classes.input}
                 id="free-solo-demo"
                 freeSolo
-                options={searchQuery.length>0?recipeTitles.map((option) => option.recipeTitle):[]}
+                open={queryEntered}
+                options={recipeTitles.map((option) => option.recipeTitle)}
                 renderInput={(params) => (
                   <TextField {...params}
-                  onChange={handleChange}
                   placeholder="Search Recipes"
                   margin="none"
                   id='searchValue'
+                  onChange={handleQueryChange}
                   InputProps={{ ...params.InputProps, type: 'search', disableUnderline: true}}
                   
                 />
