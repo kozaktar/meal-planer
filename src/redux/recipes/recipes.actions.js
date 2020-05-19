@@ -21,6 +21,28 @@ export const fetchRecipesFailure=(error)=>(
     }
 );
 
+export const fetchSearchedRecipesStart=(user)=>(
+    {
+        type:RecipeActionTypes.FETCH_SEARCHED_RECIPES_START,
+        payload:user
+    }
+);
+
+export const fetchSearchedRecipesSuccess=(recipes)=>(
+    {
+        type:RecipeActionTypes.FETCH_SEARCHED_RECIPES_SUCCESS,
+        payload:recipes
+    }
+);
+
+export const fetchSearchedRecipesFailure=(error)=>(
+    {
+        type:RecipeActionTypes.FETCH_SEARCHED_RECIPES_FAILURE,
+        payload:error
+    }
+);
+
+
 export const fetchUserRecipeTitlesStart=(user)=>(
     {
         type:RecipeActionTypes.FETCH_USER_RECIPES_TITLES_START,

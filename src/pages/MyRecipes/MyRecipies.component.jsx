@@ -10,12 +10,10 @@ import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './../../redux/user/user.selectors';
 import { selectUserRecipes } from './../../redux/recipes/recipes.selectors';
 import RecipeCard from '../../components/recipe-card/RecipeCard';
-import Button from '@material-ui/core/Button';
 import {selectAdd_Recipe_Modal_Visible} from '../../redux/addRecipeModal/addRecipeModal.selectors';
 import toggleAddRecipeDropdown from '../../redux/addRecipeModal/addRecipeModal.actions';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import IconButton from '@material-ui/core/IconButton';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -42,8 +40,12 @@ const useStyles = makeStyles(theme => ({
     border:'dashed 3px #E0E0E0'
   },
   addButton:{
+    '&:hover': {
+      backgroundColor: 'transparent'
+   },
     [theme.breakpoints.down('sm')]:{
-      marginLeft:'-5px'
+      marginLeft:'-10px',
+      
     }
   },
     addIcon:{
@@ -73,7 +75,7 @@ return(
           >
             Add Recipe 
           </Button> */}
-          <IconButton className={classes.addButton} onClick={()=>toggleAddRecipeDropdown()}>
+          <IconButton className={classes.addButton} onClick={()=>toggleAddRecipeDropdown()} >
              <AddCircleIcon color="primary" className={classes.addIcon}/>
           </IconButton>
 

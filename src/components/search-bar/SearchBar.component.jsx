@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
       padding:'6px'
     },
     iconButton: {
-      padding: 10,
+      padding: 5,
     },
     
   }));
@@ -40,7 +40,7 @@ const SearchBar=({recipeTitles})=>{
     const classes = useStyles();
 
     const [searchQuery, setSearchQuery]= useState('');
-    const [queryEntered, setQueryEntered]= useState(false);
+    const [textFieldValue, settextFieldValue]= useState(null);
 
     const handleSubmit=(event)=>{
       event.preventDefault();
@@ -50,14 +50,10 @@ const SearchBar=({recipeTitles})=>{
 
     const handleChange=(event, newValue)=>{
         setSearchQuery(newValue)
-      
     }
 
-    const handleQueryChange=(event)=>{
-      if(event.target.value.length>0)
-        setQueryEntered(true)
-      else
-        setQueryEntered(false)
+    const textFieldChange=(event)=>{
+      settextFieldValue(event.target.value)
     }
 
         return(
@@ -71,14 +67,13 @@ const SearchBar=({recipeTitles})=>{
                 className={classes.input}
                 id="free-solo-demo"
                 freeSolo
-                open={queryEntered}
-                options={recipeTitles.map((option) => option.recipeTitle)}
+                options={textFieldValue?recipeTitles.map((option) => option.recipeTitle):[]}
                 renderInput={(params) => (
                   <TextField {...params}
                   placeholder="Search Recipes"
+                  onChange={textFieldChange}
                   margin="none"
                   id='searchValue'
-                  onChange={handleQueryChange}
                   InputProps={{ ...params.InputProps, type: 'search', disableUnderline: true}}
                   
                 />

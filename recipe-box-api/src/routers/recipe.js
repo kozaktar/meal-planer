@@ -109,6 +109,28 @@ router.get('/recipes/:id', auth, async (req, res) => {
     }
 })
 
+router.get('/recipes/search/:term', async (req, res) => {
+    const term = req.params.term
+    const searchTerm = new RegExp(`\\b${term}\\b`,'i');
+    console.log('term:', searchTerm)
+    if(req.header('userID')){
+        try {
+            console.log('trying')
+            const recipe = await Recipe.find({ recipeTitle: {"$regex": searchTerm}, owner: req.header('userID') })
+            console.log('recipe:', recipe)
+            if (!recipe) {
+                return res.status(404).send()
+            }
+    
+            res.send(recipe)
+        } catch (e) {
+            console.log(e)
+            res.status(500).send()
+        }
+    }
+    
+})
+
 router.patch('/recipes/:id', auth, async (req, res) => {
     const updates = Object.keys(req.body)
     const allowedUpdates = ['recipeTitle', 'recipeIngredients', 'recipeDirections', 'visibility', 'picture']

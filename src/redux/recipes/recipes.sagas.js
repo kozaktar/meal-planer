@@ -6,11 +6,30 @@ import toggleAddRecipeDropdown from '../addRecipeModal/addRecipeModal.actions';
 
 const recipesAPIpath='http://localhost:3001/recipes?limit=10'
 const userRecipesTitlesAPIpath='http://localhost:3001/recipes/mytitles'
+const recipeSearchApiPath='http://localhost:3001/recipes/mytitles'
 
 
 function* FetchRecipes({payload}){
     try{
         yield axios.defaults.headers.common['userID'] =payload 
+        const recipes=yield axios.get(recipesAPIpath)
+        //convert images to basse 64
+        const convertedImgRecipes=recipes.data.map(recipe=>{if(recipe.picture){
+            recipe.picture=new Buffer(recipe.picture).toString('base64')
+            return recipe
+        }})
+        yield put(fetchRecipesSuccess(convertedImgRecipes))
+    }
+    catch(error){
+       yield put(fetchRecipesFailure(error))
+    }
+
+}
+
+function* FetchSearchedRecipes({payload}){
+    try{
+        yield axios.defaults.headers.common['userID'] = payload[user]
+
         const recipes=yield axios.get(recipesAPIpath)
         //convert images to basse 64
         const convertedImgRecipes=recipes.data.map(recipe=>{if(recipe.picture){
@@ -41,6 +60,10 @@ function* FetchUserRecipeTitles({payload}){
 
 function* onRecipesFetchStart(){
     yield takeLatest(RecipeActionTypes.FETCH_RECIPES_START, FetchRecipes)
+}
+
+function* onSearchRecipesFetchStart(){
+    yield takeLatest(RecipeActionTypes.FETCH_SEARCHED_RECIPES_START, FetchSearchedRecipes)
 }
 
 function* onUserRecipeTitlesFetchStart(){

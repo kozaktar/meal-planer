@@ -8,7 +8,8 @@ const INITIAL_STATE={
     addingRecipe:false, //true when uploading recipe in progress
     userRecipesTitles:[],
     fetchingRecipeTitles: false,
-    fetchingRecipeTitlesError:null
+    fetchingRecipeTitlesError:null,
+    searchResults:[]
 }
 
 const recipesReducer=(state=INITIAL_STATE,action)=>{
