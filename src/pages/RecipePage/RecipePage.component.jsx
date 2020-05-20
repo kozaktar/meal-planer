@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Container from '@material-ui/core/Container';
 import RecipePageHeader from './RecipePageHeader.component';
 import {connect} from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './../../redux/user/user.selectors';
-import { selectUserRecipes } from './../../redux/recipes/recipes.selectors';
+import { selectCurrentRecipe } from './../../redux/recipes/recipes.selectors';
 import {withRouter} from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,10 +15,18 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import IngredientList from '../../components/ingredient-list/IngredientList.component';
 import RecipeInstructions from '../../components/recipeInstructions/RecipeInstructions.component';
+import { fetchRecipeByIDStart} from '../../redux/recipes/recipes.actions'
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 
 const styles=makeStyles(
     {
+    spinerStyle:{
+        position: 'fixed', /* or absolute */
+        top: '50%',
+        left: '50%',
+          },
     wrapper:{
             display:'flex',
             flexDirection:'row',
@@ -74,20 +82,30 @@ const styles=makeStyles(
     
 })
 
-const RecipePage=({currentUser,recipes, location})=>{
+const RecipePage=({ location, fetchRecipe, currentUser, recipe})=>{
+   // const recipeID=location.pathname.replace('/recipes/','');
+    
     const matches = useMediaQuery('(max-width: 800px)');
     const classes=styles();
-    const recipeName=location.pathname.replace('/recipes/','');
-    let recipe=null;
-    if(currentUser){
-        recipe=recipes.find(({recipeTitle})=>recipeTitle===recipeName);
-    }
-    else{
-        //grab the recipe from the database for public view --to be used for sharing recipes--
-        console.log('else close is exectured')
-    }
+    useEffect(() => {
+        
+        fetchRecipe('5eac4756b4b60d51bceb5dbb')
 
-    return(
+        console.log('useEffect')
+      }, [])
+
+    if(recipe){  
+    let picture=null;
+    
+   
+    
+
+        if(recipe.picture.type === 'Buffer'){
+            picture=`data:image;base64,${new Buffer(recipe.picture).toString('base64')}`
+          }
+
+   
+     return (
         <Container>
             <Paper className={classes.paper}>
             <RecipePageHeader>{recipe.recipeTitle}</RecipePageHeader>
@@ -104,17 +122,25 @@ const RecipePage=({currentUser,recipes, location})=>{
                      </Typography>
                      <IngredientList ingredients={recipe.recipeIngredients}/>
                 </div>
-                <img src={`data:image;base64,${recipe.picture}`} alt="recipe" className={`${classes.image} ${matches?classes.fullWidth:classes.halfWidth}`}/>
+                <img src={picture} alt="recipe" className={`${classes.image} ${matches?classes.fullWidth:classes.halfWidth}`}/>
             </div>
             <RecipeInstructions recipeDirections={recipe.recipeDirections}/>
             </Paper>
         </Container>
     )
+     }
+ else return <CircularProgress className={classes.spinerStyle}/>
 }
 
 const mapStateToProps=createStructuredSelector({
     currentUser: selectCurrentUser,
-    recipes: selectUserRecipes
+    recipe: selectCurrentRecipe
 })
 
-export default connect(mapStateToProps)(withRouter(RecipePage))
+const mapDispatchToProps=dispatch=>(
+    {
+        fetchRecipe:(id)=>dispatch(fetchRecipeByIDStart(id))
+    }
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecipePage)

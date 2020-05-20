@@ -1,24 +1,24 @@
-import {takeLatest, put,all, call} from 'redux-saga/effects';
+import {takeLatest, put,all, call, take} from 'redux-saga/effects';
 import RecipeActionTypes from './recipes.types';
 import axios from 'axios';
-import {fetchRecipesSuccess, fetchRecipesFailure, addRecipeSuccess, addRecipesFailure, fetchUserRecipeTitlesFailure, fetchUserRecipeTitlesSuccess} from './recipes.actions';
+import {fetchRecipesSuccess, fetchRecipesFailure, addRecipeSuccess, addRecipesFailure, fetchUserRecipeTitlesFailure, fetchUserRecipeTitlesSuccess, fetchSearchedRecipesSuccess, fetchSearchedRecipesFailure, fetchRecipeByIDSuccess, fetchRecipesByIDFailure} from './recipes.actions';
 import toggleAddRecipeDropdown from '../addRecipeModal/addRecipeModal.actions';
 
-const recipesAPIpath='http://localhost:3001/recipes?limit=10'
-const userRecipesTitlesAPIpath='http://localhost:3001/recipes/mytitles'
-const recipeSearchApiPath='http://localhost:3001/recipes/mytitles'
+const recipesAPIpath='http://localhost:3001/recipes'
+
 
 
 function* FetchRecipes({payload}){
     try{
+        const path=recipesAPIpath+'?limit=10'
         yield axios.defaults.headers.common['userID'] =payload 
-        const recipes=yield axios.get(recipesAPIpath)
+        const recipes=yield axios.get(path)
         //convert images to basse 64
-        const convertedImgRecipes=recipes.data.map(recipe=>{if(recipe.picture){
-            recipe.picture=new Buffer(recipe.picture).toString('base64')
-            return recipe
-        }})
-        yield put(fetchRecipesSuccess(convertedImgRecipes))
+        // const convertedImgRecipes=recipes.data.map(recipe=>{if(recipe.picture){
+        //     recipe.picture=new Buffer(recipe.picture).toString('base64')
+        //     return recipe
+        // }})
+        yield put(fetchRecipesSuccess(recipes.data))
     }
     catch(error){
        yield put(fetchRecipesFailure(error))
@@ -28,26 +28,35 @@ function* FetchRecipes({payload}){
 
 function* FetchSearchedRecipes({payload}){
     try{
-        yield axios.defaults.headers.common['userID'] = payload[user]
-
-        const recipes=yield axios.get(recipesAPIpath)
-        //convert images to basse 64
-        const convertedImgRecipes=recipes.data.map(recipe=>{if(recipe.picture){
-            recipe.picture=new Buffer(recipe.picture).toString('base64')
-            return recipe
-        }})
-        yield put(fetchRecipesSuccess(convertedImgRecipes))
+        const path=recipesAPIpath+'/search/'+payload
+        const recipes=yield axios.get(path)
+        
+        yield put(fetchSearchedRecipesSuccess(recipes.data))
     }
     catch(error){
-       yield put(fetchRecipesFailure(error))
+       yield put(fetchSearchedRecipesFailure(error))
     }
 
 }
 
+function* FetchRecipeById({payload}){
+    const path=recipesAPIpath+'/ID/'+payload
+    try{
+        const recipe=yield axios.get(path)
+        yield put(fetchRecipeByIDSuccess(recipe.data))
+    }
+    catch(error){
+       yield put(fetchRecipesByIDFailure(error))
+    }
+
+}
+
+
 function* FetchUserRecipeTitles({payload}){
+    const path=recipesAPIpath+'/mytitles/'
     try{
         yield axios.defaults.headers.common['userID'] =payload 
-        const recipeTitles=yield axios.get(userRecipesTitlesAPIpath)
+        const recipeTitles=yield axios.get(path)
         //convert images to basse 64
     
         yield put(fetchUserRecipeTitlesSuccess(recipeTitles.data))
@@ -74,6 +83,10 @@ function* onRecipesAddStart(){
     yield takeLatest(RecipeActionTypes.ADD_RECIPES_START, AddRecipes)
 }
 
+function* onRecipeByIDFetchStart(){
+    yield takeLatest(RecipeActionTypes.FETCH_RECIPE_BY_ID_START, FetchRecipeById)
+}
+
 function* AddRecipes({payload}){
     const formData=new FormData()
     yield formData.append('recipeTitle',payload.recipeTitle)
@@ -97,6 +110,6 @@ function* AddRecipes({payload}){
 
 
 export function* recipeSagas(){
-    yield all([call(onRecipesFetchStart), call(onRecipesAddStart), call(onUserRecipeTitlesFetchStart)])
+    yield all([call(onRecipesFetchStart), call(onRecipesAddStart), call(onUserRecipeTitlesFetchStart), call(onSearchRecipesFetchStart), call(onRecipeByIDFetchStart)])
 }
 

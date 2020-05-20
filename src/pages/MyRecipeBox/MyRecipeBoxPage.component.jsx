@@ -24,7 +24,7 @@ const styles={
     }
 }
 
-const MyRecipeBoxPage=({recipesLoading, recipes})=>(
+const MyRecipeBoxPage=({recipesLoading})=>(
     <Container maxWidth="xl">
       <SideNavBar/>
     <div style={styles.fullPage}>

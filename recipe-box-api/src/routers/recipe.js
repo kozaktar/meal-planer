@@ -57,7 +57,7 @@ router.post('/recipes', upload.single('picture'), auth, async (req, res) => {
 //GET all user's recipes with pagination
 // GET /recipes?limit=10&skip=20
 //match can be used to filter out reicpes (feature to be implemented later)
-router.get('/recipes', auth, async (req, res) => {
+router.get('/recipes/', auth, async (req, res) => {
     console.log("user", req.user)
     const match = {}
 
@@ -93,11 +93,12 @@ router.get('/recipes/mytitles', auth, async (req, res) => {
 })
 
 
-router.get('/recipes/:id', auth, async (req, res) => {
+router.get('/recipes/id/:id', async (req, res) => {
     const _id = req.params.id
+    console.log('single recipe:', req.body)
 
     try {
-        const recipe = await Recipe.findOne({ _id, owner: req.user.authID })
+        const recipe = await Recipe.findOne({ _id })
 
         if (!recipe) {
             return res.status(404).send()
@@ -112,14 +113,12 @@ router.get('/recipes/:id', auth, async (req, res) => {
 router.get('/recipes/search/:term', async (req, res) => {
     const term = req.params.term
     const searchTerm = new RegExp(`\\b${term}\\b`,'i');
-    console.log('term:', searchTerm)
+    console.log('searchTerm:', searchTerm)
     if(req.header('userID')){
         try {
-            console.log('trying')
-            const recipe = await Recipe.find({ recipeTitle: {"$regex": searchTerm}, owner: req.header('userID') })
-            console.log('recipe:', recipe)
-            if (!recipe) {
-                return res.status(404).send()
+            let recipe = await Recipe.find({ recipeTitle: {"$regex": searchTerm}, owner: req.header('userID') })
+            if (recipe.length<1) {
+                recipe=['No reipes found']
             }
     
             res.send(recipe)

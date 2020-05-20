@@ -8,12 +8,14 @@ import {connect} from 'react-redux';
 import {fetchRecipesStart} from '../../redux/recipes/recipes.actions';
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './../../redux/user/user.selectors';
-import { selectUserRecipes } from './../../redux/recipes/recipes.selectors';
+import { selectUserRecipes, selectSearchResults } from './../../redux/recipes/recipes.selectors';
 import RecipeCard from '../../components/recipe-card/RecipeCard';
 import {selectAdd_Recipe_Modal_Visible} from '../../redux/addRecipeModal/addRecipeModal.selectors';
 import toggleAddRecipeDropdown from '../../redux/addRecipeModal/addRecipeModal.actions';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import IconButton from '@material-ui/core/IconButton';
+import RecipeDisplay from '../../components/recipeDisplay/RecipeDisplay.component';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -57,9 +59,11 @@ const useStyles = makeStyles(theme => ({
     
 }));
 
-const MyRecipies =({recipes, addRecipeVisible,toggleAddRecipeDropdown})=>{
+const MyRecipies =({recipes, addRecipeVisible,toggleAddRecipeDropdown, searchResults})=>{
 
 const classes=useStyles();
+
+
 
 return(
   <div className={classes.root}>
@@ -83,11 +87,7 @@ return(
             <AddRecipeForm onClose={toggleAddRecipeDropdown}/>
           </Modal>
         </Grid>
-        
-        { recipes.map(item=>(<Grid item key={item._id}>
-            <RecipeCard recipe={item}/>
-          </Grid>)
-        )}
+        <RecipeDisplay/>
         
       </Grid>
   </div>
@@ -105,7 +105,8 @@ const mapDispatchToProps = dispatch => (
 const mapStateToProps=createStructuredSelector({
     currentUser: selectCurrentUser,
     recipes: selectUserRecipes,
-    addRecipeVisible: selectAdd_Recipe_Modal_Visible
+    addRecipeVisible: selectAdd_Recipe_Modal_Visible,
+    searchResults: selectSearchResults
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(MyRecipies);

@@ -9,21 +9,35 @@ const INITIAL_STATE={
     userRecipesTitles:[],
     fetchingRecipeTitles: false,
     fetchingRecipeTitlesError:null,
-    searchResults:[]
+    searchResults:[],
+    recipeSearching:false,
+    recipeSearchError:null,
+    recipePageRecipe:null,
+    recipePageLoading:false
 }
 
 const recipesReducer=(state=INITIAL_STATE,action)=>{
     switch(action.type){
         case RecipeActionTypes.FETCH_RECIPES_START:
             return {...state, loading:true};
+        case RecipeActionTypes.FETCH_RECIPE_BY_ID_START:
+            return {...state, recipePageLoading:true};
+        case RecipeActionTypes.FETCH_SEARCHED_RECIPES_START:
+            return {...state, recipeSearching:true};    
         case RecipeActionTypes.FETCH_USER_RECIPES_TITLES_START:
             return {...state, fetchingRecipeTitles:true};
         case RecipeActionTypes.FETCH_USER_RECIPES_TITLES_SUCCESS:
-            return {...state, userRecipesTitles:action.payload, fetchingRecipeTitles:false};        
+            return {...state, userRecipesTitles:action.payload, fetchingRecipeTitles:false};    
+        case RecipeActionTypes.FETCH_SEARCHED_RECIPES_SUCCESS:
+            return {...state, searchResults:action.payload, recipeSearching:false};            
         case RecipeActionTypes.ADD_RECIPES_START:
             return {...state, addingRecipe:true}
         case RecipeActionTypes.FETCH_RECIPES_SUCCESS:
             return {...state, loading:false, recipes:[...state.recipes , ...action.payload], recipesError:null}; 
+            
+        case RecipeActionTypes.FETCH_RECIPE_BY_ID_SUCCESS:
+            return {...state, recipePageLoading:false, recipePageRecipe:action.payload};
+        
         case RecipeActionTypes.ADD_RECIPES_SUCCESS:
             {
                 const newRecipe=action.payload;
@@ -35,7 +49,9 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
         case RecipeActionTypes.ADD_RECIPES_FAILURE:
             return {...state, addingRecipeError:action.payload, addingRecipe:false};
         case RecipeActionTypes.FETCH_USER_RECIPES_TITLES_FAILURE:
-            return {...state, fetchingRecipeTitlesError:action.payload, fetchingRecipeTitles:false};    
+            return {...state, fetchingRecipeTitlesError:action.payload, fetchingRecipeTitles:false};   
+        case RecipeActionTypes.FETCH_SEARCHED_RECIPES_FAILURE:
+            return {...state, recipeSearchError:action.payload, recipeSearching:false};     
         case RecipeActionTypes.CLEAR_RECIPES:
             return {...state, recipes:[]}
         default:

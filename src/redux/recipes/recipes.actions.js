@@ -21,10 +21,31 @@ export const fetchRecipesFailure=(error)=>(
     }
 );
 
-export const fetchSearchedRecipesStart=(user)=>(
+export const fetchRecipeByIDStart=(id)=>(
+    {
+        type:RecipeActionTypes.FETCH_RECIPE_BY_ID_START,
+        payload:id
+    }
+);
+
+export const fetchRecipeByIDSuccess=(recipes)=>(
+    {
+        type:RecipeActionTypes.FETCH_RECIPE_BY_ID_SUCCESS,
+        payload:recipes
+    }
+);
+
+export const fetchRecipesByIDFailure=(error)=>(
+    {
+        type:RecipeActionTypes.FETCH_RECIPE_BY_ID_FAILURE,
+        payload:error
+    }
+);
+
+export const fetchSearchedRecipesStart=(searchString)=>(
     {
         type:RecipeActionTypes.FETCH_SEARCHED_RECIPES_START,
-        payload:user
+        payload:searchString
     }
 );
 

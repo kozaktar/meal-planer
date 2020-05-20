@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { checkUserSession } from './redux/user/user.actions';
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './redux/user/user.selectors';
-import {selectRecipeLoading} from './redux/recipes/recipes.selectors';
+import {selectLoadingRecipePage} from './redux/recipes/recipes.selectors';
 import {colapseSigninModal} from './redux/sign-in-modal/sign-in-modal.actions';
 import MyRecipeBoxPage from './pages/MyRecipeBox/MyRecipeBoxPage.component';
 import RecipePage from './pages/RecipePage/RecipePage.component';
@@ -34,7 +34,7 @@ componentDidMount(){
         <Switch>
           <Route exact path='/' render={() =>  <Redirect to='/myrecipebox/myrecipes' />}/>
           <Route path='/myrecipebox/' render={() => <MyRecipeBoxPage/>}/>
-          <Route path='/recipes/:recipe' render={()=><RecipeWithSpinner isloading={loadingRecipe}/>}/>
+          <Route path='/recipes/:recipe' render={()=><RecipeWithSpinner isloading={false}/>}/>
         </Switch>    
       </Fragment>
     );
@@ -53,7 +53,7 @@ componentDidMount(){
 const mapStateToProps = createStructuredSelector(
   {
     currentUser: selectCurrentUser,
-    loadingRecipe: selectRecipeLoading,
+    loadingRecipe: selectLoadingRecipePage,
   }
 )
 

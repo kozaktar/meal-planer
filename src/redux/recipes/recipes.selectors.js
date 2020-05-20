@@ -31,3 +31,23 @@ export const selectUserRecipesTitles=createSelector(
     [selectRecipes],
     recipes=>recipes.userRecipesTitles
 )
+
+export const selectSearchResults=createSelector(
+    [selectRecipes],
+    recipes=>recipes.searchResults
+)
+
+export const selectSearchLoading=createSelector(
+    [selectRecipes],
+    recipes=>recipes.recipeSearching
+);
+
+export const selectCurrentRecipe=createSelector(
+    [selectRecipes],
+    recipes=>recipes.recipePageRecipe
+);
+
+export const selectLoadingRecipePage=createSelector(
+    [selectRecipes],
+    recipes=>recipes.recipePageLoading
+);

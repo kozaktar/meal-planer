@@ -13,6 +13,7 @@ import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 import {selectUserRecipesTitles} from '../../redux/recipes/recipes.selectors'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import {fetchSearchedRecipesStart} from './../../redux/recipes/recipes.actions';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -36,7 +37,7 @@ const useStyles = makeStyles(theme => ({
     
   }));
 
-const SearchBar=({recipeTitles})=>{
+const SearchBar=({recipeTitles, searchStart})=>{
     const classes = useStyles();
 
     const [searchQuery, setSearchQuery]= useState('');
@@ -44,16 +45,18 @@ const SearchBar=({recipeTitles})=>{
 
     const handleSubmit=(event)=>{
       event.preventDefault();
-      console.log('query', searchQuery)
+      searchStart(searchQuery);
     }
 
 
     const handleChange=(event, newValue)=>{
         setSearchQuery(newValue)
+        console.log('auto change')
     }
 
     const textFieldChange=(event)=>{
       settextFieldValue(event.target.value)
+      console.log('txt change')
     }
 
         return(
@@ -90,4 +93,10 @@ const mapStateToProps=createStructuredSelector(
   }
 )
 
-export default connect(mapStateToProps)(SearchBar)
+const mapDispatchToProps=dispatch=>(
+  {
+  searchStart:(searchString)=>dispatch(fetchSearchedRecipesStart(searchString))
+}
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBar)
