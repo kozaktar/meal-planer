@@ -47,7 +47,8 @@ export const selectCurrentRecipe=createSelector(
     recipes=>recipes.recipePageRecipe
 );
 
-export const selectLoadingRecipePage=createSelector(
+
+export const selectSearchQuery=createSelector(
     [selectRecipes],
-    recipes=>recipes.recipePageLoading
+    recipes=>recipes.searchQuery
 );

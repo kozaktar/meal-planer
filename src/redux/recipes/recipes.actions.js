@@ -111,3 +111,9 @@ export const clearRecipes=()=>(
         type:RecipeActionTypes.CLEAR_RECIPES
     }
 );
+
+export const clearSearchQuery=()=>(
+    {
+        type:RecipeActionTypes.CLEAR_SEARCH_QUERY
+    }
+);

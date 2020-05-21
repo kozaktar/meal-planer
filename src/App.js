@@ -14,7 +14,7 @@ import RecipePage from './pages/RecipePage/RecipePage.component';
 import WithSpinner from './components/spiner/withSpiner.component';
 
 
-const RecipeWithSpinner=WithSpinner(RecipePage);
+
 
 class App extends React.Component{
 
@@ -26,7 +26,7 @@ componentDidMount(){
 
   
   render(){
-    const {currentUser, loadingRecipe}=this.props;
+    const {currentUser}=this.props;
     if(currentUser)
       return (
       <Fragment>
@@ -34,7 +34,7 @@ componentDidMount(){
         <Switch>
           <Route exact path='/' render={() =>  <Redirect to='/myrecipebox/myrecipes' />}/>
           <Route path='/myrecipebox/' render={() => <MyRecipeBoxPage/>}/>
-          <Route path='/recipes/:recipe' render={()=><RecipeWithSpinner isloading={false}/>}/>
+          <Route path='/recipes/:recipe' render={()=><RecipePage/>}/>
         </Switch>    
       </Fragment>
     );
@@ -53,7 +53,6 @@ componentDidMount(){
 const mapStateToProps = createStructuredSelector(
   {
     currentUser: selectCurrentUser,
-    loadingRecipe: selectLoadingRecipePage,
   }
 )
 

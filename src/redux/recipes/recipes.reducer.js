@@ -9,11 +9,11 @@ const INITIAL_STATE={
     userRecipesTitles:[],
     fetchingRecipeTitles: false,
     fetchingRecipeTitlesError:null,
+    searchQuery:null,
     searchResults:[],
     recipeSearching:false,
     recipeSearchError:null,
     recipePageRecipe:null,
-    recipePageLoading:false
 }
 
 const recipesReducer=(state=INITIAL_STATE,action)=>{
@@ -23,7 +23,7 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
         case RecipeActionTypes.FETCH_RECIPE_BY_ID_START:
             return {...state, recipePageLoading:true};
         case RecipeActionTypes.FETCH_SEARCHED_RECIPES_START:
-            return {...state, recipeSearching:true};    
+            return {...state, recipeSearching:true, searchQuery:action.payload};    
         case RecipeActionTypes.FETCH_USER_RECIPES_TITLES_START:
             return {...state, fetchingRecipeTitles:true};
         case RecipeActionTypes.FETCH_USER_RECIPES_TITLES_SUCCESS:
@@ -34,16 +34,13 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
             return {...state, addingRecipe:true}
         case RecipeActionTypes.FETCH_RECIPES_SUCCESS:
             return {...state, loading:false, recipes:[...state.recipes , ...action.payload], recipesError:null}; 
-            
+
         case RecipeActionTypes.FETCH_RECIPE_BY_ID_SUCCESS:
             return {...state, recipePageLoading:false, recipePageRecipe:action.payload};
         
-        case RecipeActionTypes.ADD_RECIPES_SUCCESS:
-            {
-                const newRecipe=action.payload;
-                newRecipe._id=Math.round(Math.random() * 100)
-                return {...state, addingRecipe:false, recipes:[ newRecipe, ...state.recipes,], addingRecipeError:null}; 
-            }    
+        case RecipeActionTypes.ADD_RECIPES_SUCCESS: 
+            return {...state, addingRecipe:false, recipes:[ action.payload, ...state.recipes,], addingRecipeError:null}; 
+
         case RecipeActionTypes.FETCH_RECIPES_FAILURE:
             return {...state, recipesError:action.payload, loading:false};
         case RecipeActionTypes.ADD_RECIPES_FAILURE:
@@ -53,7 +50,10 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
         case RecipeActionTypes.FETCH_SEARCHED_RECIPES_FAILURE:
             return {...state, recipeSearchError:action.payload, recipeSearching:false};     
         case RecipeActionTypes.CLEAR_RECIPES:
-            return {...state, recipes:[]}
+            return {...state, recipes:[]};
+         
+        case RecipeActionTypes.CLEAR_SEARCH_QUERY:
+            return {...state, searchQuery:null, searchResults:[]}
         default:
             return state;  
     }

@@ -97,7 +97,7 @@ function* AddRecipes({payload}){
     yield formData.append('author',payload.author)
     yield formData.append('recipeDescription',payload.recipeDescription)
     try{
-        yield axios.post('http://localhost:3001/recipes',formData).then((response)=>console.log(response))
+        yield axios.post('http://localhost:3001/recipes',formData).then((response)=>payload=response.data)
         yield put(addRecipeSuccess(payload))
         yield put(toggleAddRecipeDropdown())
     }

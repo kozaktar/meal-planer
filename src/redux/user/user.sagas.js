@@ -88,7 +88,7 @@ function* signUp({payload:{email,confirmEmail,password,confirmPassword,username}
     
             }
         else{
-            throw "Mismatch! Check your entries."
+            throw new Error("Mismatch! Check your entries.")
         }
     }
     catch(error){

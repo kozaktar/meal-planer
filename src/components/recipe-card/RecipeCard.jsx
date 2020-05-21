@@ -4,7 +4,6 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import {connect} from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -14,7 +13,10 @@ import {withRouter} from 'react-router-dom';
 const useStyles = makeStyles(theme => ({
   root: {
     maxWidth: '90vw',
-    minWidth: 275
+    minWidth: 375,
+    [theme.breakpoints.down('sm')]:{
+      minWidth: 250,
+    }
   },
   media: {
     height: 0,
@@ -23,16 +25,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const RecipeCard=({recipe, history})=>{
-  let picture=null;
   const classes = useStyles();
 
   const handleActionAreaClick = () => {
     history.push(`/recipes/${recipe._id}`)
   };
 
-  if(recipe.picture.type === 'Buffer'){
-    picture=`data:image;base64,${new Buffer(recipe.picture).toString('base64')}`
-  }
+  const picture=`data:image;base64,${new Buffer(recipe.picture).toString('base64')}`
+   
     
   return (
     <Card className={classes.root}>

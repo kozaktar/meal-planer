@@ -9,7 +9,6 @@ import {fetchRecipesStart} from '../../redux/recipes/recipes.actions';
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './../../redux/user/user.selectors';
 import { selectUserRecipes, selectSearchResults } from './../../redux/recipes/recipes.selectors';
-import RecipeCard from '../../components/recipe-card/RecipeCard';
 import {selectAdd_Recipe_Modal_Visible} from '../../redux/addRecipeModal/addRecipeModal.selectors';
 import toggleAddRecipeDropdown from '../../redux/addRecipeModal/addRecipeModal.actions';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -59,7 +58,7 @@ const useStyles = makeStyles(theme => ({
     
 }));
 
-const MyRecipies =({recipes, addRecipeVisible,toggleAddRecipeDropdown, searchResults})=>{
+const MyRecipies =({ addRecipeVisible,toggleAddRecipeDropdown, searchResults})=>{
 
 const classes=useStyles();
 
@@ -67,7 +66,7 @@ const classes=useStyles();
 
 return(
   <div className={classes.root}>
-      <Grid container spacing={1}>
+      <Grid container spacing={2}>
         <Grid item xs={12} className={classes.alignItemsAndJustifyContent}>
           <SearchBar/>
           {/* <Button

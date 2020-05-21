@@ -83,27 +83,18 @@ const styles=makeStyles(
 })
 
 const RecipePage=({ location, fetchRecipe, currentUser, recipe})=>{
-   // const recipeID=location.pathname.replace('/recipes/','');
+   const recipeID=location.pathname.replace('/recipes/','');
     
     const matches = useMediaQuery('(max-width: 800px)');
     const classes=styles();
     useEffect(() => {
-        
-        fetchRecipe('5eac4756b4b60d51bceb5dbb')
+        fetchRecipe(recipeID)
+      }, [recipeID, fetchRecipe])
 
-        console.log('useEffect')
-      }, [])
+    if(recipe && recipe._id===recipeID){  //check if recipe is not null and recipe id is = to id in the url (ensurse that the presiously viewed recipe doesnt briefly flash on the screen)
 
-    if(recipe){  
-    let picture=null;
-    
-   
-    
 
-        if(recipe.picture.type === 'Buffer'){
-            picture=`data:image;base64,${new Buffer(recipe.picture).toString('base64')}`
-          }
-
+    const picture=`data:image;base64,${new Buffer(recipe.picture).toString('base64')}`
    
      return (
         <Container>
@@ -143,4 +134,4 @@ const mapDispatchToProps=dispatch=>(
     }
 )
 
-export default connect(mapStateToProps, mapDispatchToProps)(RecipePage)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(RecipePage))

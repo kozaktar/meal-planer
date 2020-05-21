@@ -43,8 +43,6 @@ router.post('/recipes', upload.single('picture'), auth, async (req, res) => {
         recipe.picture=req.file.buffer
     }
 
-
-
     try {
         await recipe.save()
         res.status(201).send(recipe)
