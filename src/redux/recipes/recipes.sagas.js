@@ -10,14 +10,10 @@ const recipesAPIpath='http://localhost:3001/recipes'
 
 function* FetchRecipes({payload}){
     try{
-        const path=recipesAPIpath+'?limit=10'
+        const path=recipesAPIpath+'?limit= 10'
         yield axios.defaults.headers.common['userID'] =payload 
         const recipes=yield axios.get(path)
-        //convert images to basse 64
-        // const convertedImgRecipes=recipes.data.map(recipe=>{if(recipe.picture){
-        //     recipe.picture=new Buffer(recipe.picture).toString('base64')
-        //     return recipe
-        // }})
+       
         yield put(fetchRecipesSuccess(recipes.data))
     }
     catch(error){

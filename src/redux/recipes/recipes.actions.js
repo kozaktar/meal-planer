@@ -16,7 +16,7 @@ export const fetchRecipesSuccess=(recipes)=>(
 
 export const fetchRecipesFailure=(error)=>(
     {
-        type:RecipeActionTypes.FETCH_RECIPES_SUCCESS,
+        type:RecipeActionTypes.FETCH_RECIPES_FAILURE,
         payload:error
     }
 );

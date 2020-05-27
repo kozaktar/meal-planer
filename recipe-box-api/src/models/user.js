@@ -26,11 +26,6 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-userSchema.virtual('recipes', {
-    ref: 'Recipe',
-    localField: 'authID',
-    foreignField: 'owner'
-})
 
 userSchema.virtual('shopingList', {
     ref: 'ShopingList',

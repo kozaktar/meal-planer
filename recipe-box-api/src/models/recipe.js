@@ -22,7 +22,6 @@ const recipeSchema=new mongoose.Schema({
     owner:{
         type: String,
         required: true,
-        ref:'User'
     },
     visibility:{
         type: String,
@@ -35,6 +34,10 @@ const recipeSchema=new mongoose.Schema({
         type: String,
         required: true
     },
+    users:[{
+        type: String,
+        required: true
+    }]
 })
 
 const Recipe=mongoose.model('Recipe', recipeSchema);

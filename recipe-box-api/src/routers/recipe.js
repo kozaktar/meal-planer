@@ -36,7 +36,8 @@ router.post('/recipes', upload.single('picture'), auth, async (req, res) => {
         owner: req.user.authID, //authID obtained from firebase auth api
         visibility: req.body.visibility,
         author: req.body.author,
-        recipeDescription: req.body.recipeDescription
+        recipeDescription: req.body.recipeDescription,
+        users: [req.user.authID]
     })
     
     if(req.file){
@@ -58,23 +59,19 @@ router.post('/recipes', upload.single('picture'), auth, async (req, res) => {
 router.get('/recipes/', auth, async (req, res) => {
     console.log("user", req.user)
     const match = {}
+    //const limit=parseInt(req.query.limit)
+    const limit=parseInt(req.query.limit)
+    
 
     try {
-        await req.user.populate({
-            path: 'recipes',
-            match,
-            options: {
-                limit: parseInt(req.query.limit),
-                skip: parseInt(req.query.skip),
-            }
-        }).execPopulate()
+        const UserRecipes= await Recipe.find({users: req.user.authID}).sort({_id:1}).skip(req.query.skip).limit(limit)
         console.log('user-->',req.user)
 
-        const titles= await Recipe.find({owner: req.user.authID}, {recipeTitle: 1})
-        console.log('titles:', titles)
-        res.send(req.user.recipes)
+        console.log('Recipes sending:', UserRecipes)
+        res.status(201).send(UserRecipes)
     } catch (e) {
-        res.status(500).send()
+        console.log(e)
+        res.status(500).send(e)
     }
 })
 
