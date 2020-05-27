@@ -12,8 +12,8 @@ import {clearSearchQuery} from '../../redux/recipes/recipes.actions';
 
 const useStyles = makeStyles(theme => ({
     notFoundTxt:{
-        marginLeft:30,
-        marginTop:40
+        marginLeft:-250,
+        marginTop:80
     },
     searchHeading:{
         textAlign:'left',
@@ -42,8 +42,17 @@ const RecipeDisplay=({recipes, searchResults, queryString, clearQuery})=>{
     const classes=useStyles();
 
     if(searchResults.length>0){
-        if(searchResults[0]==='No reipes found')
-            return <Typography className={classes.notFoundTxt} variant='h6'>No reipes found</Typography>
+        if(searchResults[0]==='No recipes found')
+            return(
+            <> 
+            <div className={classes.searchHeading}>Search results for: 
+                        <span className={classes.queryString} >{queryString}</span>
+                        <IconButton size='small' onClick={clearQuery}>
+                            <CancelIcon fontSize='small'/>
+                        </IconButton>
+            </div>
+            <Typography className={classes.notFoundTxt} variant='h6'>No recipes found</Typography>
+            </>)
         else
             return ( 
                    <div>

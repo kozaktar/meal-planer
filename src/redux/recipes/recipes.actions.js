@@ -117,3 +117,24 @@ export const clearSearchQuery=()=>(
         type:RecipeActionTypes.CLEAR_SEARCH_QUERY
     }
 );
+
+export const deleteRecipeStart=(recipeID)=>(
+    {
+        type:RecipeActionTypes.DELETE_RECIPE_START,
+        payload:recipeID
+    }
+);
+
+export const deleteRecipeSuccess=(recipeID)=>(
+    {
+        type:RecipeActionTypes.DELETE_RECIPE_SUCCESS,
+        payload:recipeID
+    }
+);
+
+export const deleteRecipeFailure=(error)=>(
+    {
+        type:RecipeActionTypes.DELETE_RECIPE_FAILURE,
+        payload:error
+    }
+);

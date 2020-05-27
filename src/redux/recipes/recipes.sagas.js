@@ -1,7 +1,7 @@
-import {takeLatest, put,all, call, take} from 'redux-saga/effects';
+import {takeLatest, put,all, call} from 'redux-saga/effects';
 import RecipeActionTypes from './recipes.types';
 import axios from 'axios';
-import {fetchRecipesSuccess, fetchRecipesFailure, addRecipeSuccess, addRecipesFailure, fetchUserRecipeTitlesFailure, fetchUserRecipeTitlesSuccess, fetchSearchedRecipesSuccess, fetchSearchedRecipesFailure, fetchRecipeByIDSuccess, fetchRecipesByIDFailure} from './recipes.actions';
+import {fetchRecipesSuccess, fetchRecipesFailure, addRecipeSuccess, addRecipesFailure, fetchUserRecipeTitlesFailure, fetchUserRecipeTitlesSuccess, fetchSearchedRecipesSuccess, fetchSearchedRecipesFailure, fetchRecipeByIDSuccess, fetchRecipesByIDFailure, deleteRecipeSuccess, deleteRecipeFailure} from './recipes.actions';
 import toggleAddRecipeDropdown from '../addRecipeModal/addRecipeModal.actions';
 
 const recipesAPIpath='http://localhost:3001/recipes'
@@ -83,6 +83,10 @@ function* onRecipeByIDFetchStart(){
     yield takeLatest(RecipeActionTypes.FETCH_RECIPE_BY_ID_START, FetchRecipeById)
 }
 
+function* onRecipeDeleteStart(){
+    yield takeLatest(RecipeActionTypes.DELETE_RECIPE_START, DeleteRecipe)
+}
+
 function* AddRecipes({payload}){
     const formData=new FormData()
     yield formData.append('recipeTitle',payload.recipeTitle)
@@ -103,9 +107,22 @@ function* AddRecipes({payload}){
 
 }
 
+function* DeleteRecipe({payload}){
+    const path=recipesAPIpath+'/'+payload
+    console.log('delete patha: ',path)
+    try{
+       const recipeID=yield axios.delete(path)
+        yield put(deleteRecipeSuccess(recipeID.data))
+    }
+    catch(error){
+       yield put(deleteRecipeFailure(error.message))
+    }
+
+}
+
 
 
 export function* recipeSagas(){
-    yield all([call(onRecipesFetchStart), call(onRecipesAddStart), call(onUserRecipeTitlesFetchStart), call(onSearchRecipesFetchStart), call(onRecipeByIDFetchStart)])
+    yield all([call(onRecipesFetchStart), call(onRecipesAddStart), call(onUserRecipeTitlesFetchStart), call(onSearchRecipesFetchStart), call(onRecipeByIDFetchStart), call(onRecipeDeleteStart)])
 }
 

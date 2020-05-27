@@ -90,7 +90,6 @@ router.get('/recipes/mytitles', auth, async (req, res) => {
 
 router.get('/recipes/id/:id', async (req, res) => {
     const _id = req.params.id
-    console.log('single recipe:', req.body)
 
     try {
         const recipe = await Recipe.findOne({ _id })
@@ -99,7 +98,7 @@ router.get('/recipes/id/:id', async (req, res) => {
             return res.status(404).send()
         }
 
-        res.send(recipe)
+        res.status(201).send(recipe)
     } catch (e) {
         res.status(500).send()
     }
@@ -111,9 +110,9 @@ router.get('/recipes/search/:term', async (req, res) => {
     console.log('searchTerm:', searchTerm)
     if(req.header('userID')){
         try {
-            let recipe = await Recipe.find({ recipeTitle: {"$regex": searchTerm}, owner: req.header('userID') })
+            let recipe = await Recipe.find({ recipeTitle: {"$regex": searchTerm}, users: req.header('userID') })
             if (recipe.length<1) {
-                recipe=['No reipes found']
+                recipe=['No recipes found']
             }
     
             res.send(recipe)
@@ -153,15 +152,23 @@ router.patch('/recipes/:id', auth, async (req, res) => {
     }
 })
 
-router.delete('/recipe/:id', auth, async (req, res) => {
+router.delete('/recipes/:id', auth, async (req, res) => {
+    console.log('delete request')
     try {
-        const recipe = await Recipe.findOneAndDelete({ _id: req.params.id, owner: req.user._id })
+        const recipe = await Recipe.findOne({ _id: req.params.id})
+        if(recipe.users.length<2){
+            await Recipe.deleteOne({ _id: req.params.id})
+        }
+        else{
+            await Recipe.updateOne({_id: req.params.id}, {$pull:{users: req.user.authID}})
+
+        }
 
         if (!recipe) {
             res.status(404).send()
         }
 
-        res.send(recipe)
+        res.send(recipe._id)
     } catch (e) {
         res.status(500).send()
     }

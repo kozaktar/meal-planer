@@ -5,9 +5,10 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-
+import CardActions from '@material-ui/core/CardActions';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import {withRouter} from 'react-router-dom';
+import DeleteRecipeButton from '../delete-recipe-button/DeleteRecipeButton.component'
 
 
 const useStyles = makeStyles(theme => ({
@@ -21,6 +22,13 @@ const useStyles = makeStyles(theme => ({
   media: {
     height: 0,
     paddingTop: '56.25%', // 16:9
+  },
+  cardActions:{
+    padding:0, 
+    display: 'flex',
+    justifyContent:'flex-end',
+    background: '#fafffb',
+    paddingRight:15,
   }
 }));
 
@@ -55,25 +63,10 @@ const RecipeCard=({recipe, history})=>{
       </CardContent>
       
       </CardActionArea>
-      {/* </Link> */}
-      {/* <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton>
-      </CardActions> --actions to add later: delete, hsare*/ } 
+    
+      <CardActions disableSpacing className={classes.cardActions}>
+        <DeleteRecipeButton id={recipe._id}/>
+      </CardActions>
     </Card>
   );
 }

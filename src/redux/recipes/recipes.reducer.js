@@ -11,9 +11,13 @@ const INITIAL_STATE={
     fetchingRecipeTitlesError:null,
     searchQuery:null,
     searchResults:[],
-    recipeSearching:false,
-    recipeSearchError:null,
+    recipeDisplayLoading:false,
+    recipeDisplayError:null,
     recipePageRecipe:null,
+    recipePageLoading:false,
+    recipePageError:null,
+    deletingRecipesInProgress:false,
+    delitingRecipesError:null
 }
 
 const recipesReducer=(state=INITIAL_STATE,action)=>{
@@ -23,13 +27,21 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
         case RecipeActionTypes.FETCH_RECIPE_BY_ID_START:
             return {...state, recipePageLoading:true};
         case RecipeActionTypes.FETCH_SEARCHED_RECIPES_START:
-            return {...state, recipeSearching:true, searchQuery:action.payload};    
+            return {...state, recipeDisplayLoading:true, searchQuery:action.payload};    
         case RecipeActionTypes.FETCH_USER_RECIPES_TITLES_START:
             return {...state, fetchingRecipeTitles:true};
+        case RecipeActionTypes.DELETE_RECIPE_START:
+            return {...state, deletingRecipesInProgress:true};
         case RecipeActionTypes.FETCH_USER_RECIPES_TITLES_SUCCESS:
             return {...state, userRecipesTitles:action.payload, fetchingRecipeTitles:false};    
         case RecipeActionTypes.FETCH_SEARCHED_RECIPES_SUCCESS:
-            return {...state, searchResults:action.payload, recipeSearching:false};            
+            return {...state, searchResults:action.payload, recipeDisplayLoading:false};
+            
+        case RecipeActionTypes.DELETE_RECIPE_SUCCESS:{
+            const newRecipesArr=state.recipes.filter(item=>item._id!==action.payload)
+            return {...state, recipes: newRecipesArr, deletingRecipesInProgress:false};    
+        }
+                        
         case RecipeActionTypes.ADD_RECIPES_START:
             return {...state, addingRecipe:true}
         case RecipeActionTypes.FETCH_RECIPES_SUCCESS:
@@ -48,10 +60,13 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
         case RecipeActionTypes.FETCH_USER_RECIPES_TITLES_FAILURE:
             return {...state, fetchingRecipeTitlesError:action.payload, fetchingRecipeTitles:false};   
         case RecipeActionTypes.FETCH_SEARCHED_RECIPES_FAILURE:
-            return {...state, recipeSearchError:action.payload, recipeSearching:false};     
+            return {...state, recipeDisplayError:action.payload, recipeDisplayLoading:false};
+        case RecipeActionTypes.DELETE_RECIPE_FAILURE:
+            return {...state, delitingRecipesError:action.payload, loading:false};
+
         case RecipeActionTypes.CLEAR_RECIPES:
             return {...state, recipes:[]};
-         
+
         case RecipeActionTypes.CLEAR_SEARCH_QUERY:
             return {...state, searchQuery:null, searchResults:[]}
         default:
