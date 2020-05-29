@@ -8,7 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import CardActions from '@material-ui/core/CardActions';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import {withRouter} from 'react-router-dom';
-import DeleteRecipeButton from '../delete-recipe-button/DeleteRecipeButton.component'
+import DeleteRecipeButton from '../delete-recipe-button/DeleteRecipeButton.component';
+import EditRecipeButton from '../edit-recipe-button/EditRecipeButton.component';
 
 
 const useStyles = makeStyles(theme => ({
@@ -65,6 +66,7 @@ const RecipeCard=({recipe, history})=>{
       </CardActionArea>
     
       <CardActions disableSpacing className={classes.cardActions}>
+        <EditRecipeButton id={recipe._id}/>
         <DeleteRecipeButton id={recipe._id}/>
       </CardActions>
     </Card>

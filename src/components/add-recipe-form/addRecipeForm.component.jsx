@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import {addRecipeStart} from '../../redux/recipes/recipes.actions'
 import toggleAddRecipeDropdown from '../../redux/addRecipeModal/addRecipeModal.actions';
-import {selectRecipeAddingProgress, selectAddRecipeError } from '../../redux/recipes/recipes.selectors';
+import {selectRecipeAddingProgress, selectAddRecipeError, selectCurrentRecipe } from '../../redux/recipes/recipes.selectors';
 import {selectAdd_Recipe_Modal_Visible} from '../../redux/addRecipeModal/addRecipeModal.selectors'
 import WithSpinner from '../spiner/withSpiner.component';
 import ErrorMessage from '../error-message/error-message';
@@ -43,14 +43,7 @@ const useStyles = makeStyles(theme => ({
 }
 }));
 
-const initialState={
-  img:null,
-  title:'',
-  description:'',
-  ingredients:[''],
-  directions:[''],
-  visibility:"true"
-}
+
 
 const reducer=(state,action)=>{
   switch(action.type){
@@ -159,7 +152,27 @@ const removeImage=()=>(
 )
 
 
-const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,toggleAddRecipeDropdown}) =>{
+const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,toggleAddRecipeDropdown, recipe}) =>{
+
+
+  const initialState={
+    img:null,
+    title:'',
+    description:'',
+    ingredients:[''],
+    directions:[''],
+    visibility:"true"
+  }
+
+  if(recipe){
+    console.log(initialState)
+    initialState.img=recipe.picture
+    initialState.title=recipe.recipeTitle
+    initialState.description=recipe.recipeDescription
+    initialState.ingredients=recipe.recipeIngredients
+    initialState.directions=recipe.recipeDirections
+    initialState.visibility=recipe.visibility
+  }
 
   const [state, dispatch]= useReducer(reducer, initialState)
  
@@ -229,14 +242,15 @@ const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,togg
       currentUser: selectCurrentUser,
       addingRecipeLoad: selectRecipeAddingProgress,
       recipeError: selectAddRecipeError,
-      addRecipeDropdownVisible: selectAdd_Recipe_Modal_Visible
+      addRecipeDropdownVisible: selectAdd_Recipe_Modal_Visible,
+      recipe: selectCurrentRecipe
     }
   )
 
   const mapDispatchToProps = dispatch => (
     {
       addRecipe: (recipe)=>dispatch(addRecipeStart(recipe)),
-      toggleAddRecipeDropdown:()=>dispatch(toggleAddRecipeDropdown())
+      toggleAddRecipeDropdown:()=>dispatch(toggleAddRecipeDropdown()),
     }
   )
 

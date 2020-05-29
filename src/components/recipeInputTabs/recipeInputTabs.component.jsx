@@ -70,6 +70,7 @@ const useStyles = makeStyles(theme => ({
     setValue(index);
   };
 
+  console.log('state!!!',state)
   return (
     <div className={classes.root}>
         <Tabs
@@ -91,7 +92,7 @@ const useStyles = makeStyles(theme => ({
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
             <InputLabel>Title</InputLabel>
-            <Input onChange={onFormChange} fullWidth name='title' style={{
+            <Input onChange={onFormChange} fullWidth name='title' value={state.title} style={{
                 marginBottom:30
             }}/>
         <InputLabel>Description</InputLabel>

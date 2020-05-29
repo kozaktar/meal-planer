@@ -58,7 +58,6 @@ class ShopingList extends React.Component{
               />
             ))}
             </FormGroup>
-            {console.log('length:',Object.keys(this.state).length)}
             {
                 this.props.userShopingList.length>0?<Button variant="contained" size="small" color="primary" style={{marginLeft:'30px', marginTop:'10px'}} onClick={this.removeCompletedItems}>Remove</Button>:null
             }

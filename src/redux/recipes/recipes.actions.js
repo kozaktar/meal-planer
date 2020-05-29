@@ -138,3 +138,9 @@ export const deleteRecipeFailure=(error)=>(
         payload:error
     }
 );
+
+export const clearCurrentRecipe=()=>(
+    {
+        type:RecipeActionTypes.CLEAR_CURRENT_RECIPE
+    }
+)

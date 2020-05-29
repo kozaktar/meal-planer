@@ -109,7 +109,6 @@ function* AddRecipes({payload}){
 
 function* DeleteRecipe({payload}){
     const path=recipesAPIpath+'/'+payload
-    console.log('delete patha: ',path)
     try{
        const recipeID=yield axios.delete(path)
         yield put(deleteRecipeSuccess(recipeID.data))

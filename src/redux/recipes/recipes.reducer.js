@@ -69,6 +69,9 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
 
         case RecipeActionTypes.CLEAR_SEARCH_QUERY:
             return {...state, searchQuery:null, searchResults:[]}
+            
+        case RecipeActionTypes.CLEAR_CURRENT_RECIPE:
+            return {...state, recipePageRecipe:null }    
         default:
             return state;  
     }

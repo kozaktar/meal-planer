@@ -5,16 +5,18 @@ import Grid from '@material-ui/core/Grid';
 import Modal from '../../components/modal/modal.component';
 import AddRecipeForm from '../../components/add-recipe-form/addRecipeForm.component'
 import {connect} from 'react-redux';
-import {fetchRecipesStart} from '../../redux/recipes/recipes.actions';
+import {fetchRecipesStart, clearCurrentRecipe} from '../../redux/recipes/recipes.actions';
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './../../redux/user/user.selectors';
-import { selectUserRecipes, selectSearchResults } from './../../redux/recipes/recipes.selectors';
+import { selectUserRecipes, selectSearchResults, selectRecipePageLoading } from './../../redux/recipes/recipes.selectors';
 import {selectAdd_Recipe_Modal_Visible} from '../../redux/addRecipeModal/addRecipeModal.selectors';
 import toggleAddRecipeDropdown from '../../redux/addRecipeModal/addRecipeModal.actions';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import IconButton from '@material-ui/core/IconButton';
 import RecipeDisplay from '../../components/recipeDisplay/RecipeDisplay.component';
+import WithSpinner from '../../components/spiner/withSpiner.component'
 
+const AddRecipeFormWithSpinner=WithSpinner(AddRecipeForm);
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -58,11 +60,14 @@ const useStyles = makeStyles(theme => ({
     
 }));
 
-const MyRecipies =({ addRecipeVisible,toggleAddRecipeDropdown, searchResults})=>{
+const MyRecipies =({ addRecipeVisible,toggleAddRecipeDropdown, clearRecipe, loadingRecipeInfo})=>{
 
 const classes=useStyles();
 
-
+const handleAddRecipeButtonClick=()=>{
+  clearRecipe();
+  toggleAddRecipeDropdown();
+}
 
 return(
   <div className={classes.root}>
@@ -78,12 +83,12 @@ return(
           >
             Add Recipe 
           </Button> */}
-          <IconButton className={classes.addButton} onClick={()=>toggleAddRecipeDropdown()} >
+          <IconButton className={classes.addButton} onClick={()=>handleAddRecipeButtonClick()} >
              <AddCircleIcon color="primary" className={classes.addIcon}/>
           </IconButton>
 
           <Modal title="Add New Recipe" handleClose={toggleAddRecipeDropdown} open={addRecipeVisible}>
-            <AddRecipeForm onClose={toggleAddRecipeDropdown}/>
+            <AddRecipeFormWithSpinner isloading={loadingRecipeInfo} onClose={toggleAddRecipeDropdown}/>
           </Modal>
         </Grid>
         <RecipeDisplay/>
@@ -97,7 +102,8 @@ return(
 const mapDispatchToProps = dispatch => (
   {
     getRecipes: (user)=>dispatch(fetchRecipesStart(user)),
-    toggleAddRecipeDropdown: ()=>dispatch(toggleAddRecipeDropdown())
+    toggleAddRecipeDropdown: ()=>dispatch(toggleAddRecipeDropdown()),
+    clearRecipe: ()=>dispatch(clearCurrentRecipe())
   }
 )
 
@@ -105,7 +111,8 @@ const mapStateToProps=createStructuredSelector({
     currentUser: selectCurrentUser,
     recipes: selectUserRecipes,
     addRecipeVisible: selectAdd_Recipe_Modal_Visible,
-    searchResults: selectSearchResults
+    searchResults: selectSearchResults,
+    loadingRecipeInfo: selectRecipePageLoading
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(MyRecipies);
