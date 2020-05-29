@@ -41,10 +41,17 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const ImageUpload=({onDrop, removeImages})=>{
-
-    const [image, setImage]=useState(null)
+const ImageUpload=({onDrop, removeImages, initialImage})=>{
+        
+    const [image, setImage]=useState(initialImage)
     const classes=useStyles();
+
+    const processDisplayImage = ()=>{
+        if(image && image.type==='Buffer') //if image isn't null and is a buffer object
+            return `data:image;base64,${new Buffer(image).toString('base64')}`
+    
+        return image
+    } 
 
     const handleUpload=(acceptedFiles)=>{
         setImage(URL.createObjectURL(acceptedFiles[0]));
@@ -60,7 +67,7 @@ const ImageUpload=({onDrop, removeImages})=>{
         <Fragment>
             {image?
             <div className={classes.imgDiv}>
-                <img src={image} className={classes.img}/>
+                <img src={processDisplayImage()} className={classes.img}/>
                 <Tooltip title="Delete Image" className={classes.deleteButton}>
                 <IconButton aria-label="delete"  onClick={handleImageDelete}>
                  <DeleteIcon fontSize="small" />

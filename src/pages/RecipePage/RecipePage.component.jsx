@@ -93,7 +93,7 @@ const RecipePage=({ location, fetchRecipe, currentUser, recipe})=>{
 
     if(recipe && recipe._id===recipeID){  //check if recipe is not null and recipe id is = to id in the url (ensurse that the presiously viewed recipe doesnt briefly flash on the screen)
 
-
+    console.log('pciture',recipe.picture)
     const picture=`data:image;base64,${new Buffer(recipe.picture).toString('base64')}`
    
      return (

@@ -70,7 +70,6 @@ const useStyles = makeStyles(theme => ({
     setValue(index);
   };
 
-  console.log('state!!!',state)
   return (
     <div className={classes.root}>
         <Tabs
@@ -100,6 +99,7 @@ const useStyles = makeStyles(theme => ({
           fullWidth
           name='description'
           onChange={onFormChange}
+          value={state.description}
           multiline
           rows="2"
           margin="normal"

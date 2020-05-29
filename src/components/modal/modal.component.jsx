@@ -4,7 +4,7 @@ import DialogTitle from './dialogTitle.component';
 import Divider from '@material-ui/core/Divider';
 
 
-const Modal=({open, handleClose, title, size, children})=>(
+const Modal=({open, handleClose, title, children})=>(
     <Fragment>
     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" maxWidth='lg'>
     <DialogTitle onClose={handleClose}>{title}</DialogTitle>
