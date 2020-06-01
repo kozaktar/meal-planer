@@ -12,6 +12,19 @@ import {updateShopingListStart} from '../../redux/shopingList/shopingList.action
 //find the difference between 2 arrays
 Array.prototype.diff=function(array2){return this.filter(x=>!array2.includes(x))};
 
+const styles={
+    rootStyle:{
+        marginLeft:'20px', 
+        marginTop:'20px',
+        
+    },
+    listStyle:{
+        borderStyle:'dotted',
+        width:200,
+       
+    }
+}
+
 class ShopingList extends React.Component{
 
     constructor(props){
@@ -21,6 +34,14 @@ class ShopingList extends React.Component{
                 ...obj, [item]:false
             }
         }, {})
+    }
+
+    checkIfAnySelected=()=>{
+        for(let prop in this.state){
+            if(this.state[prop]){
+                return true
+            }
+        }
     }
 
     removeCompletedItems=()=>{
@@ -39,8 +60,8 @@ class ShopingList extends React.Component{
     render(){
         const {userShopingList}=this.props
         return(
-        <div style={{marginLeft:'20px', marginTop:'20px'}}>
-            <FormGroup>
+        <div style={styles.rootStyle}>
+            <FormGroup style={styles.listStyle}>
             {userShopingList.map(item=>(
                 <FormControlLabel
                 key={item}
@@ -59,7 +80,7 @@ class ShopingList extends React.Component{
             ))}
             </FormGroup>
             {
-                this.props.userShopingList.length>0?<Button variant="contained" size="small" color="primary" style={{marginLeft:'30px', marginTop:'10px'}} onClick={this.removeCompletedItems}>Remove</Button>:null
+                this.checkIfAnySelected()?<Button variant="contained" size="small" color="primary" style={{marginLeft:'30px', marginTop:'10px'}} onClick={this.removeCompletedItems}>Remove</Button>:null
             }
             
         </div>

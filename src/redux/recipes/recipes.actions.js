@@ -144,3 +144,24 @@ export const clearCurrentRecipe=()=>(
         type:RecipeActionTypes.CLEAR_CURRENT_RECIPE
     }
 )
+
+export const updateRecipeStart=(recipe)=>(
+    {
+        type:RecipeActionTypes.UPDATE_RECIPE_START,
+        payload:recipe
+    }
+);
+
+export const updateRecipeSuccess=(recipe)=>(
+    {
+        type:RecipeActionTypes.UPDATE_RECIPE_SUCCESS,
+        payload:recipe
+    }
+);
+
+export const updateRecipesFailure=(error)=>(
+    {
+        type:RecipeActionTypes.UPDATE_RECIPE_FAILURE,
+        payload:error
+    }
+);

@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
       width:'50vw',
       border:'1px solid grey',
       [theme.breakpoints.down('sm')]:{
-        width:'65vw',
+        width:'63vw',
         marginLeft:'30px'
       }
     },

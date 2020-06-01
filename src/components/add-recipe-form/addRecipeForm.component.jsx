@@ -161,7 +161,7 @@ const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,togg
     description:'',
     ingredients:[''],
     directions:[''],
-    visibility:"true"
+    visibility:true
   }
 
   if(recipe){
@@ -203,7 +203,7 @@ const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,togg
   }
 
   const handleSubmit=()=>{
-    const recipe={'recipeTitle':state.title,
+    const recipeToSubmit={'recipeTitle':state.title,
     'recipeDescription':state.description,
     'recipeIngredients':state.ingredients,
     'recipeDirections':state.directions,
@@ -211,8 +211,8 @@ const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,togg
     'picture':state.img,
     'author':currentUser.displayName}
 
-    addRecipe(recipe)
-
+    if(!recipe)
+      addRecipe(recipeToSubmit)
   }
 
     const classes=useStyles();

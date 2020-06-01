@@ -10,14 +10,15 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import {withRouter} from 'react-router-dom';
 import DeleteRecipeButton from '../delete-recipe-button/DeleteRecipeButton.component';
 import EditRecipeButton from '../edit-recipe-button/EditRecipeButton.component';
+import PlaceHolderImg from '../../assets/placeholder.jpg';
 
 
 const useStyles = makeStyles(theme => ({
   root: {
-    maxWidth: '90vw',
-    minWidth: 375,
+    width: 375,
     [theme.breakpoints.down('sm')]:{
-      minWidth: 250,
+      minWidth: 180,
+      maxWidth:'76vw'
     }
   },
   media: {
@@ -40,7 +41,8 @@ const RecipeCard=({recipe, history})=>{
     history.push(`/recipes/${recipe._id}`)
   };
 
-  const picture=`data:image;base64,${new Buffer(recipe.picture).toString('base64')}`
+
+  const picture=recipe.picture?`data:image;base64,${new Buffer(recipe.picture).toString('base64')}`:PlaceHolderImg
    
     
   return (
@@ -49,12 +51,11 @@ const RecipeCard=({recipe, history})=>{
         title={recipe.recipeTitle}
       />
       <CardActionArea onClick={handleActionAreaClick}>
-      {recipe.picture?
        <CardMedia
        className={classes.media}
        image={picture}
        title={recipe.recipeTitle}
-     />:null}
+     />
      
   
       <CardContent>

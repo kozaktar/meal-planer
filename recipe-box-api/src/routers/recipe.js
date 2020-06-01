@@ -126,7 +126,7 @@ router.get('/recipes/search/:term', async (req, res) => {
 
 router.patch('/recipes/:id', auth, async (req, res) => {
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['recipeTitle', 'recipeIngredients', 'recipeDirections', 'visibility', 'picture']
+    const allowedUpdates = ['recipeTitle', 'recipeIngredients', 'recipeDirections', 'visibility', 'picture', 'preperatio']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     if (!isValidOperation) {
