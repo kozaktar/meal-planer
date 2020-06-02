@@ -21,7 +21,9 @@ const styles={
     listStyle:{
         borderStyle:'dotted',
         width:200,
-       
+        minHeight:300,
+        margin:'auto',
+        marginTop:10
     }
 }
 
@@ -29,38 +31,50 @@ class ShopingList extends React.Component{
 
     constructor(props){
         super();
-        this.state=props.userShopingList.reduce((obj, item)=>{
-            return {
-                ...obj, [item]:false
-            }
-        }, {})
+        this.state={
+            shopingList: props.userShopingList.reduce((obj, item)=>{
+                return {
+                    ...obj, [item]:false
+                }
+            }, {})
+        }
     }
 
     checkIfAnySelected=()=>{
-        for(let prop in this.state){
-            if(this.state[prop]){
+        for(let prop in this.state.shopingList){
+            if(this.state.shopingList[prop]){
                 return true
             }
         }
     }
 
     removeCompletedItems=()=>{
-        const itemsToRemove=Object.keys(this.state).filter(item=>this.state[item])
+        const itemsToRemove=Object.keys(this.state.shopingList).filter(item=>this.state.shopingList[item])
         const newList=this.props.userShopingList.diff(itemsToRemove)
         this.props.removeFromList(newList)
         this.props.updateShopingList(newList)
+        //update the state
+        const newState=Object.assign({},this.state.shopingList)
+        itemsToRemove.forEach(item=>delete newState[item])
+
+        this.setState({
+            shopingList:newState
+        })
+        
     }
     
     handleChange=(event)=>{
+        const list=this.state.shopingList
+        list[event.target.name]=event.target.checked
         this.setState({
-            ...this.state, [event.target.name]:event.target.checked
+            shopingList:list
         })
     }
 
     render(){
         const {userShopingList}=this.props
         return(
-        <div style={styles.rootStyle}>
+        <div>
             <FormGroup style={styles.listStyle}>
             {userShopingList.map(item=>(
                 <FormControlLabel
@@ -74,15 +88,18 @@ class ShopingList extends React.Component{
                 }
                 label={item}
                 style={{
-                    textDecoration: this.state[item]? 'line-through': null
+                    textDecoration: this.state.shopingList[item]? 'line-through': null
                 }}
               />
             ))}
-            </FormGroup>
-            {
-                this.checkIfAnySelected()?<Button variant="contained" size="small" color="primary" style={{marginLeft:'30px', marginTop:'10px'}} onClick={this.removeCompletedItems}>Remove</Button>:null
-            }
             
+            </FormGroup>
+        <div style={{textAlign:'center', marginTop:10}}>
+            {
+                this.checkIfAnySelected()?<Button variant="contained" size="small" color="primary" onClick={this.removeCompletedItems}>Remove</Button>:null
+            }
+            </div>
+           
         </div>
         )
     }
