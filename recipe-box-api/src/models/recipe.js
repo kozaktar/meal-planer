@@ -11,6 +11,14 @@ const recipeSchema=new mongoose.Schema({
         type: String,
         required: true
     },
+    portions:{
+        type: Number,
+        required:true
+    },
+    prepTime:{
+        type: String,
+        required:true
+    },
     recipeIngredients:[{
         type: String,
         required: true

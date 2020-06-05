@@ -37,7 +37,9 @@ router.post('/recipes', upload.single('picture'), auth, async (req, res) => {
         visibility: req.body.visibility,
         author: req.body.author,
         recipeDescription: req.body.recipeDescription,
-        users: [req.user.authID]
+        users: [req.user.authID],
+        portions: req.body.portions,
+        prepTime: req.body.prepTime
     })
     
     if(req.file){
@@ -128,7 +130,7 @@ router.patch('/recipes/:id', upload.single('picture'), auth, async (req, res) =>
     console.log('pathing!!!')
     console.log(req.body)
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['recipeTitle', 'recipeIngredients', 'recipeDirections', 'visibility', 'picture', 'recipeDirections']
+    const allowedUpdates = ['recipeTitle', 'recipeIngredients', 'recipeDirections', 'visibility', 'picture', 'recipeDirections', 'portions', 'prepTime']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     if (!isValidOperation) {
@@ -142,7 +144,14 @@ router.patch('/recipes/:id', upload.single('picture'), auth, async (req, res) =>
             return res.status(404).send()
         }
 
-        updates.forEach((update) => recipe[update] = req.body[update])
+        updates.forEach((update) => {
+            if(update==='recipeIngredients' || update==='recipeDirections'){
+                recipe[update] = JSON.parse(req.body[update])
+            
+            }
+            else
+                recipe[update] = req.body[update]
+        })
 
         if(req.body.picture==='null'){
             recipe.picture=undefined
@@ -153,6 +162,7 @@ router.patch('/recipes/:id', upload.single('picture'), auth, async (req, res) =>
         
         await recipe.save()
         res.send(recipe)
+        console.log('updated recipe',recipe)
     } catch (e) {
         console.log(e)
         res.status(400).send(e)

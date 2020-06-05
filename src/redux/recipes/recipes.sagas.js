@@ -71,7 +71,10 @@ function* UpdateRecipe({payload}){
     const formData=new FormData()
 
     for(const prop in payload){
-        formData.append(prop, payload[prop])
+        if(prop==='recipeIngredients' || prop==='recipeDirections')
+          formData.append(prop,JSON.stringify(payload[prop]))
+        else
+            formData.append(prop, payload[prop])
     }
 
     try{ 
@@ -122,6 +125,8 @@ function* AddRecipes({payload}){
     yield formData.append( 'picture',payload.picture)
     yield formData.append('author',payload.author)
     yield formData.append('recipeDescription',payload.recipeDescription)
+    yield formData.append('portions',payload.portions)
+    yield formData.append('prepTime',payload.prepTime)
     try{
         yield axios.post('http://localhost:3001/recipes',formData).then((response)=>payload=response.data)
         yield put(addRecipeSuccess(payload))

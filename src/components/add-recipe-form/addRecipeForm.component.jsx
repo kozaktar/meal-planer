@@ -51,6 +51,10 @@ const reducer=(state,action)=>{
       return {...state, title:action.payload};
     case 'updateDescription':
       return {...state, description:action.payload};
+    case 'updatePortions':
+      return {...state, portions:action.payload};
+    case 'updatePrepTime':
+      return {...state, prepTime:action.payload};  
     case 'updateIngredients':
       const updatedIngredients=[...state.ingredients]
       updatedIngredients[action.idx]=action.payload;
@@ -90,6 +94,20 @@ const updateTitle=(payload)=>(
 const updateDescription=(payload)=>(
   {
     type:'updateDescription',
+    payload
+  }
+)
+
+const updatePortions=(payload)=>(
+  {
+    type:'updatePortions',
+    payload
+  }
+)
+
+const updatePrepTime=(payload)=>(
+  {
+    type:'updatePrepTime',
     payload
   }
 )
@@ -159,6 +177,8 @@ const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,togg
     img:null,
     title:'',
     description:'',
+    portions:1,
+    prepTime:'',
     ingredients:[''],
     directions:[''],
     visibility:true
@@ -171,6 +191,8 @@ const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,togg
     initialState.ingredients=recipe.recipeIngredients
     initialState.directions=recipe.recipeDirections
     initialState.visibility=recipe.visibility
+    initialState.portions=recipe.portions
+    initialState.prepTime=recipe.prepTime
   }
 
   const [state, dispatch]= useReducer(reducer, initialState)
@@ -190,12 +212,24 @@ const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,togg
       case 'description':
           dispatch(updateDescription(value))
           break;
+      case 'portions':
+          dispatch(updatePortions(value))
+          break;
+      case 'portions':
+          dispatch(updatePortions(value))
+          break;              
       case 'directions':
           dispatch(updateDirections(value,event.target.id.replace('directions-','')))    
           break;
       case 'ingredients':
           dispatch(updateIngredients(value,event.target.id.replace('ingredient-','')))   
-          break;    
+          break;
+      case 'portions':
+          dispatch(updatePortions(value))
+          break; 
+      case 'prepTime':
+        dispatch(updatePrepTime(value))
+          break;           
       default:
         console.log('reducer error')
         break;
@@ -210,7 +244,9 @@ const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,togg
     'recipeDirections':state.directions,
     'visibility':state.visibility,
     'picture':state.img,
-    'author':currentUser.displayName
+    'author':currentUser.displayName,
+    'portions':state.portions,
+    'prepTime':state.prepTime
   }
 
     if(!recipe)

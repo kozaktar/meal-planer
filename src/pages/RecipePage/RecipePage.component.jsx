@@ -86,6 +86,7 @@ const styles=makeStyles(
 })
 
 const RecipePage=({ location, fetchRecipe, currentUser, recipe})=>{
+
    const recipeID=location.pathname.replace('/recipes/','');
     
     const matches = useMediaQuery('(max-width: 800px)');
@@ -96,7 +97,7 @@ const RecipePage=({ location, fetchRecipe, currentUser, recipe})=>{
 
     if(recipe && recipe._id===recipeID){  //check if recipe is not null and recipe id is = to id in the url (ensurse that the presiously viewed recipe doesnt briefly flash on the screen)
 
-    console.log('pciture',recipe.picture)
+ 
     const picture=recipe.picture?`data:image;base64,${new Buffer(recipe.picture).toString('base64')}`:PlaceHolderImg
    
      return (
@@ -108,8 +109,8 @@ const RecipePage=({ location, fetchRecipe, currentUser, recipe})=>{
                 <div className={matches?classes.fullWidth:classes.halfWidth}> 
                      <div className={classes.recipeDescription}>{`"${recipe.recipeDescription}"`}</div>
                      <div className={classes.timeAndPortions}>
-                         <span><Tooltip title="Cooking Time"><AccessTimeIcon/></Tooltip> 4 hours </span> 
-                         <span className={classes.portions}><Tooltip title="Portions"><TimelapseIcon/></Tooltip> 5 Portions</span>
+                         <span><Tooltip title="Cooking Time"><AccessTimeIcon/></Tooltip> {recipe.prepTime} </span> 
+                         <span className={classes.portions}><Tooltip title="Portions"><TimelapseIcon/></Tooltip> {recipe.portions} Portion(s)</span>
                      </div>
                      <Typography variant="h5" className={classes.heading}>
                         Ingredients:

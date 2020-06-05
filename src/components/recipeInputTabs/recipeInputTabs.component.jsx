@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -104,6 +104,27 @@ const useStyles = makeStyles(theme => ({
           rows="2"
           margin="normal"
         />
+        <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between', marginTop:30}}>
+        <div>
+        <InputLabel>Portions</InputLabel>
+        <TextField
+          type='Number'
+          name='portions'
+          onChange={onFormChange}
+          value={state.portions}
+          margin="normal"
+        />
+         </div>
+         <div>
+         <InputLabel>Preparation Time</InputLabel>
+         <TextField
+          name='prepTime'
+          onChange={onFormChange}
+          value={state.prepTime}
+          margin="normal"
+        />
+        </div>
+        </div>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
             {state.ingredients.map((ingredient, index)=>
