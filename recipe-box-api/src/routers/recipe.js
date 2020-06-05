@@ -124,9 +124,11 @@ router.get('/recipes/search/:term', async (req, res) => {
     
 })
 
-router.patch('/recipes/:id', auth, async (req, res) => {
+router.patch('/recipes/:id', upload.single('picture'), auth, async (req, res) => {
+    console.log('pathing!!!')
+    console.log(req.body)
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['recipeTitle', 'recipeIngredients', 'recipeDirections', 'visibility', 'picture', 'preperatio']
+    const allowedUpdates = ['recipeTitle', 'recipeIngredients', 'recipeDirections', 'visibility', 'picture', 'recipeDirections']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     if (!isValidOperation) {
@@ -142,12 +144,17 @@ router.patch('/recipes/:id', auth, async (req, res) => {
 
         updates.forEach((update) => recipe[update] = req.body[update])
 
-        if(req.file){
+        if(req.body.picture==='null'){
+            recipe.picture=undefined
+        }
+        else if(req.file){
             recipe.picture=req.file.buffer
         }
+        
         await recipe.save()
         res.send(recipe)
     } catch (e) {
+        console.log(e)
         res.status(400).send(e)
     }
 })

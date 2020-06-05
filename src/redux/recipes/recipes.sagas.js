@@ -1,7 +1,7 @@
 import {takeLatest, put,all, call} from 'redux-saga/effects';
 import RecipeActionTypes from './recipes.types';
 import axios from 'axios';
-import {fetchRecipesSuccess, fetchRecipesFailure, addRecipeSuccess, addRecipesFailure, fetchUserRecipeTitlesFailure, fetchUserRecipeTitlesSuccess, fetchSearchedRecipesSuccess, fetchSearchedRecipesFailure, fetchRecipeByIDSuccess, fetchRecipesByIDFailure, deleteRecipeSuccess, deleteRecipeFailure} from './recipes.actions';
+import {fetchRecipesSuccess, fetchRecipesFailure, addRecipeSuccess, addRecipesFailure, fetchUserRecipeTitlesFailure, fetchUserRecipeTitlesSuccess, fetchSearchedRecipesSuccess, fetchSearchedRecipesFailure, fetchRecipeByIDSuccess, fetchRecipesByIDFailure, deleteRecipeSuccess, deleteRecipeFailure, updateRecipeSuccess, updateRecipesFailure} from './recipes.actions';
 import toggleAddRecipeDropdown from '../addRecipeModal/addRecipeModal.actions';
 
 const recipesAPIpath='http://localhost:3001/recipes'
@@ -53,12 +53,34 @@ function* FetchUserRecipeTitles({payload}){
     try{
         yield axios.defaults.headers.common['userID'] =payload 
         const recipeTitles=yield axios.get(path)
-        //convert images to basse 64
     
         yield put(fetchUserRecipeTitlesSuccess(recipeTitles.data))
     }
     catch(error){
        yield put(fetchUserRecipeTitlesFailure(error))
+    }
+
+}
+
+function* UpdateRecipe({payload}){
+
+    yield console.log('update with:', payload)
+    const id=payload._id
+    delete payload._id
+    const path=recipesAPIpath+"/"+id
+    const formData=new FormData()
+
+    for(const prop in payload){
+        formData.append(prop, payload[prop])
+    }
+
+    try{ 
+        const updatedRecipe=yield axios.patch(path, formData)
+        yield put(updateRecipeSuccess(updatedRecipe.data))
+        yield put(toggleAddRecipeDropdown())
+    }
+    catch(error){
+       yield put(updateRecipesFailure(error))
     }
 
 }
@@ -85,6 +107,10 @@ function* onRecipeByIDFetchStart(){
 
 function* onRecipeDeleteStart(){
     yield takeLatest(RecipeActionTypes.DELETE_RECIPE_START, DeleteRecipe)
+}
+
+function* onRecipeUpdateStart(){
+    yield takeLatest(RecipeActionTypes.UPDATE_RECIPE_START, UpdateRecipe)
 }
 
 function* AddRecipes({payload}){
@@ -122,6 +148,6 @@ function* DeleteRecipe({payload}){
 
 
 export function* recipeSagas(){
-    yield all([call(onRecipesFetchStart), call(onRecipesAddStart), call(onUserRecipeTitlesFetchStart), call(onSearchRecipesFetchStart), call(onRecipeByIDFetchStart), call(onRecipeDeleteStart)])
+    yield all([call(onRecipesFetchStart), call(onRecipesAddStart), call(onUserRecipeTitlesFetchStart), call(onSearchRecipesFetchStart), call(onRecipeByIDFetchStart), call(onRecipeDeleteStart), call(onRecipeUpdateStart)])
 }
 

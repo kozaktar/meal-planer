@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import {addRecipeStart} from '../../redux/recipes/recipes.actions'
+import {addRecipeStart, updateRecipeStart} from '../../redux/recipes/recipes.actions'
 import toggleAddRecipeDropdown from '../../redux/addRecipeModal/addRecipeModal.actions';
 import {selectRecipeAddingProgress, selectAddRecipeError, selectCurrentRecipe } from '../../redux/recipes/recipes.selectors';
 import {selectAdd_Recipe_Modal_Visible} from '../../redux/addRecipeModal/addRecipeModal.selectors'
@@ -152,7 +152,7 @@ const removeImage=()=>(
 )
 
 
-const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,toggleAddRecipeDropdown, recipe}) =>{
+const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,toggleAddRecipeDropdown, recipe, updateRecipe}) =>{
 
 
   const initialState={
@@ -203,16 +203,29 @@ const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,togg
   }
 
   const handleSubmit=()=>{
-    const recipeToSubmit={'recipeTitle':state.title,
+    const recipeToSubmit={
+    'recipeTitle':state.title,
     'recipeDescription':state.description,
     'recipeIngredients':state.ingredients,
     'recipeDirections':state.directions,
     'visibility':state.visibility,
     'picture':state.img,
-    'author':currentUser.displayName}
+    'author':currentUser.displayName
+  }
 
     if(!recipe)
       addRecipe(recipeToSubmit)
+    else{
+      const updates={}
+      updates._id=recipe._id
+      for(const prop in recipeToSubmit){
+        if(recipe[prop]!==recipeToSubmit[prop]){
+          updates[prop]=recipeToSubmit[prop]
+        }
+      }
+      updateRecipe(updates)
+    }
+      
   }
 
     const classes=useStyles();
@@ -250,6 +263,7 @@ const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,togg
     {
       addRecipe: (recipe)=>dispatch(addRecipeStart(recipe)),
       toggleAddRecipeDropdown:()=>dispatch(toggleAddRecipeDropdown()),
+      updateRecipe:(recipe)=>dispatch(updateRecipeStart(recipe))
     }
   )
 
