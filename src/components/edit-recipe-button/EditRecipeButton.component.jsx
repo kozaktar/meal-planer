@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {fetchRecipeByIDStart} from '../../redux/recipes/recipes.actions';
 import {toggleAddRecipeDropdown} from '../../redux/addRecipeModal/addRecipeModal.actions'
 
-const EditRecipeButton=({id, fetchRecipeInfo, openEditModal})=>{
+const EditRecipeButton=({id, fetchRecipeInfo, openEditModal, style})=>{
 
     const handleClick=()=>{
         fetchRecipeInfo(id)
@@ -13,7 +13,7 @@ const EditRecipeButton=({id, fetchRecipeInfo, openEditModal})=>{
     }
 
     return(
-    <IconButton aria-label="delete" size='small' onClick={handleClick}>
+    <IconButton aria-label="delete" size='small' onClick={handleClick} style={style}>
         <EditIcon fontSize='small'/>
     </IconButton>
     )

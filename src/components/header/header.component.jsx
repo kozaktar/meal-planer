@@ -19,6 +19,9 @@ const useStyles = makeStyles(theme => ({
             borderSyle:'solid',
             borderColor:'rgba(192,192,192,0.7)',
             backgroundColor:'rgba(0,0,0,0)'
+        },
+        [theme.breakpoints.down('sm')]:{
+            fontSize:'10px'
         }
     }
 }))
@@ -31,13 +34,12 @@ const HeaderComponent=({toggleDropdown,signOutUser, currentUser, clearLoginError
     <HeaderComponentDiv>
         <LogoContainer to={'/'}>Recipe Box</LogoContainer>
         <LinksContainerDiv>
-            
             {currentUser ? (
-            <div>   
-            <Button className={classes.headerButton} variant='outlined' size='medium' href="/myrecipebox/myrecipes">
+            <div style={{display:'flex', flexDirection:'row'}}>   
+            <Button className={classes.headerButton} variant='outlined' size='small' href="/myrecipebox/myrecipes">
                 My Recipes
             </Button>
-            <Button className={classes.headerButton} variant='outlined' size='medium' onClick={()=>{
+            <Button className={classes.headerButton} variant='outlined' size='small' onClick={()=>{
                 signOutUser();
                 }}>
                 Sign Out

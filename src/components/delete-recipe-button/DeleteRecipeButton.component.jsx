@@ -10,7 +10,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 
-const DeleteRecipeButton=({id, deleteRecipe})=>{
+const DeleteRecipeButton=({id, deleteRecipe, style})=>{
 
     const [open, setOpen] = React.useState(false);
 
@@ -50,7 +50,7 @@ const DeleteRecipeButton=({id, deleteRecipe})=>{
           </Button>
         </DialogActions>
       </Dialog>
-        <IconButton aria-label="delete" onClick={handleClickOpen} size='small'>
+        <IconButton aria-label="delete" onClick={handleClickOpen} size='small' style={style}>
              <DeleteIcon fontSize='small'/>
         </IconButton>
         </>

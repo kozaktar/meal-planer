@@ -11,6 +11,9 @@ import {withRouter} from 'react-router-dom';
 import DeleteRecipeButton from '../delete-recipe-button/DeleteRecipeButton.component';
 import EditRecipeButton from '../edit-recipe-button/EditRecipeButton.component';
 import PlaceHolderImg from '../../assets/placeholder.jpg';
+import {connect} from 'react-redux';
+import {createStructuredSelector} from 'reselect';
+import {selectCurrentUser} from '../../redux/user/user.selectors'
 
 
 const useStyles = makeStyles(theme => ({
@@ -34,9 +37,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const RecipeCard=({recipe, history})=>{
+const RecipeCard=({recipe, history, currentUser})=>{
   const classes = useStyles();
-
+  console.log('current user:', currentUser)
   const handleActionAreaClick = () => {
     history.push(`/recipes/${recipe._id}`)
   };
@@ -67,11 +70,15 @@ const RecipeCard=({recipe, history})=>{
       </CardActionArea>
     
       <CardActions disableSpacing className={classes.cardActions}>
-        <EditRecipeButton id={recipe._id}/>
-        <DeleteRecipeButton id={recipe._id}/>
+        <EditRecipeButton id={recipe._id} style={currentUser===recipe.owner?{display:'none'}:null}/>
+        <DeleteRecipeButton id={recipe._id} style={currentUser===recipe.owner?{display:'none'}:null}/>
       </CardActions>
     </Card>
   );
 }
 
-export default withRouter(RecipeCard);
+const mapStateToProps=createStructuredSelector({
+  currentUser: selectCurrentUser
+})
+
+export default withRouter(connect(mapStateToProps)(RecipeCard));
