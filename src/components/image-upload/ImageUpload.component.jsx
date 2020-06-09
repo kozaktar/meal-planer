@@ -28,8 +28,8 @@ const useStyles = makeStyles(theme => ({
         margin: 20,
         position:'relative',
         [theme.breakpoints.down('sm')]:{
-            maxWidth:'50vw',
-            maxHeight:'50vh',
+            //maxWidth:'50vw',
+            maxHeight:'200px',
             marginBottom:30,
             marginLeft:'auto',
             marginRight: 'auto'
@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
         width:'100%',
         height:'100%',
         [theme.breakpoints.down('sm')]:{
-            maxHeight:'50vh'
+            maxHeight:'200px'
         }
     },
     deleteButtonHelperText:{

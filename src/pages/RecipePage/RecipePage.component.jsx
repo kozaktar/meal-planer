@@ -4,7 +4,7 @@ import RecipePageHeader from './RecipePageHeader.component';
 import {connect} from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './../../redux/user/user.selectors';
-import { selectCurrentRecipe } from './../../redux/recipes/recipes.selectors';
+import { selectCurrentRecipe, selectRecipePageLoading } from './../../redux/recipes/recipes.selectors';
 import {withRouter} from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,7 +18,6 @@ import RecipeInstructions from '../../components/recipeInstructions/RecipeInstru
 import { fetchRecipeByIDStart} from '../../redux/recipes/recipes.actions'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import PlaceHolderImg from '../../assets/placeholder.jpg'
-import { maxHeight } from '@material-ui/system';
 
 
 
@@ -89,7 +88,7 @@ const styles=makeStyles(theme=>(
     
 }))
 
-const RecipePage=({ location, fetchRecipe, currentUser, recipe})=>{
+const RecipePage=({ location, fetchRecipe, currentUser, recipe, loading})=>{
 
    const recipeID=location.pathname.replace('/recipes/','');
     
@@ -99,7 +98,7 @@ const RecipePage=({ location, fetchRecipe, currentUser, recipe})=>{
         fetchRecipe(recipeID)
       }, [recipeID, fetchRecipe])
 
-    if(recipe && recipe._id===recipeID){  //check if recipe is not null and recipe id is = to id in the url (ensurse that the presiously viewed recipe doesnt briefly flash on the screen)
+    if(recipe && !loading){  //check if recipe is not null and recipe id is = to id in the url (ensurse that the presiously viewed recipe doesnt briefly flash on the screen)
 
  
     const picture=recipe.picture?`data:image;base64,${new Buffer(recipe.picture).toString('base64')}`:PlaceHolderImg
@@ -133,7 +132,8 @@ const RecipePage=({ location, fetchRecipe, currentUser, recipe})=>{
 
 const mapStateToProps=createStructuredSelector({
     currentUser: selectCurrentUser,
-    recipe: selectCurrentRecipe
+    recipe: selectCurrentRecipe,
+    loading: selectRecipePageLoading
 })
 
 const mapDispatchToProps=dispatch=>(

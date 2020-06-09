@@ -7,26 +7,51 @@ import {selectHiddenSignInModal} from '../../redux/sign-in-modal/sign-in-modal.s
 import {selectCurrentUser} from '../../redux/user/user.selectors';
 import {signOutStart, clearUserError} from '../../redux/user/user.actions'
 import {createStructuredSelector} from 'reselect';
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
 
-const HeaderComponent=({toggleDropdown,signOutUser, currentUser, clearLoginError})=>(
+const useStyles = makeStyles(theme => ({
+    headerButton:{
+        color:'grey',
+        borderColor:'rgba(0,0,0,0)',
+        '&:hover':{
+            color:'black',
+            borderSyle:'solid',
+            borderColor:'rgba(192,192,192,0.7)',
+            backgroundColor:'rgba(0,0,0,0)'
+        }
+    }
+}))
+
+const HeaderComponent=({toggleDropdown,signOutUser, currentUser, clearLoginError})=>
+{
+    const classes=useStyles();
+    return (
    
     <HeaderComponentDiv>
         <LogoContainer to={'/'}>Recipe Box</LogoContainer>
         <LinksContainerDiv>
-            <OptionLink to ={'/about'}>About</OptionLink>
-            {currentUser ? (<OptionLink to={'#'} onClick={()=>{
+            
+            {currentUser ? (
+            <div>   
+            <Button className={classes.headerButton} variant='outlined' size='medium' href="/myrecipebox/myrecipes">
+                My Recipes
+            </Button>
+            <Button className={classes.headerButton} variant='outlined' size='medium' onClick={()=>{
                 signOutUser();
                 }}>
                 Sign Out
-            </OptionLink>) :
-            (<OptionLink to={'#'} onClick={()=>{toggleDropdown(); clearLoginError()}}>
+            </Button>
+            </div> ) :
+            (<Button className={classes.headerButton} variant='outlined' size='medium' onClick={()=>{toggleDropdown(); clearLoginError()}}>
                 Sign In
-            </OptionLink>)
+            </Button>)
             }
         </LinksContainerDiv>
         <SignInDropDown/>
     </HeaderComponentDiv>
 )
+        }
 
 const mapDispatchToProps=dispatch=>({
     toggleDropdown:()=>dispatch(toggleDropdown()),

@@ -85,7 +85,7 @@ router.get('/recipes/mytitles', auth, async (req, res) => {
         console.log('titles:', titles)
         res.send(titles)
     } catch (e) {
-        res.status(500).send()
+        res.status(500).send(e)
     }
 })
 
@@ -127,8 +127,7 @@ router.get('/recipes/search/:term', async (req, res) => {
 })
 
 router.patch('/recipes/:id', upload.single('picture'), auth, async (req, res) => {
-    console.log('pathing!!!')
-    console.log(req.body)
+
     const updates = Object.keys(req.body)
     const allowedUpdates = ['recipeTitle', 'recipeIngredients', 'recipeDirections', 'visibility', 'picture', 'recipeDirections', 'portions', 'prepTime']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
@@ -164,8 +163,7 @@ router.patch('/recipes/:id', upload.single('picture'), auth, async (req, res) =>
         res.send(recipe)
         console.log('updated recipe',recipe)
     } catch (e) {
-        console.log(e)
-        res.status(400).send(e)
+        res.status(400).send(e.message)
     }
 })
 

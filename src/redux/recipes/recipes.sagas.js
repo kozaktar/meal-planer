@@ -64,7 +64,6 @@ function* FetchUserRecipeTitles({payload}){
 
 function* UpdateRecipe({payload}){
 
-    yield console.log('update with:', payload)
     const id=payload._id
     delete payload._id
     const path=recipesAPIpath+"/"+id
@@ -83,7 +82,11 @@ function* UpdateRecipe({payload}){
         yield put(toggleAddRecipeDropdown())
     }
     catch(error){
-       yield put(updateRecipesFailure(error))
+
+        if(error.response.status==500)
+            yield put(updateRecipesFailure('Error 500: File must be a valid image format and not larger than 2 MB.'))
+        else
+            yield put(updateRecipesFailure(error.response.data))
     }
 
 }

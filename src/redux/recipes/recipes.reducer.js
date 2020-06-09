@@ -66,7 +66,7 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
                 const index= state.recipes.map(item=>item._id).indexOf(action.payload._id)
                 const updatedRecipes=state.recipes
                 updatedRecipes[index]=action.payload
-                return {...state, addingRecipe:false, recipes: [...updatedRecipes], loading:false}
+                return {...state, addingRecipe:false, recipes: [...updatedRecipes], loading:false, addingRecipeError:null}
             }    
 
         case RecipeActionTypes.FETCH_RECIPES_FAILURE:
