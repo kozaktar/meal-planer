@@ -24,7 +24,7 @@ const RecipeDirectionsInput=({ idx, handleChange, deleteDirections, state})=>{
         <div className={classes.header}>
             <Typography variant='h6' style={{marginBottom:'0',padding:0}}>{`Step ${idx+1}:`}</Typography>
             <Tooltip title={`Delete Step ${idx+1}`}>
-            <IconButton aria-label="delete" onClick={()=>deleteDirections(idx)}>
+            <IconButton aria-label="delete" onClick={()=>{console.log('idx', idx) ;deleteDirections(`${idx}`)}}>
             <DeleteIcon fontSize="small"/>
             </IconButton>
             </Tooltip>

@@ -72,13 +72,14 @@ const reducer=(state,action)=>{
         return {...state, directions:[...state.directions,'']};
     case 'removeDirections':
         const directionsPostDeletion=[...state.directions];
-        directionsPostDeletion.splice(action.idx, 1);
+        console.log('id',action.payload)
+        directionsPostDeletion.splice(action.payload, 1);
         return {...state, directions:directionsPostDeletion};  
     case 'addIngredients':
         return {...state, ingredients:[...state.ingredients,'']};
     case 'removeIngredients':
         const ingredientsPostDeletion=[...state.ingredients];
-        ingredientsPostDeletion.splice(action.idx,1);
+        ingredientsPostDeletion.splice(action.payload,1);
         return {...state, ingredients:ingredientsPostDeletion};
     case 'addImage':
         return {...state, img:action.payload};
