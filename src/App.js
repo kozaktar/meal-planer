@@ -11,7 +11,7 @@ import {selectLoadingRecipePage} from './redux/recipes/recipes.selectors';
 import {colapseSigninModal} from './redux/sign-in-modal/sign-in-modal.actions';
 import MyRecipeBoxPage from './pages/MyRecipeBox/MyRecipeBoxPage.component';
 import RecipePage from './pages/RecipePage/RecipePage.component';
-import WithSpinner from './components/spiner/withSpiner.component';
+import AuthPage from './pages/AuthPage/AuthPage.component';
 
 
 
@@ -27,24 +27,17 @@ componentDidMount(){
   
   render(){
     const {currentUser}=this.props;
-    if(currentUser)
       return (
       <Fragment>
       <HeaderComponent/>
         <Switch>
-          <Route exact path='/' render={() =>  <Redirect to='/myrecipebox/myrecipes' />}/>
-          <Route path='/myrecipebox/' render={() => <MyRecipeBoxPage/>}/>
+          <Route exact path='/' render={() =>  <HomePage/>}/>
+          <Route exact path='/auth' render={() =>  <AuthPage/>}/>
+          <Route path='/myrecipebox/' render={() => currentUser?<MyRecipeBoxPage/>:<Redirect to='/'/>}/>
           <Route path='/recipes/:recipe' render={()=><RecipePage/>}/>
         </Switch>    
       </Fragment>
     );
-    else
-        return (
-          <Fragment>
-            <HeaderComponent/>
-            <HomePage/>
-          </Fragment>
-        )
 
   }
  

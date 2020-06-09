@@ -9,6 +9,7 @@ import WithSpinner from '../spiner/withSpiner.component';
 import { createStructuredSelector } from 'reselect';
 import {selectUserLoading, selectUserError} from '../../redux/user/user.selectors';
 import ErrorMessage from '../error-message/error-message';
+import {withRouter} from 'react-router-dom';
 
 
 const ButtonGroupWithSpinner=WithSpinner(ButtonGroup)
@@ -31,7 +32,7 @@ class SignInForm extends React.Component {
 
 
   render() {
-    const {userLoading, googleSignIn, userLoginError, emailSignIn}=this.props;
+    const {userLoading, googleSignIn, userLoginError, emailSignIn, history}=this.props;
     const {email,password}=this.state;
     return (
       <div>
@@ -67,9 +68,9 @@ class SignInForm extends React.Component {
         <ErrorMessage>{`${userLoginError}`}</ErrorMessage>:null}
 
           <ButtonGroupWithSpinner isloading={userLoading}>
-            <CustomButton disabled={userLoading} buttonType='SignIn' onClick={()=>emailSignIn(email, password)}>Sign In</CustomButton>
+            <CustomButton disabled={userLoading} buttonType='SignIn' onClick={()=>{emailSignIn(email, password); history.push('/auth')}}>Sign In</CustomButton>
             <SeparatorSpan>Or</SeparatorSpan>
-            <CustomButton buttonType='GoogleSignIn' type='button' onClick={googleSignIn
+            <CustomButton buttonType='GoogleSignIn' type='button' onClick={()=>{googleSignIn(); history.push('/auth')}
           } >Sign In With Google</CustomButton>
           </ButtonGroupWithSpinner>
         </Form>
@@ -96,4 +97,4 @@ const mapStateToProps=createStructuredSelector(
   }
 )
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignInForm);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignInForm));

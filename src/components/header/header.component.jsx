@@ -9,6 +9,7 @@ import {signOutStart, clearUserError} from '../../redux/user/user.actions'
 import {createStructuredSelector} from 'reselect';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import {withRouter} from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
     headerButton:{
@@ -26,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const HeaderComponent=({toggleDropdown,signOutUser, currentUser, clearLoginError})=>
+const HeaderComponent=({toggleDropdown,signOutUser, currentUser, clearLoginError, history})=>
 {
     const classes=useStyles();
     return (
@@ -36,7 +37,7 @@ const HeaderComponent=({toggleDropdown,signOutUser, currentUser, clearLoginError
         <LinksContainerDiv>
             {currentUser ? (
             <div style={{display:'flex', flexDirection:'row'}}>   
-            <Button className={classes.headerButton} variant='outlined' size='small' href="/myrecipebox/myrecipes">
+            <Button className={classes.headerButton} variant='outlined' size='small' onClick={()=>history.push('/myrecipebox/myrecipes')}>
                 My Recipes
             </Button>
             <Button className={classes.headerButton} variant='outlined' size='small' onClick={()=>{
@@ -65,4 +66,4 @@ const mapStateToProps=createStructuredSelector({
     hidden:selectHiddenSignInModal,
     currentUser:selectCurrentUser
 });
-export default connect(mapStateToProps,mapDispatchToProps)(HeaderComponent)
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(HeaderComponent))
