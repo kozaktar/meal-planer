@@ -25,7 +25,15 @@ const useStyles = makeStyles(theme => ({
     imgDiv:{
         width: 300,
         height: 400,
-        margin: 20
+        margin: 20,
+        position:'relative',
+        [theme.breakpoints.down('sm')]:{
+            maxWidth:'50vw',
+            maxHeight:'50vh',
+            marginBottom:30,
+            marginLeft:'auto',
+            marginRight: 'auto'
+        }
     },
     centered:{
         margin:'auto',
@@ -34,10 +42,22 @@ const useStyles = makeStyles(theme => ({
     },
     img:{
         width:'100%',
-        height:'100%'
+        height:'100%',
+        [theme.breakpoints.down('sm')]:{
+            maxHeight:'50vh'
+        }
+    },
+    deleteButtonHelperText:{
+      position:"absolute",
+      top:'3%',
+      right:'5%',
     },
     deleteButton:{
-      marginLeft: -20
+        backgroundColor:'hsla(229, 0%, 43%, 0.55)', 
+        "&:hover":{backgroundColor:'black'}
+    },
+    deleteIcon:{
+        color:'white'
     }
 }))
 
@@ -68,9 +88,9 @@ const ImageUpload=({onDrop, removeImages, initialImage})=>{
             {image?
             <div className={classes.imgDiv}>
                 <img src={processDisplayImage()} className={classes.img}/>
-                <Tooltip title="Delete Image" className={classes.deleteButton}>
-                <IconButton aria-label="delete"  onClick={handleImageDelete}>
-                 <DeleteIcon fontSize="small" />
+                <Tooltip title="Delete Image" className={classes.deleteButtonHelperText}>
+                <IconButton aria-label="delete"  onClick={handleImageDelete} className={classes.deleteButton} size='small'>
+                 <DeleteIcon fontSize="small" className={classes.deleteIcon} />
                 </IconButton>
                 </Tooltip>
             </div>

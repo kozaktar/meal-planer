@@ -46,7 +46,7 @@ function a11yProps(index) {
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    width: 500,
+    maxWidth: 500,
     heigh:'100%'
   },
   noMargin:{
@@ -77,7 +77,7 @@ const useStyles = makeStyles(theme => ({
           onChange={handleChange}
           indicatorColor="primary"
           textColor="primary"
-          variant="fullWidth"
+          scrollButtons="auto"
           aria-label="Add new recipe dialog input"
         >
           <Tab label="Description" {...a11yProps(0)} />
@@ -113,6 +113,7 @@ const useStyles = makeStyles(theme => ({
           onChange={onFormChange}
           value={state.portions}
           margin="normal"
+          style={{marginRight:10}}
         />
          </div>
          <div>

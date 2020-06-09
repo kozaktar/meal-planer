@@ -21,6 +21,10 @@ const useStyles = makeStyles(theme => ({
     flexDirection:'row',
     margin:30,
     height:'100%',
+    [theme.breakpoints.down('sm')]:{
+      flexDirection:'column',
+      margin:'auto'
+    }
   },
   form:{
     display:'flex',
@@ -29,7 +33,8 @@ const useStyles = makeStyles(theme => ({
     height:'100%'
   },
   buttonsGroup:{
-    margin:30
+    margin:30,
+    paddingBottom:20
   },
   cancelButton:{
     backgroundColor:'transparent',

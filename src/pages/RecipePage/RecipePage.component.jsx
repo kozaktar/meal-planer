@@ -22,7 +22,7 @@ import { maxHeight } from '@material-ui/system';
 
 
 
-const styles=makeStyles(
+const styles=makeStyles(theme=>(
     {
     spinerStyle:{
         position: 'fixed', /* or absolute */
@@ -36,7 +36,6 @@ const styles=makeStyles(
             width:'100%'
     },
     wrapperReverse:{
-
         display:'flex',
         flexDirection:'column-reverse',
         flexWrap:'wrap',
@@ -64,7 +63,11 @@ const styles=makeStyles(
         color:'grey'
     },
     portions:{
-        marginLeft:'40px'
+        marginLeft:'40px',
+        [theme.breakpoints.down('sm')]:{
+            display:'block',
+        marginLeft:0
+        }
     },
     halfWidth:{
         maxWidth:'50%'
@@ -80,10 +83,11 @@ const styles=makeStyles(
     },
     heading:{
         marginTop:'20px'
-    }
+    },
+    
 
     
-})
+}))
 
 const RecipePage=({ location, fetchRecipe, currentUser, recipe})=>{
 
