@@ -165,3 +165,44 @@ export const updateRecipesFailure=(error)=>(
         payload:error
     }
 );
+
+export const fetchPublicRecipeTitlesStart=()=>(
+    {
+        type:RecipeActionTypes.FETCH_PUBLIC_RECIPES_TITLES_START
+    }
+);
+
+export const fetchPublicRecipeTitlesSuccess=(titles)=>(
+    {
+        type:RecipeActionTypes.FETCH_PUBLIC_RECIPES_TITLES_SUCCESS,
+        payload:titles
+    }
+);
+
+export const fetchPublicRecipeTitlesFailure=(error)=>(
+    {
+        type:RecipeActionTypes.FETCH_PUBLIC_RECIPES_TITLES_FAILURE,
+        payload:error
+    }
+);
+
+export const fetchFeaturedRecipesStart=(num)=>(
+    {
+        type:RecipeActionTypes.FETCH_FEATURED_RECIPES_START,
+        payload:num
+    }
+);
+
+export const fetchFeaturedRecipesSuccess=(recipes)=>(
+    {
+        type:RecipeActionTypes.FETCH_FEATURED_RECIPES_SUCCESS,
+        payload:recipes
+    }
+);
+
+export const fetchFeaturedRecipesFailure=(error)=>(
+    {
+        type:RecipeActionTypes.FETCH_FEATURED_RECIPES_FAILURE,
+        payload:error
+    }
+);

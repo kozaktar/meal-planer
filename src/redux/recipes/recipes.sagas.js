@@ -3,7 +3,6 @@ import RecipeActionTypes from './recipes.types';
 import axios from 'axios';
 import {fetchRecipesSuccess, fetchRecipesFailure, addRecipeSuccess, addRecipesFailure, fetchUserRecipeTitlesFailure, fetchUserRecipeTitlesSuccess, fetchSearchedRecipesSuccess, fetchSearchedRecipesFailure, fetchRecipeByIDSuccess, fetchRecipesByIDFailure, deleteRecipeSuccess, deleteRecipeFailure, updateRecipeSuccess, updateRecipesFailure} from './recipes.actions';
 import toggleAddRecipeDropdown from '../addRecipeModal/addRecipeModal.actions';
-
 const recipesAPIpath='http://localhost:3001/recipes'
 
 
@@ -19,8 +18,21 @@ function* FetchRecipes({payload}){
     catch(error){
        yield put(fetchRecipesFailure(error))
     }
-
 }
+
+function* FetchFeaturedRecipes({payload}){
+    try{
+        const path=recipesAPIpath+'?limit= 10'
+        yield axios.defaults.headers.common['userID'] =payload 
+        const recipes=yield axios.get(path)
+       
+        yield put(fetchRecipesSuccess(recipes.data))
+    }
+    catch(error){
+       yield put(fetchRecipesFailure(error))
+    }
+}
+
 
 function* FetchSearchedRecipes({payload}){
     try{
@@ -59,7 +71,19 @@ function* FetchUserRecipeTitles({payload}){
     catch(error){
        yield put(fetchUserRecipeTitlesFailure(error))
     }
+}
 
+function* FetchPublicRecipeTitles({payload}){
+    const path=recipesAPIpath+'/mytitles/'
+    try{
+        yield axios.defaults.headers.common['userID'] =payload 
+        const recipeTitles=yield axios.get(path)
+    
+        yield put(fetchUserRecipeTitlesSuccess(recipeTitles.data))
+    }
+    catch(error){
+       yield put(fetchUserRecipeTitlesFailure(error))
+    }
 }
 
 function* UpdateRecipe({payload}){
@@ -95,12 +119,20 @@ function* onRecipesFetchStart(){
     yield takeLatest(RecipeActionTypes.FETCH_RECIPES_START, FetchRecipes)
 }
 
+function* onFeaturedRecipesFetchStart(){
+    yield takeLatest(RecipeActionTypes.FETCH_FEATURED_RECIPES_START, FetchFeaturedRecipes)
+}
+
 function* onSearchRecipesFetchStart(){
     yield takeLatest(RecipeActionTypes.FETCH_SEARCHED_RECIPES_START, FetchSearchedRecipes)
 }
 
 function* onUserRecipeTitlesFetchStart(){
     yield takeLatest(RecipeActionTypes.FETCH_USER_RECIPES_TITLES_START, FetchUserRecipeTitles)
+}
+
+function* onPublicRecipeTitlesFetchStart(){
+    yield takeLatest(RecipeActionTypes.FETCH_PUBLIC_RECIPES_TITLES_START, FetchPublicRecipeTitles)
 }
 
 function* onRecipesAddStart(){
@@ -156,6 +188,6 @@ function* DeleteRecipe({payload}){
 
 
 export function* recipeSagas(){
-    yield all([call(onRecipesFetchStart), call(onRecipesAddStart), call(onUserRecipeTitlesFetchStart), call(onSearchRecipesFetchStart), call(onRecipeByIDFetchStart), call(onRecipeDeleteStart), call(onRecipeUpdateStart)])
+    yield all([call(onRecipesFetchStart), call(onRecipesAddStart), call(onUserRecipeTitlesFetchStart), call(onSearchRecipesFetchStart), call(onRecipeByIDFetchStart), call(onRecipeDeleteStart), call(onRecipeUpdateStart), call(onFeaturedRecipesFetchStart), call(onPublicRecipeTitlesFetchStart)])
 }
 

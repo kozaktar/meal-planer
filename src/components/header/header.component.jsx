@@ -24,6 +24,9 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.down('sm')]:{
             fontSize:'10px'
         }
+    },
+    root:{
+        
     }
 }))
 
@@ -37,10 +40,10 @@ const HeaderComponent=({toggleDropdown,signOutUser, currentUser, clearLoginError
         <LinksContainerDiv>
             {currentUser ? (
             <div style={{display:'flex', flexDirection:'row'}}>   
-            <Button className={classes.headerButton} variant='outlined' size='small' onClick={()=>history.push('/myrecipebox/myrecipes')}>
+            <Button className={classes.headerButton} variant='outlined' size='medium' onClick={()=>history.push('/myrecipebox/myrecipes')}>
                 My Recipes
             </Button>
-            <Button className={classes.headerButton} variant='outlined' size='small' onClick={()=>{
+            <Button className={classes.headerButton} variant='outlined' size='medium' onClick={()=>{
                 signOutUser();
                 }}>
                 Sign Out

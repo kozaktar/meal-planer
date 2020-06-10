@@ -3,6 +3,7 @@ const Recipe=require('../models/recipe');
 const router=new express.Router();
 const auth=require('../middleware/auth');
 const multer=require('multer');
+const removeDuplicates=require('../utils')
 
 //used to handle image file uploads for recipe picture
 //only accempts file size up 2mb and only the following formats: jpg|jpeg|gif|bmp|png
@@ -59,20 +60,28 @@ router.post('/recipes', upload.single('picture'), auth, async (req, res) => {
 // GET /recipes?limit=10&skip=20
 //match can be used to filter out reicpes (feature to be implemented later)
 router.get('/recipes/', auth, async (req, res) => {
-    console.log("user", req.user)
-    const match = {}
     //const limit=parseInt(req.query.limit)
     const limit=parseInt(req.query.limit)
     
 
     try {
         const UserRecipes= await Recipe.find({users: req.user.authID}).sort({_id:1}).skip(req.query.skip).limit(limit)
-        console.log('user-->',req.user)
-
-        console.log('Recipes sending:', UserRecipes)
         res.status(201).send(UserRecipes)
     } catch (e) {
-        console.log(e)
+        res.status(500).send(e)
+    }
+})
+
+//get public recipes
+//eg GET /recipes/public?limit=10
+router.get('/recipes/public/featured', async (req, res) => {
+    const limit=parseInt(req.query.limit)
+
+    try {
+        const publicRecipes= await Recipe.aggregate([{$match: {visibility:'true'}}, {$sample: {size: limit}}])
+        const sampleNoDuplicates= removeDuplicates(publicRecipes);
+        res.status(201).send(sampleNoDuplicates)
+    } catch (e) {
         res.status(500).send(e)
     }
 })
@@ -82,7 +91,6 @@ router.get('/recipes/mytitles', auth, async (req, res) => {
 
     try {
       const titles= await Recipe.find({owner: req.user.authID}, {recipeTitle: 1})
-        console.log('titles:', titles)
         res.send(titles)
     } catch (e) {
         res.status(500).send(e)
@@ -109,7 +117,6 @@ router.get('/recipes/id/:id', async (req, res) => {
 router.get('/recipes/search/:term', async (req, res) => {
     const term = req.params.term
     const searchTerm = new RegExp(`\\b${term}\\b`,'i');
-    console.log('searchTerm:', searchTerm)
     if(req.header('userID')){
         try {
             let recipe = await Recipe.find({ recipeTitle: {"$regex": searchTerm}, users: req.header('userID') })
@@ -119,7 +126,6 @@ router.get('/recipes/search/:term', async (req, res) => {
     
             res.send(recipe)
         } catch (e) {
-            console.log(e)
             res.status(500).send()
         }
     }
@@ -161,14 +167,12 @@ router.patch('/recipes/:id', upload.single('picture'), auth, async (req, res) =>
         
         await recipe.save()
         res.send(recipe)
-        console.log('updated recipe',recipe)
     } catch (e) {
         res.status(400).send(e.message)
     }
 })
 
 router.delete('/recipes/:id', auth, async (req, res) => {
-    console.log('delete request')
     try {
         const recipe = await Recipe.findOne({ _id: req.params.id})
         if(recipe.users.length<2){

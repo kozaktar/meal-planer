@@ -13,7 +13,8 @@ import EditRecipeButton from '../edit-recipe-button/EditRecipeButton.component';
 import PlaceHolderImg from '../../assets/placeholder.jpg';
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
-import {selectCurrentUser} from '../../redux/user/user.selectors'
+import {selectCurrentUser} from '../../redux/user/user.selectors';
+import {truncateString} from './CardUtils';
 
 
 const useStyles = makeStyles(theme => ({
@@ -34,12 +35,14 @@ const useStyles = makeStyles(theme => ({
     justifyContent:'flex-end',
     background: '#fafffb',
     paddingRight:15,
+  },
+  descriptionText:{
+    textAlign:'left'
   }
 }));
 
 const RecipeCard=({recipe, history, currentUser})=>{
   const classes = useStyles();
-  console.log('current user:', currentUser)
   const handleActionAreaClick = () => {
     history.push(`/recipes/${recipe._id}`)
   };
@@ -62,8 +65,8 @@ const RecipeCard=({recipe, history, currentUser})=>{
      
   
       <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {recipe.recipeDescription}
+        <Typography variant="body2" color="textSecondary" component="p" className={classes.descriptionText}>
+          {truncateString(recipe.recipeDescription, 100)}
         </Typography>
       </CardContent>
       
