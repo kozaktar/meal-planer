@@ -49,8 +49,8 @@ const RecipeCard=({recipe, history, currentUser, location})=>{
 
 
   const picture=recipe.picture?`data:image;base64,${new Buffer(recipe.picture).toString('base64')}`:PlaceHolderImg
-   
-    
+  
+
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -71,10 +71,11 @@ const RecipeCard=({recipe, history, currentUser, location})=>{
       </CardContent>
       
       </CardActionArea>
-  <CardActions disableSpacing className={classes.cardActions}>
+      {location.pathname==='/myrecipebox/myrecipes'?
+      (<CardActions disableSpacing className={classes.cardActions}>
         <EditRecipeButton id={recipe._id} style={currentUser===null || currentUser.authID!==recipe.owner?{display:'none'}:null}/>
-        <DeleteRecipeButton id={recipe._id} style={currentUser===null || currentUser.authID!==recipe.owner?{display:'none'}:null}/>
-      </CardActions>
+        <DeleteRecipeButton id={recipe._id} style={currentUser===null ||currentUser.authID!==recipe.owner?{display:'none'}:null}/>
+        </CardActions>):null}
       
     </Card>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import {connect} from 'react-redux';
-import { selectUserRecipes, selectSearchResults, selectSearchQuery } from '../../redux/recipes/recipes.selectors';
+import { selectSearchResults, selectSearchQuery } from '../../redux/recipes/recipes.selectors';
 import RecipeCard from '../recipe-card/RecipeCard';
 import { createStructuredSelector } from 'reselect';
 import Typography from '@material-ui/core/Typography';
@@ -77,7 +77,6 @@ const RecipeDisplay=({recipes, searchResults, queryString, clearQuery})=>{
 }
 
 const mapStateToProps=createStructuredSelector({
-    recipes: selectUserRecipes,
     searchResults: selectSearchResults,
     queryString: selectSearchQuery
 })

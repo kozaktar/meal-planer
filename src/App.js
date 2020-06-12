@@ -12,6 +12,7 @@ import {colapseSigninModal} from './redux/sign-in-modal/sign-in-modal.actions';
 import MyRecipeBoxPage from './pages/MyRecipeBox/MyRecipeBoxPage.component';
 import RecipePage from './pages/RecipePage/RecipePage.component';
 import AuthPage from './pages/AuthPage/AuthPage.component';
+import {signOutStart} from './redux/user/user.actions'
 
 
 
@@ -22,6 +23,7 @@ componentDidMount(){
   const {checkCurrentUser}=this.props
   checkCurrentUser();
 }
+
 
 
   

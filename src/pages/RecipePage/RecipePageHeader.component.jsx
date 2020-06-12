@@ -27,11 +27,12 @@ const RecipePageHeader=({children, history, currentUser})=>(
         {/* Recipe title */}
         <Typography variant="h4" style={styles.title}>{children}</Typography> 
         {/* on close return to main page --loged in users will be automatically redirected to their recipe page */}
-        <IconButton aria-label="close"  onClick={()=>{currentUser?history.push('/myrecipebox/myrecipes'):history.push('/')}}> 
+        <IconButton aria-label="close"  onClick={()=>{currentUser===null?history.push('/'):history.goBack()}}> 
             <CloseIcon />
         </IconButton>
     </div>
     <Divider style={{marginBottom:'4vh'}}/>
+    {console.log('history',Window.history)}
     </Fragment>
 )
 

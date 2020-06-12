@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => ({
     
 }));
 
-const MyRecipies =({ addRecipeVisible,toggleAddRecipeDropdown, clearRecipe, loadingRecipeInfo, currentRecipe})=>{
+const MyRecipies =({ addRecipeVisible,toggleAddRecipeDropdown, clearRecipe, loadingRecipeInfo, currentRecipe, recipes})=>{
 
 const classes=useStyles();
 
@@ -91,7 +91,7 @@ return(
             <AddRecipeForm onClose={toggleAddRecipeDropdown}/>
           </ModalWithSpinner>
         </Grid>
-        <RecipeDisplay/>
+        <RecipeDisplay recipes={recipes}/>
         
       </Grid>
   </div>

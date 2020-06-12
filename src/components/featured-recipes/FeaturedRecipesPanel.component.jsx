@@ -1,18 +1,21 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {fetchFeaturedRecipesStart} from '../../redux/recipes/recipes.actions';
-import {selectRecipeError, selectFeaturedRecipe} from '../../redux/recipes/recipes.selectors';
+import {selectRecipeError, selectFeaturedRecipe, selectRecipeLoading} from '../../redux/recipes/recipes.selectors';
 import {createStructuredSelector} from 'reselect';
-import RecipeCard from '../recipe-card/RecipeCard';
+import RecipeDisplay from '../recipeDisplay/RecipeDisplay.component';
+import Grid from '@material-ui/core/Grid';
+import WithSpinner from '../spiner/withSpiner.component';
 
+const RecipeDisplayWithSpiner=WithSpinner(RecipeDisplay)
 
-const FeaturedRecipes=({featuredRecipes, featuredRecipesError, getFeaturedRecipes})=>{
-    useEffect(()=>{ getFeaturedRecipes(1) }, [])
+const FeaturedRecipes=({featuredRecipes, featuredRecipesError, getFeaturedRecipes, loading})=>{
+    useEffect(()=>{ getFeaturedRecipes(3) }, [])
         
-        return (
-            <div>
-                {featuredRecipesError?featuredRecipesError:featuredRecipes.map(recipe=><RecipeCard key={recipe._id} recipe={recipe}/>)}
-            </div>
+       return (
+            <Grid container spacing={2}>
+                <RecipeDisplayWithSpiner isloading={loading} recipes={featuredRecipes}/>
+            </Grid>
         )
 }
 
@@ -22,6 +25,7 @@ const mapDispatchToProps=dispatch=>({
 
 const mapStateToProps=createStructuredSelector({
     featuredRecipes: selectFeaturedRecipe,
-    featuredRecipesError: selectRecipeError
+    featuredRecipesError: selectRecipeError,
+    loading: selectRecipeLoading
 })
 export default connect(mapStateToProps, mapDispatchToProps)(FeaturedRecipes)
