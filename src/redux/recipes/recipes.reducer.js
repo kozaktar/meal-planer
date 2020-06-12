@@ -17,12 +17,14 @@ const INITIAL_STATE={
     recipePageLoading:false,
     recipePageError:null,
     deletingRecipesInProgress:false,
-    delitingRecipesError:null
+    delitingRecipesError:null,
+    featuredRecipes:[]
 }
 
 const recipesReducer=(state=INITIAL_STATE,action)=>{
     switch(action.type){
         case RecipeActionTypes.FETCH_RECIPES_START:
+        case RecipeActionTypes.FETCH_FEATURED_RECIPES_START:
             return {...state, loading:true};
 
         case RecipeActionTypes.FETCH_RECIPE_BY_ID_START:
@@ -55,6 +57,9 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
         case RecipeActionTypes.FETCH_RECIPES_SUCCESS:
             return {...state, loading:false, recipes:[...state.recipes , ...action.payload], recipesError:null}; 
 
+        case RecipeActionTypes.FETCH_FEATURED_RECIPES_SUCCESS:
+            return {...state, loading:false, featuredRecipes:action.payload, recipesError:null};     
+
         case RecipeActionTypes.FETCH_RECIPE_BY_ID_SUCCESS:
             return {...state, recipePageLoading:false, recipePageRecipe:action.payload};
         
@@ -70,6 +75,7 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
             }    
 
         case RecipeActionTypes.FETCH_RECIPES_FAILURE:
+        case RecipeActionTypes.FETCH_FEATURED_RECIPES_FAILURE:    
             return {...state, recipesError:action.payload, loading:false};
 
         case RecipeActionTypes.ADD_RECIPES_FAILURE:

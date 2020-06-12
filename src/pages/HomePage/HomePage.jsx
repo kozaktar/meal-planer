@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import BackgroundImage from '../../assets/background.jpg';
 import SearchBar from '../../components/search-bar/SearchBar.component';
-import Typography from '@material-ui/core/Typography';
+import FeaturedRecipesPanel from '../../components/featured-recipes/FeaturedRecipesPanel.component';
 
 const useStyles=makeStyles(theme=>({
     background:{
@@ -26,6 +26,7 @@ const HomePage=()=>{
         <div className={classes.background}>
             <div className={classes.SearchBar}>
                 <SearchBar/>
+                <FeaturedRecipesPanel/>
             </div>
         </div>
     )

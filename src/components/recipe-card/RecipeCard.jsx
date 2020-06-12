@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const RecipeCard=({recipe, history, currentUser})=>{
+const RecipeCard=({recipe, history, currentUser, location})=>{
   const classes = useStyles();
   const handleActionAreaClick = () => {
     history.push(`/recipes/${recipe._id}`)
@@ -71,11 +71,11 @@ const RecipeCard=({recipe, history, currentUser})=>{
       </CardContent>
       
       </CardActionArea>
-    
-      <CardActions disableSpacing className={classes.cardActions}>
-        <EditRecipeButton id={recipe._id} style={currentUser===recipe.owner?{display:'none'}:null}/>
-        <DeleteRecipeButton id={recipe._id} style={currentUser===recipe.owner?{display:'none'}:null}/>
+  <CardActions disableSpacing className={classes.cardActions}>
+        <EditRecipeButton id={recipe._id} style={currentUser===null || currentUser.authID!==recipe.owner?{display:'none'}:null}/>
+        <DeleteRecipeButton id={recipe._id} style={currentUser===null || currentUser.authID!==recipe.owner?{display:'none'}:null}/>
       </CardActions>
+      
     </Card>
   );
 }

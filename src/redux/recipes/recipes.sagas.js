@@ -1,7 +1,7 @@
 import {takeLatest, put,all, call} from 'redux-saga/effects';
 import RecipeActionTypes from './recipes.types';
 import axios from 'axios';
-import {fetchRecipesSuccess, fetchRecipesFailure, addRecipeSuccess, addRecipesFailure, fetchUserRecipeTitlesFailure, fetchUserRecipeTitlesSuccess, fetchSearchedRecipesSuccess, fetchSearchedRecipesFailure, fetchRecipeByIDSuccess, fetchRecipesByIDFailure, deleteRecipeSuccess, deleteRecipeFailure, updateRecipeSuccess, updateRecipesFailure} from './recipes.actions';
+import {fetchRecipesSuccess, fetchRecipesFailure, addRecipeSuccess, addRecipesFailure, fetchUserRecipeTitlesFailure, fetchUserRecipeTitlesSuccess, fetchSearchedRecipesSuccess, fetchSearchedRecipesFailure, fetchRecipeByIDSuccess, fetchRecipesByIDFailure, deleteRecipeSuccess, deleteRecipeFailure, updateRecipeSuccess, updateRecipesFailure, fetchFeaturedRecipesSuccess, fetchFeaturedRecipesFailure} from './recipes.actions';
 import toggleAddRecipeDropdown from '../addRecipeModal/addRecipeModal.actions';
 const recipesAPIpath='http://localhost:3001/recipes'
 
@@ -22,14 +22,15 @@ function* FetchRecipes({payload}){
 
 function* FetchFeaturedRecipes({payload}){
     try{
-        const path=recipesAPIpath+'?limit= 10'
-        yield axios.defaults.headers.common['userID'] =payload 
+        const path=recipesAPIpath+'/public/featured?limit='+payload
         const recipes=yield axios.get(path)
+        //recipes.data.picture=Buffer.from(recipes.data.picture, 'base64')
+        console.log('Featured Recipes', recipes.data)
        
-        yield put(fetchRecipesSuccess(recipes.data))
+        yield put(fetchFeaturedRecipesSuccess(recipes.data))
     }
     catch(error){
-       yield put(fetchRecipesFailure(error))
+       yield put(fetchFeaturedRecipesFailure(error))
     }
 }
 

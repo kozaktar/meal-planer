@@ -27,7 +27,6 @@ const upload = multer(
 //create recipe
 router.post('/recipes', upload.single('picture'), auth, async (req, res) => {
     let recipe=null
-    console.log('body:',req.body)
 
     
     recipe = new Recipe({
@@ -78,9 +77,11 @@ router.get('/recipes/public/featured', async (req, res) => {
     const limit=parseInt(req.query.limit)
 
     try {
-        const publicRecipes= await Recipe.aggregate([{$match: {visibility:'true'}}, {$sample: {size: limit}}])
-        const sampleNoDuplicates= removeDuplicates(publicRecipes);
-        res.status(201).send(sampleNoDuplicates)
+        let publicRecipes= await Recipe.aggregate([{$match: {visibility:'true'}}, {$sample: {size: limit}}, {$project: {_id: 1}}])
+        publicRecipes=publicRecipes.map(item=>item._id)
+        const response=await Recipe.find({'_id': {'$in':publicRecipes}})
+        
+        res.status(201).send(response)
     } catch (e) {
         res.status(500).send(e)
     }
