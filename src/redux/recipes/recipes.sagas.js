@@ -3,7 +3,9 @@ import RecipeActionTypes from './recipes.types';
 import axios from 'axios';
 import {fetchRecipesSuccess, fetchRecipesFailure, addRecipeSuccess, addRecipesFailure, fetchUserRecipeTitlesFailure, fetchUserRecipeTitlesSuccess, fetchSearchedRecipesSuccess, fetchSearchedRecipesFailure, fetchRecipeByIDSuccess, fetchRecipesByIDFailure, deleteRecipeSuccess, deleteRecipeFailure, updateRecipeSuccess, updateRecipesFailure, fetchFeaturedRecipesSuccess, fetchFeaturedRecipesFailure} from './recipes.actions';
 import toggleAddRecipeDropdown from '../addRecipeModal/addRecipeModal.actions';
-const recipesAPIpath='http://localhost:3001/recipes'
+
+
+const recipesAPIpath='http://localhost:3001/recipes';
 
 
 
@@ -25,7 +27,6 @@ function* FetchFeaturedRecipes({payload}){
         const path=recipesAPIpath+'/public/featured?limit='+payload
         const recipes=yield axios.get(path)
         //recipes.data.picture=Buffer.from(recipes.data.picture, 'base64')
-        console.log('Featured Recipes', recipes.data)
        
         yield put(fetchFeaturedRecipesSuccess(recipes.data))
     }

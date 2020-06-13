@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
       
   }));
 
-const RecipeDisplay=({recipes, searchResults, queryString, clearQuery})=>{
+const RecipeDisplay=({recipes, searchResults, queryString, clearQuery, title})=>{
 
     const classes=useStyles();
 
@@ -62,17 +62,24 @@ const RecipeDisplay=({recipes, searchResults, queryString, clearQuery})=>{
                             <CancelIcon fontSize='small'/>
                         </IconButton>
                        </div>
+                    <Grid container spacing={2}>
                        {searchResults.map(item=>(<Grid item key={item._id}>
                     <RecipeCard recipe={item}/>
-                     </Grid>)
-            )}
+                     </Grid>) 
+                     )}
+                    </Grid>
                    </div>
                )
     }
     else
-        return recipes.map(item=>(<Grid item key={item._id}>
+        return (<>
+        {title?<Typography variant='h5' style={{marginBottom:30}}>{title}</Typography>:null}
+        <Grid container spacing={2}>
+            {recipes.map(item=>(<Grid item key={item._id}>
             <RecipeCard recipe={item}/>
-          </Grid>))
+          </Grid>))}
+          </Grid>
+          </>)
 
 }
 

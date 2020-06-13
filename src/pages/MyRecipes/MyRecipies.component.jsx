@@ -71,8 +71,8 @@ const handleAddRecipeButtonClick=()=>{
 
 return(
   <div className={classes.root}>
-      <Grid container spacing={2}>
-        <Grid item xs={12} className={classes.alignItemsAndJustifyContent}>
+      
+        <div className={classes.alignItemsAndJustifyContent}>
           <SearchBar/>
           {/* <Button
           variant="contained"
@@ -90,10 +90,9 @@ return(
           <ModalWithSpinner title={currentRecipe?"Edit Recipe":"Add New Recipe"} handleClose={toggleAddRecipeDropdown} open={addRecipeVisible} isloading={loadingRecipeInfo}>
             <AddRecipeForm onClose={toggleAddRecipeDropdown}/>
           </ModalWithSpinner>
-        </Grid>
+        </div>
         <RecipeDisplay recipes={recipes}/>
         
-      </Grid>
   </div>
         )
     

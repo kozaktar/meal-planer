@@ -40,7 +40,6 @@ const HomePage=({loading})=>{
                 <SearchBar/>
             </div>
             <div className={classes.FeaturedRecipes}>
-                <Typography variant='h5' style={{marginBottom:30}}>Featured Recipes:</Typography>
                 <FeaturedRecipesPanel/>
             </div>
         </div>

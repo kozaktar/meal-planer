@@ -14,7 +14,7 @@ const FeaturedRecipes=({featuredRecipes, featuredRecipesError, getFeaturedRecipe
         
        return (
             <Grid container spacing={2}>
-                <RecipeDisplayWithSpiner isloading={loading} recipes={featuredRecipes}/>
+                <RecipeDisplayWithSpiner isloading={loading} recipes={featuredRecipes} title={'Featured Recipes:'}/>
             </Grid>
         )
 }
