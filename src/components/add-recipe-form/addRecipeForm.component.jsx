@@ -72,7 +72,6 @@ const reducer=(state,action)=>{
         return {...state, directions:[...state.directions,'']};
     case 'removeDirections':
         const directionsPostDeletion=[...state.directions];
-        console.log('id',action.payload)
         directionsPostDeletion.splice(action.payload, 1);
         return {...state, directions:directionsPostDeletion};  
     case 'addIngredients':
@@ -85,6 +84,8 @@ const reducer=(state,action)=>{
         return {...state, img:action.payload};
     case 'removeImage':
       return {...state, img:null};
+    case 'updateVisibility':
+        return {...state, visibility:action.payload};
     default:
        return state;
   }
@@ -175,6 +176,13 @@ const removeImage=()=>(
   }  
 )
 
+const updateVisibility=(payload)=>(
+  {
+    type:'updateVisibility',
+    payload
+  }
+)
+
 
 const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,toggleAddRecipeDropdown, recipe, updateRecipe}) =>{
 
@@ -187,7 +195,7 @@ const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,togg
     prepTime:'',
     ingredients:[''],
     directions:[''],
-    visibility:true
+    visibility:'public'
   }
 
   if(recipe){
@@ -211,6 +219,7 @@ const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,togg
 
   const handleFormChange=event=>{
     const { value, name } = event.target;
+
     switch(name){
       case 'title':
         dispatch(updateTitle(value))
@@ -235,6 +244,9 @@ const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,togg
           break; 
       case 'prepTime':
         dispatch(updatePrepTime(value))
+          break;
+      case 'visibility':
+        dispatch(updateVisibility(value))
           break;           
       default:
         console.log('reducer error')

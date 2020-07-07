@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -12,6 +12,12 @@ import TextField from '@material-ui/core/TextField';
 import RecipeDirectionsInput from '../recipe-directions-input/RecipeDirectionsInput.component';
 import Button from '@material-ui/core/Button';
 import RecipeIngredientInput from '../recipe-ingredients-input/RecipeIngredientsInput.component';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import Tooltip from '@material-ui/core/Tooltip';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -126,6 +132,22 @@ const useStyles = makeStyles(theme => ({
         />
         </div>
         </div>
+        <FormControl component="fieldset">
+        <RadioGroup row aria-label="position" name="position" style={{marginTop:10}} onChange={onFormChange} name='visibility' value={state.visibility}>
+        <FormControlLabel
+          value='private'
+          control={<Radio color="primary" />}
+          label={<Tooltip title="private recipes are only visible to you"><Typography>Private</Typography></Tooltip>}
+          labelPlacement="start"
+        />
+        <FormControlLabel
+          value='public'
+          control={<Radio color="primary" />}
+          label={<Tooltip title="public recipes are visible to all users"><Typography>Public</Typography></Tooltip>}
+          labelPlacement="start"
+        />
+        </RadioGroup>
+        </FormControl>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
             {state.ingredients.map((ingredient, index)=>

@@ -32,7 +32,6 @@ const RecipePageHeader=({children, history, currentUser})=>(
         </IconButton>
     </div>
     <Divider style={{marginBottom:'4vh'}}/>
-    {console.log('history',Window.history)}
     </Fragment>
 )
 

@@ -48,7 +48,7 @@ export const createUserProfileDocument=async (userAuth, name)=>{
       authID: userAuth.uid,
     }
 
-    axios.post(userAPIpath,user).then(res=>console.log(res.data)).catch(e=>console.log(e))
+    axios.post(userAPIpath,user).then(res=>(res.data)).catch(e=>(e))
 
   }
 

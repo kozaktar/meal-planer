@@ -51,7 +51,6 @@ router.post('/recipes', upload.single('picture'), auth, async (req, res) => {
         res.status(201).send(recipe)
     } catch (e) {
         res.status(400).send(e)
-        console.log(e);
     }
 })
 
@@ -77,7 +76,7 @@ router.get('/recipes/public/featured', async (req, res) => {
     const limit=parseInt(req.query.limit)
 
     try {
-        let publicRecipes= await Recipe.aggregate([{$match: {visibility:'true'}}, {$sample: {size: limit}}, {$project: {_id: 1}}])
+        let publicRecipes= await Recipe.aggregate([{$match: {visibility:'public'}}, {$sample: {size: limit}}, {$project: {_id: 1}}])
         publicRecipes=publicRecipes.map(item=>item._id)
         const response=await Recipe.find({'_id': {'$in':publicRecipes}})
         
@@ -134,9 +133,9 @@ router.get('/recipes/search/:term', async (req, res) => {
 })
 
 router.patch('/recipes/:id', upload.single('picture'), auth, async (req, res) => {
-
+    console.log(req.body)
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['recipeTitle', 'recipeIngredients', 'recipeDirections', 'visibility', 'picture', 'recipeDirections', 'portions', 'prepTime']
+    const allowedUpdates = ['recipeTitle', 'recipeIngredients', 'recipeDirections', 'visibility', 'picture', 'recipeDescription', 'portions', 'prepTime']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     if (!isValidOperation) {

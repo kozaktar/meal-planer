@@ -112,7 +112,7 @@ function* UpdateRecipe({payload}){
         if(error.response.status==500)
             yield put(updateRecipesFailure('Error 500: File must be a valid image format and not larger than 2 MB.'))
         else
-            yield put(updateRecipesFailure(error.response.data))
+            yield put(updateRecipesFailure(error.response.data.error))
     }
 
 }

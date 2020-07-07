@@ -20,6 +20,7 @@ import {truncateString} from './CardUtils';
 const useStyles = makeStyles(theme => ({
   root: {
     width: 375,
+    height:370,
     [theme.breakpoints.down('sm')]:{
       minWidth: 180,
       maxWidth:'76vw'
@@ -35,9 +36,11 @@ const useStyles = makeStyles(theme => ({
     justifyContent:'flex-end',
     background: '#fafffb',
     paddingRight:15,
+    alignSelf:'flex-end'
   },
   descriptionText:{
-    textAlign:'left'
+    textAlign:'left',
+    height:30
   }
 }));
 
