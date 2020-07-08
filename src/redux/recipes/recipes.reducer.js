@@ -46,7 +46,7 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
 
         case RecipeActionTypes.FETCH_SEARCHED_RECIPES_SUCCESS:
             return {...state, searchResults:action.payload, recipeDisplayLoading:false};
-            
+        case RecipeActionTypes.UNSAVE_RECIPES_SUCCESS:    
         case RecipeActionTypes.DELETE_RECIPE_SUCCESS:{
             const newRecipesArr=state.recipes.filter(item=>item._id!==action.payload)
             return {...state, recipes: newRecipesArr, deletingRecipesInProgress:false};    
@@ -65,6 +65,7 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
         case RecipeActionTypes.FETCH_RECIPE_BY_ID_SUCCESS:
             return {...state, recipePageLoading:false, recipePageRecipe:action.payload};
         
+        case RecipeActionTypes.SAVE_RECIPES_SUCCESS: 
         case RecipeActionTypes.ADD_RECIPES_SUCCESS: 
             return {...state, addingRecipe:false, recipes:[ action.payload, ...state.recipes,], addingRecipeError:null};
             
@@ -102,9 +103,8 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
         case RecipeActionTypes.CLEAR_CURRENT_RECIPE:
             return {...state, recipePageRecipe:null }  
         case RecipeActionTypes.SAVE_RECIPES_START:
+        case RecipeActionTypes.UNSAVE_RECIPES_START:
             return {...state, savingRecipe:true}
-        case RecipeActionTypes.SAVE_RECIPES_SUCCESS:
-            return {...state, savingRecipe:false, recipes:[ action.payload, ...state.recipes], savingRecipeError:null}
         case RecipeActionTypes.SAVE_RECIPES_FAILURE:
             return {...state, savingRecipe:false, savingRecipeError:action.payload}    
         default:

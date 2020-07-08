@@ -1,7 +1,7 @@
 import {takeLatest, put,all, call} from 'redux-saga/effects';
 import RecipeActionTypes from './recipes.types';
 import axios from 'axios';
-import {fetchRecipesSuccess, fetchRecipesFailure, addRecipeSuccess, addRecipesFailure, fetchUserRecipeTitlesFailure, fetchUserRecipeTitlesSuccess, fetchSearchedRecipesSuccess, fetchSearchedRecipesFailure, fetchRecipeByIDSuccess, fetchRecipesByIDFailure, deleteRecipeSuccess, deleteRecipeFailure, updateRecipeSuccess, updateRecipesFailure, fetchFeaturedRecipesSuccess, fetchFeaturedRecipesFailure} from './recipes.actions';
+import {fetchRecipesSuccess, fetchRecipesFailure, addRecipeSuccess, addRecipesFailure, fetchUserRecipeTitlesFailure, fetchUserRecipeTitlesSuccess, fetchSearchedRecipesSuccess, fetchSearchedRecipesFailure, fetchRecipeByIDSuccess, fetchRecipesByIDFailure, deleteRecipeSuccess, deleteRecipeFailure, updateRecipeSuccess, updateRecipesFailure, fetchFeaturedRecipesSuccess, fetchFeaturedRecipesFailure, saveRecipeSuccess, saveRecipeFailure, unsaveRecipeSuccess, unsaveRecipeFailure} from './recipes.actions';
 import toggleAddRecipeDropdown from '../addRecipeModal/addRecipeModal.actions';
 
 
@@ -27,7 +27,6 @@ function* FetchFeaturedRecipes({payload}){
         const path=recipesAPIpath+'/public/featured?limit='+payload
         const recipes=yield axios.get(path)
         //recipes.data.picture=Buffer.from(recipes.data.picture, 'base64')
-        console.log('data--->', recipes.data)
         yield put(fetchFeaturedRecipesSuccess(recipes.data))
     }
     catch(error){
@@ -153,6 +152,51 @@ function* onRecipeUpdateStart(){
     yield takeLatest(RecipeActionTypes.UPDATE_RECIPE_START, UpdateRecipe)
 }
 
+function* onRecipeSaveStart(){
+    yield takeLatest(RecipeActionTypes.SAVE_RECIPES_START, SaveRecipe)
+}
+
+function* SaveRecipe({payload}){
+
+    const id=payload._id
+    delete payload._id
+    const path=recipesAPIpath+"/"+id
+    const update={'users':JSON.stringify(payload.users)}
+
+
+    try{ 
+        const updatedRecipe=yield axios.patch(path, update)
+        yield put(saveRecipeSuccess(updatedRecipe.data))
+    }
+    catch(error){
+        yield put(saveRecipeFailure(error.response.data.error))
+    }
+
+}
+
+function* onRecipeUnsaveStart(){
+    yield takeLatest(RecipeActionTypes.UNSAVE_RECIPES_START, UnsaveRecipe)
+}
+
+function* UnsaveRecipe({payload}){
+
+    const id=payload._id
+    delete payload._id
+    const path=recipesAPIpath+"/"+id
+    const update={'users':JSON.stringify(payload.users)}
+
+
+    try{ 
+        const updatedRecipe=yield axios.patch(path, update)
+        console.log('unsave: ',updatedRecipe.data._id)
+        yield put(unsaveRecipeSuccess(updatedRecipe.data._id))
+    }
+    catch(error){
+        yield put(unsaveRecipeFailure(error.response.data.error))
+    }
+
+}
+
 function* AddRecipes({payload}){
     const formData=new FormData()
     yield formData.append('recipeTitle',payload.recipeTitle)
@@ -190,6 +234,6 @@ function* DeleteRecipe({payload}){
 
 
 export function* recipeSagas(){
-    yield all([call(onRecipesFetchStart), call(onRecipesAddStart), call(onUserRecipeTitlesFetchStart), call(onSearchRecipesFetchStart), call(onRecipeByIDFetchStart), call(onRecipeDeleteStart), call(onRecipeUpdateStart), call(onFeaturedRecipesFetchStart), call(onPublicRecipeTitlesFetchStart)])
+    yield all([call(onRecipesFetchStart), call(onRecipesAddStart), call(onUserRecipeTitlesFetchStart), call(onSearchRecipesFetchStart), call(onRecipeByIDFetchStart), call(onRecipeDeleteStart), call(onRecipeUpdateStart), call(onFeaturedRecipesFetchStart), call(onPublicRecipeTitlesFetchStart), call(onRecipeSaveStart), call(onRecipeUnsaveStart)])
 }
 

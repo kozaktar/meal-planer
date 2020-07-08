@@ -20,7 +20,7 @@ import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import IconButton from '@material-ui/core/IconButton';
 import StarIcon from '@material-ui/icons/Star';
 import Tooltip from '@material-ui/core/Tooltip';
-import {updateRecipeStart} from '../../redux/recipes/recipes.actions'
+import {saveRecipeStart, unsaveRecipeStart} from '../../redux/recipes/recipes.actions'
 
 
 const useStyles = makeStyles(theme => ({
@@ -63,7 +63,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const RecipeCard=({recipe, history, currentUser, location, updateRecipe})=>{
+const RecipeCard=({recipe, history, currentUser, location, saveRecipe, unsaveRecipe})=>{
   const [bookmarked, setBookmark]=useState(currentUser!==null && recipe.users.includes(currentUser.authID))
 
   const classes = useStyles();
@@ -76,12 +76,15 @@ const RecipeCard=({recipe, history, currentUser, location, updateRecipe})=>{
   const toggleBookmark=()=>{
     const recipeUpdate={}
     recipeUpdate._id=recipe._id
-    console.log(currentUser.authID)
-    console.log(recipe.users.includes(currentUser.authID))
-    recipe.users.includes(currentUser.authID)?
+    if(recipe.users.includes(currentUser.authID)){
       recipeUpdate.users=recipe.users.filter(item=>item!==currentUser.authID)
-    :recipeUpdate.users=[...recipe.users, currentUser.authID]
-    updateRecipe(recipeUpdate)
+      unsaveRecipe(recipeUpdate)
+    }
+    else
+    {
+      recipeUpdate.users=[...recipe.users, currentUser.authID]
+      saveRecipe(recipeUpdate)
+    }
     setBookmark(!bookmarked)
     
   }
@@ -132,7 +135,9 @@ const mapStateToProps=createStructuredSelector({
 })
 
 const mapDispatchToProps=dispatch=>({
-  updateRecipe:(recipe)=>dispatch(updateRecipeStart(recipe))
+  saveRecipe:(recipe)=>dispatch(saveRecipeStart(recipe)),
+  unsaveRecipe:(recipe)=>dispatch(unsaveRecipeStart(recipe))
+
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RecipeCard));
