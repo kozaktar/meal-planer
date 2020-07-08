@@ -27,7 +27,7 @@ function* FetchFeaturedRecipes({payload}){
         const path=recipesAPIpath+'/public/featured?limit='+payload
         const recipes=yield axios.get(path)
         //recipes.data.picture=Buffer.from(recipes.data.picture, 'base64')
-       
+        console.log('data--->', recipes.data)
         yield put(fetchFeaturedRecipesSuccess(recipes.data))
     }
     catch(error){
@@ -96,7 +96,7 @@ function* UpdateRecipe({payload}){
     const formData=new FormData()
 
     for(const prop in payload){
-        if(prop==='recipeIngredients' || prop==='recipeDirections')
+        if(prop==='recipeIngredients' || prop==='recipeDirections'|| prop==='users')
           formData.append(prop,JSON.stringify(payload[prop]))
         else
             formData.append(prop, payload[prop])

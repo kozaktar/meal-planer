@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState}from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -15,12 +15,19 @@ import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 import {selectCurrentUser} from '../../redux/user/user.selectors';
 import {truncateString} from './CardUtils';
+import BookmarkIcon from '@material-ui/icons/Bookmark';
+import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
+import IconButton from '@material-ui/core/IconButton';
+import StarIcon from '@material-ui/icons/Star';
+import Tooltip from '@material-ui/core/Tooltip';
+import {updateRecipeStart} from '../../redux/recipes/recipes.actions'
 
 
 const useStyles = makeStyles(theme => ({
   root: {
     width: 375,
     height:370,
+    position:'relative',
     [theme.breakpoints.down('sm')]:{
       minWidth: 180,
       maxWidth:'76vw'
@@ -41,21 +48,58 @@ const useStyles = makeStyles(theme => ({
   descriptionText:{
     textAlign:'left',
     height:30
+  },
+  bookmark:{
+    position:"absolute",
+    top:'20%',
+    right:'5%',
+    background:'rgba(79, 78, 78, 0.32)',
+    zIndex:999,
+    color:'white',
+    borderRadius:'50%'
+  },
+  gold:{
+    color:'rgb(212,175,55)'
   }
 }));
 
-const RecipeCard=({recipe, history, currentUser, location})=>{
+const RecipeCard=({recipe, history, currentUser, location, updateRecipe})=>{
+  const [bookmarked, setBookmark]=useState(currentUser!==null && recipe.users.includes(currentUser.authID))
+
   const classes = useStyles();
   const handleActionAreaClick = () => {
     history.push(`/recipes/${recipe._id}`)
   };
 
-
   const picture=recipe.picture?`data:image;base64,${new Buffer(recipe.picture).toString('base64')}`:PlaceHolderImg
   
+  const toggleBookmark=()=>{
+    const recipeUpdate={}
+    recipeUpdate._id=recipe._id
+    console.log(currentUser.authID)
+    console.log(recipe.users.includes(currentUser.authID))
+    recipe.users.includes(currentUser.authID)?
+      recipeUpdate.users=recipe.users.filter(item=>item!==currentUser.authID)
+    :recipeUpdate.users=[...recipe.users, currentUser.authID]
+    updateRecipe(recipeUpdate)
+    setBookmark(!bookmarked)
+    
+  }
 
   return (
     <Card className={classes.root}>
+      {currentUser===null || recipe.users[0]!==currentUser.authID?
+      <IconButton className={classes.bookmark} size='medium' onClick={toggleBookmark}>
+      {bookmarked?
+      <BookmarkIcon className={classes.icon} fontSize="large"/>:
+      <BookmarkBorderIcon className={classes.icon} fontSize="large"/>
+    }
+   </IconButton>:
+   <Tooltip title="You're the author of this recipe">
+      <StarIcon className={`${classes.bookmark} ${classes.gold}`} fontSize='large'/>
+   </Tooltip>
+  }
+      
       <CardHeader
         title={recipe.recipeTitle}
       />
@@ -65,7 +109,6 @@ const RecipeCard=({recipe, history, currentUser, location})=>{
        image={picture}
        title={recipe.recipeTitle}
      />
-     
   
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p" className={classes.descriptionText}>
@@ -88,4 +131,8 @@ const mapStateToProps=createStructuredSelector({
   currentUser: selectCurrentUser
 })
 
-export default withRouter(connect(mapStateToProps)(RecipeCard));
+const mapDispatchToProps=dispatch=>({
+  updateRecipe:(recipe)=>dispatch(updateRecipeStart(recipe))
+})
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RecipeCard));

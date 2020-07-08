@@ -1,7 +1,6 @@
 import React from 'react';
 import SearchBar from '../../components/search-bar/SearchBar.component'
 import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import Modal from '../../components/modal/modal.component';
 import AddRecipeForm from '../../components/add-recipe-form/addRecipeForm.component'
 import {connect} from 'react-redux';
@@ -14,7 +13,8 @@ import toggleAddRecipeDropdown from '../../redux/addRecipeModal/addRecipeModal.a
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import IconButton from '@material-ui/core/IconButton';
 import RecipeDisplay from '../../components/recipeDisplay/RecipeDisplay.component';
-import WithSpinner from '../../components/spiner/withSpiner.component'
+import WithSpinner from '../../components/spiner/withSpiner.component';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const ModalWithSpinner=WithSpinner(Modal);
 
@@ -83,9 +83,11 @@ return(
           >
             Add Recipe 
           </Button> */}
+          <Tooltip title='Add Recipe'>
           <IconButton className={classes.addButton} onClick={()=>handleAddRecipeButtonClick()} >
              <AddCircleIcon color="primary" className={classes.addIcon}/>
           </IconButton>
+          </Tooltip>
 
           <ModalWithSpinner title={currentRecipe?"Edit Recipe":"Add New Recipe"} handleClose={toggleAddRecipeDropdown} open={addRecipeVisible} isloading={loadingRecipeInfo}>
             <AddRecipeForm onClose={toggleAddRecipeDropdown}/>

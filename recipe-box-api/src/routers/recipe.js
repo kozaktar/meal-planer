@@ -79,7 +79,7 @@ router.get('/recipes/public/featured', async (req, res) => {
         let publicRecipes= await Recipe.aggregate([{$match: {visibility:'public'}}, {$sample: {size: limit}}, {$project: {_id: 1}}])
         publicRecipes=publicRecipes.map(item=>item._id)
         const response=await Recipe.find({'_id': {'$in':publicRecipes}})
-        
+        console.log(response)
         res.status(201).send(response)
     } catch (e) {
         res.status(500).send(e)
@@ -135,7 +135,7 @@ router.get('/recipes/search/:term', async (req, res) => {
 router.patch('/recipes/:id', upload.single('picture'), auth, async (req, res) => {
     console.log(req.body)
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['recipeTitle', 'recipeIngredients', 'recipeDirections', 'visibility', 'picture', 'recipeDescription', 'portions', 'prepTime']
+    const allowedUpdates = ['recipeTitle', 'recipeIngredients', 'recipeDirections', 'visibility', 'picture', 'recipeDescription', 'portions', 'prepTime', 'users']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     if (!isValidOperation) {
@@ -143,14 +143,15 @@ router.patch('/recipes/:id', upload.single('picture'), auth, async (req, res) =>
     }
 
     try {
-        const recipe = await Recipe.findOne({ _id: req.params.id, owner: req.user.authID})
+        const recipe = await Recipe.findOne({ _id: req.params.id})
 
         if (!recipe) {
             return res.status(404).send()
         }
+        console.log(updates)
 
         updates.forEach((update) => {
-            if(update==='recipeIngredients' || update==='recipeDirections'){
+            if(update==='recipeIngredients' || update==='recipeDirections' || update==='users'){
                 recipe[update] = JSON.parse(req.body[update])
             
             }
@@ -168,6 +169,7 @@ router.patch('/recipes/:id', upload.single('picture'), auth, async (req, res) =>
         await recipe.save()
         res.send(recipe)
     } catch (e) {
+        console.log(e)
         res.status(400).send(e.message)
     }
 })

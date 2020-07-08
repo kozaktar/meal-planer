@@ -206,3 +206,45 @@ export const fetchFeaturedRecipesFailure=(error)=>(
         payload:error
     }
 );
+
+export const saveRecipeStart=(id)=>(
+    {
+        type:RecipeActionTypes.SAVE_RECIPES_START,
+        payload:id
+    }
+);
+
+export const saveRecipeSuccess=(recipe)=>(
+    {
+        type:RecipeActionTypes.SAVE_RECIPES_SUCCESS,
+        payload:recipe
+    }
+);
+
+export const saveRecipeFailure=(error)=>(
+    {
+        type:RecipeActionTypes.SAVE_RECIPES_FAILURE,
+        payload:error
+    }
+);
+
+export const unsaveRecipeStart=(id)=>(
+    {
+        type:RecipeActionTypes.UNSAVE_RECIPES_START,
+        payload:id
+    }
+);
+
+export const unsaveRecipeSuccess=(recipe)=>(
+    {
+        type:RecipeActionTypes.UNSAVE_RECIPES_SUCCESS,
+        payload:recipe
+    }
+);
+
+export const unsaveRecipeFailure=(error)=>(
+    {
+        type:RecipeActionTypes.UNSAVE_RECIPES_FAILURE,
+        payload:error
+    }
+);

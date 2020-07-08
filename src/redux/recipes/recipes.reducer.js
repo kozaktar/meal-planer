@@ -18,7 +18,9 @@ const INITIAL_STATE={
     recipePageError:null,
     deletingRecipesInProgress:false,
     delitingRecipesError:null,
-    featuredRecipes:[]
+    featuredRecipes:[],
+    savingRecipe:false,
+    savingRecipeError:null
 }
 
 const recipesReducer=(state=INITIAL_STATE,action)=>{
@@ -98,7 +100,13 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
             return {...state, searchQuery:null, searchResults:[]}
             
         case RecipeActionTypes.CLEAR_CURRENT_RECIPE:
-            return {...state, recipePageRecipe:null }    
+            return {...state, recipePageRecipe:null }  
+        case RecipeActionTypes.SAVE_RECIPES_START:
+            return {...state, savingRecipe:true}
+        case RecipeActionTypes.SAVE_RECIPES_SUCCESS:
+            return {...state, savingRecipe:false, recipes:[ action.payload, ...state.recipes], savingRecipeError:null}
+        case RecipeActionTypes.SAVE_RECIPES_FAILURE:
+            return {...state, savingRecipe:false, savingRecipeError:action.payload}    
         default:
             return state;  
     }
