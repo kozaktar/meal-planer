@@ -1,4 +1,4 @@
-import React, {useState}from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -8,19 +8,14 @@ import Typography from '@material-ui/core/Typography';
 import CardActions from '@material-ui/core/CardActions';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import {withRouter} from 'react-router-dom';
-import DeleteRecipeButton from '../delete-recipe-button/DeleteRecipeButton.component';
-import EditRecipeButton from '../edit-recipe-button/EditRecipeButton.component';
 import PlaceHolderImg from '../../assets/placeholder.jpg';
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 import {selectCurrentUser} from '../../redux/user/user.selectors';
 import {truncateString} from './CardUtils';
-import BookmarkIcon from '@material-ui/icons/Bookmark';
-import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
-import IconButton from '@material-ui/core/IconButton';
-import StarIcon from '@material-ui/icons/Star';
-import Tooltip from '@material-ui/core/Tooltip';
 import {saveRecipeStart, unsaveRecipeStart} from '../../redux/recipes/recipes.actions'
+import BookmarkButton from '../bookmark-button/BookmarkButton.component';
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -63,8 +58,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const RecipeCard=({recipe, history, currentUser, location, saveRecipe, unsaveRecipe})=>{
-  const [bookmarked, setBookmark]=useState(currentUser!==null && recipe.users.includes(currentUser.authID))
+const RecipeCard=({recipe, history})=>{
+
 
   const classes = useStyles();
   const handleActionAreaClick = () => {
@@ -73,35 +68,11 @@ const RecipeCard=({recipe, history, currentUser, location, saveRecipe, unsaveRec
 
   const picture=recipe.picture?`data:image;base64,${new Buffer(recipe.picture).toString('base64')}`:PlaceHolderImg
   
-  const toggleBookmark=()=>{
-    const recipeUpdate={}
-    recipeUpdate._id=recipe._id
-    if(recipe.users.includes(currentUser.authID)){
-      recipeUpdate.users=recipe.users.filter(item=>item!==currentUser.authID)
-      unsaveRecipe(recipeUpdate)
-    }
-    else
-    {
-      recipeUpdate.users=[...recipe.users, currentUser.authID]
-      saveRecipe(recipeUpdate)
-    }
-    setBookmark(!bookmarked)
-    
-  }
-
   return (
     <Card className={classes.root}>
-      {currentUser===null || recipe.users[0]!==currentUser.authID?
-      <IconButton className={classes.bookmark} size='medium' onClick={toggleBookmark}>
-      {bookmarked?
-      <BookmarkIcon className={classes.icon} fontSize="large"/>:
-      <BookmarkBorderIcon className={classes.icon} fontSize="large"/>
-    }
-   </IconButton>:
-   <Tooltip title="You're the author of this recipe">
-      <StarIcon className={`${classes.bookmark} ${classes.gold}`} fontSize='large'/>
-   </Tooltip>
-  }
+     
+   <BookmarkButton recipe={recipe} classes={classes}/>
+  
       
       <CardHeader
         title={recipe.recipeTitle}
@@ -120,19 +91,19 @@ const RecipeCard=({recipe, history, currentUser, location, saveRecipe, unsaveRec
       </CardContent>
       
       </CardActionArea>
-      {location.pathname==='/myrecipebox/myrecipes'?
+      {/* {location.pathname==='/myrecipebox/myrecipes' && recipe.owner===currentUser.authID?
       (<CardActions disableSpacing className={classes.cardActions}>
         <EditRecipeButton id={recipe._id} style={currentUser===null || currentUser.authID!==recipe.owner?{display:'none'}:null}/>
         <DeleteRecipeButton id={recipe._id} style={currentUser===null ||currentUser.authID!==recipe.owner?{display:'none'}:null}/>
-        </CardActions>):null}
+        </CardActions>):null} */}
       
     </Card>
   );
 }
 
 const mapStateToProps=createStructuredSelector({
-  currentUser: selectCurrentUser
-})
+  currentUser: selectCurrentUser,
+  })
 
 const mapDispatchToProps=dispatch=>({
   saveRecipe:(recipe)=>dispatch(saveRecipeStart(recipe)),

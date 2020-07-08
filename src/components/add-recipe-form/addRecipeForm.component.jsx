@@ -308,8 +308,7 @@ const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,togg
       currentUser: selectCurrentUser,
       addingRecipeLoad: selectRecipeAddingProgress,
       recipeError: selectAddRecipeError,
-      addRecipeDropdownVisible: selectAdd_Recipe_Modal_Visible,
-      recipe: selectCurrentRecipe
+      addRecipeDropdownVisible: selectAdd_Recipe_Modal_Visible
     }
   )
 

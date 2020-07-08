@@ -2,26 +2,36 @@ import React from 'react'
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import {connect} from 'react-redux';
-import {fetchRecipeByIDStart} from '../../redux/recipes/recipes.actions';
-import {toggleAddRecipeDropdown} from '../../redux/addRecipeModal/addRecipeModal.actions'
+import {toggleAddRecipeDropdown} from '../../redux/addRecipeModal/addRecipeModal.actions';
+import { makeStyles } from '@material-ui/core/styles';
 
-const EditRecipeButton=({id, fetchRecipeInfo, openEditModal, style})=>{
+const useStyles = makeStyles(theme => ({
+    
+    addButton:{
+      '&:hover': {
+        backgroundColor: 'transparent'
+     }
+    }
+      
+  }));
+
+const EditRecipeButton=({openEditModal, disabled})=>{
+
+    const classes=useStyles();
 
     const handleClick=()=>{
-        fetchRecipeInfo(id)
         openEditModal()
     }
 
     return(
-    <IconButton aria-label="delete" size='small' onClick={handleClick} style={style}>
-        <EditIcon fontSize='small'/>
+    <IconButton aria-label="delete" size='medium' onClick={handleClick} className={classes.addButton} disableTouchRipple disabled={disabled}>
+        <span style={{fontSize:'14px', marginRight:'2px'}}>Edit Recipe</span> <EditIcon fontSize='medium'/>
     </IconButton>
     )
 }
 
 const mapDispatchToProps=dispatch=>(
     {
-        fetchRecipeInfo: (id)=>dispatch(fetchRecipeByIDStart(id)),
         openEditModal: ()=>dispatch(toggleAddRecipeDropdown())
     }
 )

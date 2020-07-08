@@ -18,8 +18,14 @@ import RecipeInstructions from '../../components/recipeInstructions/RecipeInstru
 import { fetchRecipeByIDStart} from '../../redux/recipes/recipes.actions'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import PlaceHolderImg from '../../assets/placeholder.jpg'
+import EditRecipeButton from '../../components/edit-recipe-button/EditRecipeButton.component';
+import Modal from '../../components/modal/modal.component';
+import AddRecipeForm from '../../components/add-recipe-form/addRecipeForm.component';
+import WithSpinner from '../../components/spiner/withSpiner.component';
+import toggleAddRecipeDropdown from '../../redux/addRecipeModal/addRecipeModal.actions';
+import {selectAdd_Recipe_Modal_Visible} from '../../redux/addRecipeModal/addRecipeModal.selectors';
 
-
+const ModalWithSpinner=WithSpinner(Modal);
 
 const styles=makeStyles(theme=>(
     {
@@ -56,7 +62,9 @@ const styles=makeStyles(theme=>(
     },
     author:{
         marginTop:'-20px',
-        marginBottom:'2vh'
+        marginBottom:'2vh',
+        display:'flex',
+        justifyContent:'space-between'
     },
     grey:{
         color:'grey'
@@ -88,7 +96,7 @@ const styles=makeStyles(theme=>(
     
 }))
 
-const RecipePage=({ location, fetchRecipe, currentUser, recipe, loading})=>{
+const RecipePage=({ location, fetchRecipe, currentUser, recipe, loading, addRecipeVisible, loadingRecipeInfo, toggleAddRecipeDropdown})=>{
 
    const recipeID=location.pathname.replace('/recipes/','');
     
@@ -105,9 +113,15 @@ const RecipePage=({ location, fetchRecipe, currentUser, recipe, loading})=>{
    
      return (
         <Container>
+            <ModalWithSpinner title={recipe?"Edit Recipe":"Add New Recipe"} handleClose={toggleAddRecipeDropdown} open={addRecipeVisible} isloading={loadingRecipeInfo}>
+            <AddRecipeForm recipe={recipe}/>
+          </ModalWithSpinner>
             <Paper className={classes.paper}>
             <RecipePageHeader>{recipe.recipeTitle}</RecipePageHeader>
-            <div className={classes.author}><span className={classes.grey}>Recipe By: </span>{recipe.author}</div>
+            <div className={classes.author}>
+                <span><span className={classes.grey}>Recipe By: </span>{recipe.author}</span>
+                <EditRecipeButton disabled={currentUser===null || currentUser.authID!==recipe.owner}/>
+            </div>
             <div className={matches?classes.wrapperReverse:classes.wrapper}>
                 <div className={matches?classes.fullWidth:classes.halfWidth}> 
                      <div className={classes.recipeDescription}>{`"${recipe.recipeDescription}"`}</div>
@@ -133,12 +147,14 @@ const RecipePage=({ location, fetchRecipe, currentUser, recipe, loading})=>{
 const mapStateToProps=createStructuredSelector({
     currentUser: selectCurrentUser,
     recipe: selectCurrentRecipe,
-    loading: selectRecipePageLoading
+    loading: selectRecipePageLoading,
+    addRecipeVisible: selectAdd_Recipe_Modal_Visible,
 })
 
 const mapDispatchToProps=dispatch=>(
     {
-        fetchRecipe:(id)=>dispatch(fetchRecipeByIDStart(id))
+        fetchRecipe:(id)=>dispatch(fetchRecipeByIDStart(id)),
+        toggleAddRecipeDropdown: ()=>dispatch(toggleAddRecipeDropdown()),
     }
 )
 

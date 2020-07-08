@@ -19,7 +19,7 @@ const INITIAL_STATE={
     deletingRecipesInProgress:false,
     delitingRecipesError:null,
     featuredRecipes:[],
-    savingRecipe:false,
+    savingRecipe:null,
     savingRecipeError:null
 }
 
@@ -46,10 +46,11 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
 
         case RecipeActionTypes.FETCH_SEARCHED_RECIPES_SUCCESS:
             return {...state, searchResults:action.payload, recipeDisplayLoading:false};
+
         case RecipeActionTypes.UNSAVE_RECIPES_SUCCESS:    
         case RecipeActionTypes.DELETE_RECIPE_SUCCESS:{
             const newRecipesArr=state.recipes.filter(item=>item._id!==action.payload)
-            return {...state, recipes: newRecipesArr, deletingRecipesInProgress:false};    
+            return {...state, recipes: newRecipesArr, deletingRecipesInProgress:false, savingRecipe:null};    
         }
                         
         case RecipeActionTypes.ADD_RECIPES_START:
@@ -67,7 +68,7 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
         
         case RecipeActionTypes.SAVE_RECIPES_SUCCESS: 
         case RecipeActionTypes.ADD_RECIPES_SUCCESS: 
-            return {...state, addingRecipe:false, recipes:[ action.payload, ...state.recipes,], addingRecipeError:null};
+            return {...state, addingRecipe:false, recipes:[ action.payload, ...state.recipes,], addingRecipeError:null, savingRecipe:null};
             
         case RecipeActionTypes.UPDATE_RECIPE_SUCCESS:
             {
@@ -104,9 +105,10 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
             return {...state, recipePageRecipe:null }  
         case RecipeActionTypes.SAVE_RECIPES_START:
         case RecipeActionTypes.UNSAVE_RECIPES_START:
-            return {...state, savingRecipe:true}
+            return {...state, savingRecipe:action.payload._id}
+        case RecipeActionTypes.UNSAVE_RECIPES_FAILURE:
         case RecipeActionTypes.SAVE_RECIPES_FAILURE:
-            return {...state, savingRecipe:false, savingRecipeError:action.payload}    
+            return {...state, savingRecipe:null, savingRecipeError:action.payload}    
         default:
             return state;  
     }

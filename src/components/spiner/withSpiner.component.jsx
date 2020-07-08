@@ -5,6 +5,7 @@ const spinerStyle={
   position: 'fixed', /* or absolute */
   top: '50%',
   left: '50%',
+  zIndex:999
 }
 
 const WithSpinner=WrappedComponent=>({isloading, ...otherProps})=>{

@@ -16,7 +16,6 @@ const styles={
         paddingTop:'1vh',
     },
     title:{
-        marginLeft:'20px',
         marginTop:'10px'
     }
 }

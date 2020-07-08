@@ -62,3 +62,8 @@ export const selectSearchQuery=createSelector(
     [selectRecipes],
     recipes=>recipes.searchQuery
 );
+
+export const selectSavingRecipe=createSelector(
+    [selectRecipes],
+    recipes=>recipes.savingRecipe
+);
