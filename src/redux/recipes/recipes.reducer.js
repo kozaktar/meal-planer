@@ -6,6 +6,7 @@ const INITIAL_STATE={
     recipesError:null,   //contains error message for recipes
     addingRecipe:false, //true when uploading recipe in progress
     userRecipesTitles:[],
+    publicRecipesTitles:[],
     fetchingRecipeTitles: false,
     searchQuery:null,
     searchResults:[],
@@ -31,12 +32,18 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
 
         case RecipeActionTypes.FETCH_USER_RECIPES_TITLES_START:
             return {...state, fetchingRecipeTitles:true};
+        
+        case RecipeActionTypes.FETCH_PUBLIC_RECIPES_TITLES_START:
+            return {...state, fetchingRecipeTitles:true};
 
         case RecipeActionTypes.DELETE_RECIPE_START:
             return {...state, deletingRecipesInProgress:true};
 
         case RecipeActionTypes.FETCH_USER_RECIPES_TITLES_SUCCESS:
-            return {...state, userRecipesTitles:action.payload, fetchingRecipeTitles:false};  
+            return {...state, userRecipesTitles:action.payload, fetchingRecipeTitles:false};
+
+        case RecipeActionTypes.FETCH_PUBLIC_RECIPES_TITLES_SUCCESS:
+            return {...state, publicRecipesTitles:action.payload, fetchingRecipeTitles:false};      
 
         case RecipeActionTypes.FETCH_SEARCHED_RECIPES_SUCCESS:
             return {...state, searchResults:action.payload, recipeDisplayLoading:false};
@@ -80,7 +87,7 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
         case RecipeActionTypes.UPDATE_RECIPE_FAILURE:    
             return {...state, recipesError:action.payload, addingRecipe:false};
 
-        case RecipeActionTypes.FETCH_USER_RECIPES_TITLES_FAILURE:
+        case RecipeActionTypes.FETCH_PUBLIC_RECIPES_TITLES_FAILURE:
             return {...state, recipesError:action.payload, fetchingRecipeTitles:false};   
 
         case RecipeActionTypes.FETCH_SEARCHED_RECIPES_FAILURE:

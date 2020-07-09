@@ -1,7 +1,7 @@
 import {takeLatest, put,all, call} from 'redux-saga/effects';
 import RecipeActionTypes from './recipes.types';
 import axios from 'axios';
-import {fetchRecipesSuccess, fetchRecipesFailure, addRecipeSuccess, addRecipesFailure, fetchUserRecipeTitlesFailure, fetchUserRecipeTitlesSuccess, fetchSearchedRecipesSuccess, fetchSearchedRecipesFailure, fetchRecipeByIDSuccess, fetchRecipesByIDFailure, deleteRecipeSuccess, deleteRecipeFailure, updateRecipeSuccess, updateRecipesFailure, fetchFeaturedRecipesSuccess, fetchFeaturedRecipesFailure, saveRecipeSuccess, saveRecipeFailure, unsaveRecipeSuccess, unsaveRecipeFailure, fetchRecipeByIDStart} from './recipes.actions';
+import {fetchRecipesSuccess, fetchRecipesFailure, addRecipeSuccess, addRecipesFailure, fetchRecipeTitlesFailure, fetchUserRecipeTitlesSuccess, fetchSearchedRecipesSuccess, fetchSearchedRecipesFailure, fetchRecipeByIDSuccess, fetchRecipesByIDFailure, deleteRecipeSuccess, deleteRecipeFailure, updateRecipeSuccess, updateRecipesFailure, fetchFeaturedRecipesSuccess, fetchFeaturedRecipesFailure, saveRecipeSuccess, saveRecipeFailure, unsaveRecipeSuccess, unsaveRecipeFailure, fetchRecipeByIDStart, fetchPublicRecipeTitlesSuccess} from './recipes.actions';
 import toggleAddRecipeDropdown from '../addRecipeModal/addRecipeModal.actions';
 
 
@@ -64,26 +64,24 @@ function* FetchRecipeById({payload}){
 function* FetchUserRecipeTitles({payload}){
     const path=recipesAPIpath+'/mytitles/'
     try{
-        yield axios.defaults.headers.common['userID'] =payload 
         const recipeTitles=yield axios.get(path)
     
         yield put(fetchUserRecipeTitlesSuccess(recipeTitles.data))
     }
     catch(error){
-       yield put(fetchUserRecipeTitlesFailure(error))
+       yield put(fetchRecipeTitlesFailure(error))
     }
 }
 
-function* FetchPublicRecipeTitles({payload}){
-    const path=recipesAPIpath+'/mytitles/'
+function* FetchPublicRecipeTitles(){
+    const path=recipesAPIpath+'/titles/'
     try{
-        yield axios.defaults.headers.common['userID'] =payload 
         const recipeTitles=yield axios.get(path)
     
-        yield put(fetchUserRecipeTitlesSuccess(recipeTitles.data))
+        yield put(fetchPublicRecipeTitlesSuccess(recipeTitles.data))
     }
     catch(error){
-       yield put(fetchUserRecipeTitlesFailure(error))
+       yield put(fetchRecipeTitlesFailure(error))
     }
 }
 
@@ -210,15 +208,16 @@ function* AddRecipes({payload}){
     yield formData.append('portions',payload.portions)
     yield formData.append('prepTime',payload.prepTime)
     try{
+        console.log('about to send...')
         yield axios.post('http://localhost:3001/recipes',formData).then((response)=>payload=response.data)
         yield put(addRecipeSuccess(payload))
         yield put(toggleAddRecipeDropdown())
     }
     catch(error){
     if(error.response.status==500)
-        yield put(updateRecipesFailure('Error 500: File must be a valid image format and not larger than 2 MB.'))
+        yield put(addRecipesFailure('Error 500: File must be a valid image format and not larger than 2 MB.'))
     else
-        yield put(updateRecipesFailure(error.message))
+        yield put(addRecipesFailure(error.message))
     }
 
 }

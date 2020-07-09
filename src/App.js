@@ -7,11 +7,11 @@ import { connect } from 'react-redux';
 import { checkUserSession } from './redux/user/user.actions';
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './redux/user/user.selectors';
-import {selectLoadingRecipePage} from './redux/recipes/recipes.selectors';
 import {colapseSigninModal} from './redux/sign-in-modal/sign-in-modal.actions';
 import MyRecipeBoxPage from './pages/MyRecipeBox/MyRecipeBoxPage.component';
 import RecipePage from './pages/RecipePage/RecipePage.component';
 import AuthPage from './pages/AuthPage/AuthPage.component';
+import {fetchPublicRecipeTitlesStart} from './redux/recipes/recipes.actions'
 import {signOutStart} from './redux/user/user.actions'
 
 
@@ -20,8 +20,9 @@ import {signOutStart} from './redux/user/user.actions'
 class App extends React.Component{
 
 componentDidMount(){
-  const {checkCurrentUser}=this.props
+  const {checkCurrentUser, getPublicRecipeTitles}=this.props
   checkCurrentUser();
+  getPublicRecipeTitles();
 }
 
 
@@ -55,6 +56,7 @@ const mapDispatchToProps = dispatch => (
   {
     checkCurrentUser: ()=>dispatch(checkUserSession()),
     colapseSigninModal: ()=>dispatch(colapseSigninModal()),
+    getPublicRecipeTitles: ()=>dispatch(fetchPublicRecipeTitlesStart())
   }
 )
 

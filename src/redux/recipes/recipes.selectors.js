@@ -32,6 +32,11 @@ export const selectUserRecipesTitles=createSelector(
     recipes=>recipes.userRecipesTitles
 )
 
+export const selectPublicRecipesTitles=createSelector(
+    [selectRecipes],
+    recipes=>recipes.publicRecipesTitles
+)
+
 export const selectSearchResults=createSelector(
     [selectRecipes],
     recipes=>recipes.searchResults
@@ -50,6 +55,11 @@ export const selectCurrentRecipe=createSelector(
 export const selectFeaturedRecipe=createSelector(
     [selectRecipes],
     recipes=>recipes.featuredRecipes
+);
+
+export const selectFetchingRecipeTitles=createSelector(
+    [selectRecipes],
+    recipes=>recipes.fetchingRecipeTitles
 );
 
 export const selectRecipePageLoading=createSelector(

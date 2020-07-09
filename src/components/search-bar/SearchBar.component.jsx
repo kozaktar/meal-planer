@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import SearchIcon from '@material-ui/icons/Search';
@@ -6,8 +6,12 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
-import {selectUserRecipesTitles} from '../../redux/recipes/recipes.selectors'
+import {selectUserRecipesTitles, selectPublicRecipesTitles} from '../../redux/recipes/recipes.selectors'
 import {fetchSearchedRecipesStart} from './../../redux/recipes/recipes.actions';
+import {withRouter} from 'react-router-dom';
+import {selectCurrentUser} from '../../redux/user/user.selectors';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import {selectFetchingRecipeTitles} from '../../redux/recipes/recipes.selectors'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -31,11 +35,26 @@ const useStyles = makeStyles(theme => ({
     
   }));
 
-const SearchBar=({recipeTitles, searchStart})=>{
+const SearchBar=({userRecipeTitles, publicRecipeTitles, searchStart, location, titlesLoading})=>{
     const classes = useStyles();
+    let recipeTitles=null;
+
+    if(location.pathname==='/'){
+      recipeTitles=publicRecipeTitles
+    }
+    else{
+      recipeTitles=userRecipeTitles
+    }
+    console.log('titlesLoading', titlesLoading)
+    console.log('public:', publicRecipeTitles)
+
+     
+
+    
 
     const [searchQuery, setSearchQuery]= useState('');
     const [textFieldValue, settextFieldValue]= useState(null);
+    
 
     const handleSubmit=(event)=>{
       event.preventDefault();
@@ -62,14 +81,21 @@ const SearchBar=({recipeTitles, searchStart})=>{
                 className={classes.input}
                 id="free-solo-demo"
                 freeSolo
-                options={textFieldValue?recipeTitles.map((option) => option.recipeTitle):[]}
+                options={textFieldValue && !titlesLoading ? recipeTitles.map((option) => option.recipeTitle):[]}
                 renderInput={(params) => (
                   <TextField {...params}
                   placeholder="Search Recipes"
                   onChange={textFieldChange}
                   margin="none"
                   id='searchValue'
-                  InputProps={{ ...params.InputProps, type: 'search', disableUnderline: true}}
+                  InputProps={{ ...params.InputProps, type: 'search', disableUnderline: true,
+                  endAdornment: (
+                    <React.Fragment>
+                      {titlesLoading ? <CircularProgress color="inherit" size={20} /> : null}
+                      {params.InputProps.endAdornment}
+                    </React.Fragment>
+                  )
+                }}
                   
                 />
         )}
@@ -81,14 +107,17 @@ const SearchBar=({recipeTitles, searchStart})=>{
 
 const mapStateToProps=createStructuredSelector(
   {
-    recipeTitles:selectUserRecipesTitles
+    userRecipeTitles:selectUserRecipesTitles,
+    publicRecipeTitles:selectPublicRecipesTitles,
+    currentUser:selectCurrentUser,
+    titlesLoading:selectFetchingRecipeTitles
   }
 )
 
 const mapDispatchToProps=dispatch=>(
   {
-  searchStart:(searchString)=>dispatch(fetchSearchedRecipesStart(searchString))
+  searchStart:(searchString)=>dispatch(fetchSearchedRecipesStart(searchString)),
 }
 )
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchBar)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchBar))

@@ -6,7 +6,11 @@ import FeaturedRecipesPanel from '../../components/featured-recipes/FeaturedReci
 import Typography from '@material-ui/core/Typography';
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
-import {selectRecipeLoading} from '../../redux/recipes/recipes.selectors'
+import {selectRecipeLoading, selectFetchingRecipeTitles} from '../../redux/recipes/recipes.selectors'
+import WithSpinner from '../../components/spiner/withSpiner.component';
+
+
+const SearchWithSpinner=WithSpinner(SearchBar);
 
 const useStyles=makeStyles(theme=>({
     background:{
@@ -31,13 +35,13 @@ const useStyles=makeStyles(theme=>({
 
 }))
 
-const HomePage=({loading})=>{
+const HomePage=({loadingTitles})=>{
     const classes=useStyles()
 
     return (
         <div className={classes.background}>
             <div className={classes.SearchBar}>
-                <SearchBar/>
+                <SearchWithSpinner isloading={loadingTitles}/>
             </div>
             <div className={classes.FeaturedRecipes}>
                 <FeaturedRecipesPanel/>
@@ -47,7 +51,8 @@ const HomePage=({loading})=>{
 }
 
 const mapStateToProps=createStructuredSelector({
-    loading: selectRecipeLoading
+    loading: selectRecipeLoading,
+    loadingTitles: selectFetchingRecipeTitles
 })
 
 export default connect(mapStateToProps)(HomePage)

@@ -27,7 +27,7 @@ const upload = multer(
 //create recipe
 router.post('/recipes', upload.single('picture'), auth, async (req, res) => {
     let recipe=null
-
+    console.log('adding recipe...')
     
     recipe = new Recipe({
         recipeTitle: req.body.recipeTitle,
@@ -45,11 +45,13 @@ router.post('/recipes', upload.single('picture'), auth, async (req, res) => {
     if(req.file){
         recipe.picture=req.file.buffer
     }
+    console.log('new recipe', recipe)
 
     try {
         await recipe.save()
         res.status(201).send(recipe)
     } catch (e) {
+        console.log(e)
         res.status(400).send(e)
     }
 })
@@ -88,9 +90,10 @@ router.get('/recipes/public/featured', async (req, res) => {
 
 //send all user's recipe titles for search
 router.get('/recipes/mytitles', auth, async (req, res) => {
-
+    console.log('user',req.user.authID)
     try {
-      const titles= await Recipe.find({owner: req.user.authID}, {recipeTitle: 1})
+      const titles= await Recipe.find({users: req.user.authID}, {recipeTitle: 1})
+      console.log('titles: ',titles)
         res.send(titles)
     } catch (e) {
         res.status(500).send(e)
@@ -101,7 +104,7 @@ router.get('/recipes/mytitles', auth, async (req, res) => {
 router.get('/recipes/titles', async (req, res) => {
 
     try {
-      const titles= await Recipe.find({visibility: 'public'}, {recipeTitle: 1})
+      const titles= await Recipe.find({visibility:'public'}, {recipeTitle: 1})
         res.send(titles)
     } catch (e) {
         res.status(500).send(e)

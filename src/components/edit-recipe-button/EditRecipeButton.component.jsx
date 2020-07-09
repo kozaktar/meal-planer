@@ -9,7 +9,9 @@ const useStyles = makeStyles(theme => ({
     
     addButton:{
       '&:hover': {
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
+        color:'black'
+
      }
     }
       
@@ -25,7 +27,7 @@ const EditRecipeButton=({openEditModal, disabled})=>{
 
     return(
     <IconButton aria-label="delete" size='medium' onClick={handleClick} className={classes.addButton} disableTouchRipple disabled={disabled}>
-        <span style={{fontSize:'14px', marginRight:'2px'}}>Edit Recipe</span> <EditIcon fontSize='medium'/>
+        <span style={{fontSize:'14px', marginRight:'2px'}}>Edit Recipe</span> <EditIcon fontSize='default'/>
     </IconButton>
     )
 }

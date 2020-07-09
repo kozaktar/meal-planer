@@ -78,9 +78,9 @@ export const fetchUserRecipeTitlesSuccess=(titles)=>(
     }
 );
 
-export const fetchUserRecipeTitlesFailure=(error)=>(
+export const fetchRecipeTitlesFailure=(error)=>(
     {
-        type:RecipeActionTypes.FETCH_USER_RECIPES_TITLES_FAILURE,
+        type:RecipeActionTypes.FETCH_RECIPES_TITLES_FAILURE,
         payload:error
     }
 );
@@ -179,12 +179,6 @@ export const fetchPublicRecipeTitlesSuccess=(titles)=>(
     }
 );
 
-export const fetchPublicRecipeTitlesFailure=(error)=>(
-    {
-        type:RecipeActionTypes.FETCH_PUBLIC_RECIPES_TITLES_FAILURE,
-        payload:error
-    }
-);
 
 export const fetchFeaturedRecipesStart=(num)=>(
     {
