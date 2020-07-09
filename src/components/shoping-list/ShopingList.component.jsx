@@ -96,7 +96,7 @@ class ShopingList extends React.Component{
             </FormGroup>
         <div style={{textAlign:'center', marginTop:10}}>
             {
-                this.checkIfAnySelected()?<Button variant="contained" size="small" color="primary" onClick={this.removeCompletedItems}>Remove</Button>:null
+                <Button variant="contained" size="small" color="primary" onClick={this.removeCompletedItems} disabled={!this.checkIfAnySelected()}>Remove</Button>
             }
             </div>
            

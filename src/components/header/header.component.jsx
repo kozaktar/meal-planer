@@ -10,6 +10,15 @@ import {createStructuredSelector} from 'reselect';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import {withRouter} from 'react-router-dom'
+import {selectRecipeError} from '../../redux/recipes/recipes.selectors';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+import Portal from '@material-ui/core/Portal';
+import {clearRecipeError} from '../../redux/recipes/recipes.actions';
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
 
 const useStyles = makeStyles(theme => ({
     headerButton:{
@@ -25,17 +34,27 @@ const useStyles = makeStyles(theme => ({
             fontSize:'10px'
         }
     },
-    root:{
-        
-    }
 }))
 
-const HeaderComponent=({toggleDropdown,signOutUser, currentUser, clearLoginError, history})=>
+const HeaderComponent=({toggleDropdown,signOutUser, currentUser, clearLoginError, history, error, clearRecipeError})=>
 {
     const classes=useStyles();
+
+
+const handleClose=()=>{
+    clearRecipeError()
+}
     return (
    
     <HeaderComponentDiv>
+        <Portal>
+        <Snackbar open={error!==null} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error">
+          {error}
+        </Alert>
+      </Snackbar>
+      </Portal>
+
         <LogoContainer to={'/'}>Recipe Box</LogoContainer>
         <LinksContainerDiv>
             {currentUser ? (
@@ -62,11 +81,13 @@ const HeaderComponent=({toggleDropdown,signOutUser, currentUser, clearLoginError
 const mapDispatchToProps=dispatch=>({
     toggleDropdown:()=>dispatch(toggleDropdown()),
     signOutUser:()=>dispatch(signOutStart()),
-    clearLoginError:()=>dispatch(clearUserError())
+    clearLoginError:()=>dispatch(clearUserError()),
+    clearRecipeError:()=>dispatch(clearRecipeError())
 })
 
 const mapStateToProps=createStructuredSelector({
     hidden:selectHiddenSignInModal,
-    currentUser:selectCurrentUser
+    currentUser:selectCurrentUser,
+    error:selectRecipeError
 });
 export default withRouter(connect(mapStateToProps,mapDispatchToProps)(HeaderComponent))

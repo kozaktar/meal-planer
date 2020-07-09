@@ -1,7 +1,7 @@
 import {takeLatest, put,all, call} from 'redux-saga/effects';
 import RecipeActionTypes from './recipes.types';
 import axios from 'axios';
-import {fetchRecipesSuccess, fetchRecipesFailure, addRecipeSuccess, addRecipesFailure, fetchUserRecipeTitlesFailure, fetchUserRecipeTitlesSuccess, fetchSearchedRecipesSuccess, fetchSearchedRecipesFailure, fetchRecipeByIDSuccess, fetchRecipesByIDFailure, deleteRecipeSuccess, deleteRecipeFailure, updateRecipeSuccess, updateRecipesFailure, fetchFeaturedRecipesSuccess, fetchFeaturedRecipesFailure, saveRecipeSuccess, saveRecipeFailure, unsaveRecipeSuccess, unsaveRecipeFailure} from './recipes.actions';
+import {fetchRecipesSuccess, fetchRecipesFailure, addRecipeSuccess, addRecipesFailure, fetchUserRecipeTitlesFailure, fetchUserRecipeTitlesSuccess, fetchSearchedRecipesSuccess, fetchSearchedRecipesFailure, fetchRecipeByIDSuccess, fetchRecipesByIDFailure, deleteRecipeSuccess, deleteRecipeFailure, updateRecipeSuccess, updateRecipesFailure, fetchFeaturedRecipesSuccess, fetchFeaturedRecipesFailure, saveRecipeSuccess, saveRecipeFailure, unsaveRecipeSuccess, unsaveRecipeFailure, fetchRecipeByIDStart} from './recipes.actions';
 import toggleAddRecipeDropdown from '../addRecipeModal/addRecipeModal.actions';
 
 
@@ -30,7 +30,7 @@ function* FetchFeaturedRecipes({payload}){
         yield put(fetchFeaturedRecipesSuccess(recipes.data))
     }
     catch(error){
-       yield put(fetchFeaturedRecipesFailure(error))
+       yield put(fetchFeaturedRecipesFailure(error.message))
     }
 }
 
@@ -104,6 +104,7 @@ function* UpdateRecipe({payload}){
     try{ 
         const updatedRecipe=yield axios.patch(path, formData)
         yield put(updateRecipeSuccess(updatedRecipe.data))
+        yield put(fetchRecipeByIDStart(updatedRecipe.data._id))
         yield put(toggleAddRecipeDropdown())
     }
     catch(error){
@@ -188,7 +189,7 @@ function* UnsaveRecipe({payload}){
 
     try{ 
         const updatedRecipe=yield axios.patch(path, update)
-        console.log('unsave: ',updatedRecipe.data._id)
+       
         yield put(unsaveRecipeSuccess(updatedRecipe.data._id))
     }
     catch(error){
@@ -214,7 +215,10 @@ function* AddRecipes({payload}){
         yield put(toggleAddRecipeDropdown())
     }
     catch(error){
-       yield put(addRecipesFailure(error.message))
+    if(error.response.status==500)
+        yield put(updateRecipesFailure('Error 500: File must be a valid image format and not larger than 2 MB.'))
+    else
+        yield put(updateRecipesFailure(error.message))
     }
 
 }

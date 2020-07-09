@@ -4,23 +4,17 @@ const INITIAL_STATE={
     recipes:[],     //stores recipes collection  
     loading:true,    //true when recies are being fetched
     recipesError:null,   //contains error message for recipes
-    addingRecipeError:null,
     addingRecipe:false, //true when uploading recipe in progress
     userRecipesTitles:[],
     fetchingRecipeTitles: false,
-    fetchingRecipeTitlesError:null,
     searchQuery:null,
     searchResults:[],
     recipeDisplayLoading:false,
-    recipeDisplayError:null,
     recipePageRecipe:null,
     recipePageLoading:false,
-    recipePageError:null,
     deletingRecipesInProgress:false,
-    delitingRecipesError:null,
     featuredRecipes:[],
     savingRecipe:null,
-    savingRecipeError:null
 }
 
 const recipesReducer=(state=INITIAL_STATE,action)=>{
@@ -68,14 +62,14 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
         
         case RecipeActionTypes.SAVE_RECIPES_SUCCESS: 
         case RecipeActionTypes.ADD_RECIPES_SUCCESS: 
-            return {...state, addingRecipe:false, recipes:[ action.payload, ...state.recipes,], addingRecipeError:null, savingRecipe:null};
+            return {...state, addingRecipe:false, recipes:[ action.payload, ...state.recipes,], recipesError:null, savingRecipe:null};
             
         case RecipeActionTypes.UPDATE_RECIPE_SUCCESS:
             {
                 const index= state.recipes.map(item=>item._id).indexOf(action.payload._id)
                 const updatedRecipes=state.recipes
                 updatedRecipes[index]=action.payload
-                return {...state, addingRecipe:false, recipes: [...updatedRecipes], loading:false, addingRecipeError:null}
+                return {...state, addingRecipe:false, recipes: [...updatedRecipes], loading:false, recipesError:null}
             }    
 
         case RecipeActionTypes.FETCH_RECIPES_FAILURE:
@@ -84,16 +78,16 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
 
         case RecipeActionTypes.ADD_RECIPES_FAILURE:
         case RecipeActionTypes.UPDATE_RECIPE_FAILURE:    
-            return {...state, addingRecipeError:action.payload, addingRecipe:false};
+            return {...state, recipesError:action.payload, addingRecipe:false};
 
         case RecipeActionTypes.FETCH_USER_RECIPES_TITLES_FAILURE:
-            return {...state, fetchingRecipeTitlesError:action.payload, fetchingRecipeTitles:false};   
+            return {...state, recipesError:action.payload, fetchingRecipeTitles:false};   
 
         case RecipeActionTypes.FETCH_SEARCHED_RECIPES_FAILURE:
             return {...state, recipeDisplayError:action.payload, recipeDisplayLoading:false};
 
         case RecipeActionTypes.DELETE_RECIPE_FAILURE:
-            return {...state, delitingRecipesError:action.payload, loading:false};
+            return {...state, recipesError:action.payload, loading:false};
 
         case RecipeActionTypes.CLEAR_RECIPES:
             return {...state, recipes:[]};
@@ -108,7 +102,9 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
             return {...state, savingRecipe:action.payload._id}
         case RecipeActionTypes.UNSAVE_RECIPES_FAILURE:
         case RecipeActionTypes.SAVE_RECIPES_FAILURE:
-            return {...state, savingRecipe:null, savingRecipeError:action.payload}    
+            return {...state, savingRecipe:null, recipesError:action.payload}
+        case RecipeActionTypes.CLEAR_RECIPE_ERROR:
+            return {...state, recipesError:null} 
         default:
             return state;  
     }

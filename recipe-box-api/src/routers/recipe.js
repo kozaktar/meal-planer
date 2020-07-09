@@ -97,6 +97,17 @@ router.get('/recipes/mytitles', auth, async (req, res) => {
     }
 })
 
+//send all public recipe titles
+router.get('/recipes/titles', async (req, res) => {
+
+    try {
+      const titles= await Recipe.find({visibility: 'public'}, {recipeTitle: 1})
+        res.send(titles)
+    } catch (e) {
+        res.status(500).send(e)
+    }
+})
+
 
 router.get('/recipes/id/:id', async (req, res) => {
     const _id = req.params.id

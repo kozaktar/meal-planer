@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, Fragment} from 'react';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import IconButton from '@material-ui/core/IconButton';
@@ -7,13 +7,32 @@ import {saveRecipeStart, unsaveRecipeStart} from '../../redux/recipes/recipes.ac
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 import {selectCurrentUser} from '../../redux/user/user.selectors';
-import {selectSavingRecipe} from '../../redux/recipes/recipes.selectors';   
+import {selectSavingRecipe} from '../../redux/recipes/recipes.selectors';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert'; 
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const BookmarkButton=({currentUser, saveRecipe, unsaveRecipe, classes, recipe, recipeSaving})=>{
     const [bookmarked, setBookmark]=useState(currentUser!==null && recipe.users.includes(currentUser.authID))
+    const [open, setOpen] = useState(false);
+
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setOpen(false);
+    };
 
     const toggleBookmark=()=>{
+      if(!currentUser){
+        setOpen(true)
+        return
+      }
+
         const recipeUpdate={}
         recipeUpdate._id=recipe._id
         if(recipe.users.includes(currentUser.authID)){
@@ -30,6 +49,12 @@ const BookmarkButton=({currentUser, saveRecipe, unsaveRecipe, classes, recipe, r
         
       }
     return(
+      <Fragment>
+        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="info">
+          You need to be loged in to save a recipe!
+        </Alert>
+      </Snackbar>
         <IconButton className={classes.bookmark} size='medium' onClick={toggleBookmark} disabled={recipe._id===recipeSaving}>
       {bookmarked?
       <Tooltip title='Remove recipe'>
@@ -40,6 +65,7 @@ const BookmarkButton=({currentUser, saveRecipe, unsaveRecipe, classes, recipe, r
       </Tooltip>
     }
    </IconButton>
+   </Fragment>
     )
 }
 

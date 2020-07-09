@@ -248,3 +248,9 @@ export const unsaveRecipeFailure=(error)=>(
         payload:error
     }
 );
+
+export const clearRecipeError=()=>(
+    {
+        type:RecipeActionTypes.CLEAR_RECIPE_ERROR,
+    }
+);
