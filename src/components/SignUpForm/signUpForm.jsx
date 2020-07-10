@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form, CreateAccountPrompt, CustomTextField} from '../SignInForm/SignInForm.styles';
-import CustomButton from '../../components/custom-button/cutom-button';
+import Button from '@material-ui/core/Button';
 import { signInCreateAccountSwitch } from '../../redux/sign-in-modal/sign-in-modal.actions';
 import { connect } from 'react-redux';
 import {signUpStart} from '../../redux/user/user.actions';
@@ -9,7 +9,7 @@ import { createStructuredSelector } from 'reselect';
 import {selectUserLoading, selectUserError} from '../../redux/user/user.selectors';
 import ErrorMessage from '../error-message/error-message';
 
-const ButtonWithSpinner=WithSpinner(CustomButton)
+const ButtonWithSpinner=WithSpinner(Button)
 
 class SignUpFrom extends React.Component {
 
@@ -108,9 +108,9 @@ class SignUpFrom extends React.Component {
                     {userLoginError?
                         <ErrorMessage>{`${userLoginError}`}</ErrorMessage>:null}
 
-                    <ButtonWithSpinner style={{display:'block'}} buttonType='SignIn' type="submit" isloading={userLoading}>Sign Up</ButtonWithSpinner>
+                    <ButtonWithSpinner  buttonType='SignIn' type="submit" isloading={userLoading} variant="contained" color="primary">Sign Up</ButtonWithSpinner>
                 </Form>
-                <CreateAccountPrompt>Already Have An Account?<CustomButton buttonType='Link' onClick={this.props.switchSignInCreate} disabled={userLoading}>Log In.</CustomButton></CreateAccountPrompt>
+                <CreateAccountPrompt>Already Have An Account?<Button buttonType='Link' onClick={this.props.switchSignInCreate} disabled={userLoading}>Log In.</Button></CreateAccountPrompt>
             </div>
         )
     }

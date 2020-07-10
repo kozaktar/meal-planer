@@ -1,5 +1,5 @@
 import React from 'react';
-import {HeaderComponentDiv, LinksContainerDiv, OptionLink, LogoContainer} from './header.styles';
+import {HeaderComponentDiv, LinksContainerDiv, LogoContainer} from './header.styles';
 import {connect} from 'react-redux';
 import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions';
 import SignInDropDown from '../Sign-In-DropDown/signInDropDown.component';
@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
-const HeaderComponent=({toggleDropdown,signOutUser, currentUser, clearLoginError, history, error, clearRecipeError})=>
+const HeaderComponent=({toggleDropdown,signOutUser, currentUser, clearLoginError, history, recipeError, clearRecipeError})=>
 {
     const classes=useStyles();
 
@@ -48,9 +48,9 @@ const handleClose=()=>{
    
     <HeaderComponentDiv>
         <Portal>
-        <Snackbar open={error!==null} onClose={handleClose}>
+        <Snackbar open={recipeError!==null} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error">
-          {error}
+          {recipeError}
         </Alert>
       </Snackbar>
       </Portal>
@@ -88,6 +88,6 @@ const mapDispatchToProps=dispatch=>({
 const mapStateToProps=createStructuredSelector({
     hidden:selectHiddenSignInModal,
     currentUser:selectCurrentUser,
-    error:selectRecipeError
+    recipeError:selectRecipeError
 });
 export default withRouter(connect(mapStateToProps,mapDispatchToProps)(HeaderComponent))

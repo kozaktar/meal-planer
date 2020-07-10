@@ -4,6 +4,7 @@ const User=require('../models/user');
 const router=new express.Router;
 
 router.post('/users', async (req, res) => {
+    console.log(req.body)
     const user = new User(req.body);
 
     try {

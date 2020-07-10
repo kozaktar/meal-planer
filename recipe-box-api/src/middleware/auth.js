@@ -5,8 +5,6 @@ const auth = async (req, res, next) => {
     console.log('userID',req.header('userID'))
     try {        
         const user = await User.findOne({authID: req.header('userID') });
-        const users = await User.find({authID:".*" });
-        console.log(user)
         if (!user) {
             throw new Error()
         }

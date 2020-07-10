@@ -1,5 +1,5 @@
 import React from 'react';
-import CustomButton from '../custom-button/cutom-button'
+import Button from '@material-ui/core/Button';
 import { Form, SeparatorSpan, ButtonGroup, CreateAccountPrompt, CustomTextField } from './SignInForm.styles';
 import { signInCreateAccountSwitch } from '../../redux/sign-in-modal/sign-in-modal.actions';
 import { connect } from 'react-redux';
@@ -68,14 +68,14 @@ class SignInForm extends React.Component {
         <ErrorMessage>{`${userLoginError}`}</ErrorMessage>:null}
 
           <ButtonGroupWithSpinner isloading={userLoading}>
-            <CustomButton disabled={userLoading} buttonType='SignIn' onClick={()=>{emailSignIn(email, password); history.push('/auth')}}>Sign In</CustomButton>
+            <Button disabled={userLoading}  onClick={()=>{emailSignIn(email, password); history.push('/auth')}} variant="contained" color="primary">Sign In</Button>
             <SeparatorSpan>Or</SeparatorSpan>
-            <CustomButton buttonType='GoogleSignIn' type='button' onClick={()=>{googleSignIn(); history.push('/auth')}
-          } >Sign In With Google</CustomButton>
+            <Button variant="contained" color="secondary" onClick={()=>{googleSignIn(); history.push('/auth')}
+          } >Sign In With Google</Button>
           </ButtonGroupWithSpinner>
         </Form>
         <CreateAccountPrompt>Don't Have An Account Yet?
-          <CustomButton buttonType='Link' disabled={userLoading} onClick={this.props.switchSignInCreate}>Sign Up</CustomButton>
+          <Button  disabled={userLoading} onClick={this.props.switchSignInCreate}>Sign Up</Button>
         </CreateAccountPrompt>
       </div>
     )
