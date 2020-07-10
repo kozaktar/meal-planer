@@ -7,8 +7,7 @@ import { googleSignInStart, emailSignInStart} from '../../redux/user/user.action
 import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions';
 import WithSpinner from '../spiner/withSpiner.component';
 import { createStructuredSelector } from 'reselect';
-import {selectUserLoading, selectUserError} from '../../redux/user/user.selectors';
-import ErrorMessage from '../error-message/error-message';
+import {selectUserLoading} from '../../redux/user/user.selectors';
 import {withRouter} from 'react-router-dom';
 
 
@@ -32,7 +31,7 @@ class SignInForm extends React.Component {
 
 
   render() {
-    const {userLoading, googleSignIn, userLoginError, emailSignIn, history}=this.props;
+    const {userLoading, googleSignIn, emailSignIn, history}=this.props;
     const {email,password}=this.state;
     return (
       <div>
@@ -64,9 +63,6 @@ class SignInForm extends React.Component {
         disabled={userLoading}
         />
 
-        {userLoginError?
-        <ErrorMessage>{`${userLoginError}`}</ErrorMessage>:null}
-
           <ButtonGroupWithSpinner isloading={userLoading}>
             <Button disabled={userLoading}  onClick={()=>{emailSignIn(email, password); history.push('/auth')}} variant="contained" color="primary">Sign In</Button>
             <SeparatorSpan>Or</SeparatorSpan>
@@ -93,7 +89,6 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps=createStructuredSelector(
   {
     userLoading:selectUserLoading,
-    userLoginError:selectUserError
   }
 )
 

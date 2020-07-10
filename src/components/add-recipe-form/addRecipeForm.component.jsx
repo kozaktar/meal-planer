@@ -8,10 +8,9 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import {addRecipeStart, updateRecipeStart} from '../../redux/recipes/recipes.actions'
 import toggleAddRecipeDropdown from '../../redux/addRecipeModal/addRecipeModal.actions';
-import {selectRecipeAddingProgress, selectAddRecipeError, selectCurrentRecipe } from '../../redux/recipes/recipes.selectors';
+import {selectRecipeAddingProgress, selectAddRecipeError} from '../../redux/recipes/recipes.selectors';
 import {selectAdd_Recipe_Modal_Visible} from '../../redux/addRecipeModal/addRecipeModal.selectors'
 import WithSpinner from '../spiner/withSpiner.component';
-import ErrorMessage from '../error-message/error-message';
 
 const ButtonWithSpinner=WithSpinner(Button);
 
@@ -289,7 +288,6 @@ const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,togg
       <div className={classes.form}>
       <RecipeInputTabs onFormChange={handleFormChange} state={state} addDirections={()=>dispatch(addDirections())} deleteDirections={(value)=>dispatch(removeDirections(value))} addIngredient={()=>dispatch(addIngredients())} deleteIngredient={(value)=>dispatch(removeIngredients(value))}/>
      <div className={classes.buttonsGroup}>
-       <ErrorMessage>{recipeError}</ErrorMessage>
      <ButtonWithSpinner isloading={addingRecipeLoad} variant="contained" size="large" color="primary" className={classes.margin} onClick={handleSubmit}>
           {recipe?"Update recipe":"Add recipe"}
       </ButtonWithSpinner>

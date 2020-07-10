@@ -1,6 +1,4 @@
 import UserActionTypes from './user.types';
-import { withRouter } from 'react-router-dom';
-
 
 const INITIAL_STATE={
     currentUser:null,

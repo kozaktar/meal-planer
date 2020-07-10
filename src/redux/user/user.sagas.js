@@ -20,7 +20,7 @@ export function* signInWithGoogle(){
         yield put(fetchUserRecipeTitlesStart(user.authID));     
     }
     catch(error){
-        yield put(signInFailure(error))
+        yield put(signInFailure(error.message))
     }
 }
 
@@ -40,7 +40,7 @@ export function* signInWithEmail({payload:{email,password}}){
         yield put(fetchUserRecipeTitlesStart(user.authID));          
     }
     catch(error){
-        yield put(signInFailure(error))
+        yield put(signInFailure(error.message))
     }
 }
 
@@ -55,7 +55,7 @@ function* signOut(){
         yield put(clearRecipes())
     }
     catch(error){
-        yield put(signOutFailure(error))
+        yield put(signOutFailure(error.message))
     }
 }
 
@@ -74,7 +74,7 @@ function* isUserAuthenticated(){
         yield put(fetchUserRecipeTitlesStart(user.authID)); 
     }
     catch(error){
-        yield put(signInFailure(error))
+        yield put(signInFailure(error.message))
     }
 }
 
@@ -92,7 +92,7 @@ function* signUp({payload:{email,confirmEmail,password,confirmPassword,username}
         }
     }
     catch(error){
-        yield put(signInFailure(error))
+        yield put(signInFailure(error.message))
     }
 }
 

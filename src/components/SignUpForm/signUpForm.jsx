@@ -7,7 +7,6 @@ import {signUpStart} from '../../redux/user/user.actions';
 import WithSpinner from '../spiner/withSpiner.component';
 import { createStructuredSelector } from 'reselect';
 import {selectUserLoading, selectUserError} from '../../redux/user/user.selectors';
-import ErrorMessage from '../error-message/error-message';
 
 const ButtonWithSpinner=WithSpinner(Button)
 
@@ -104,9 +103,6 @@ class SignUpFrom extends React.Component {
                         required
                         disabled={userLoading}
                     />
-
-                    {userLoginError?
-                        <ErrorMessage>{`${userLoginError}`}</ErrorMessage>:null}
 
                     <ButtonWithSpinner  buttonType='SignIn' type="submit" isloading={userLoading} variant="contained" color="primary">Sign Up</ButtonWithSpinner>
                 </Form>

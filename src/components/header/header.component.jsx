@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {toggleDropdown} from '../../redux/sign-in-modal/sign-in-modal.actions';
 import SignInDropDown from '../Sign-In-DropDown/signInDropDown.component';
 import {selectHiddenSignInModal} from '../../redux/sign-in-modal/sign-in-modal.selector';
-import {selectCurrentUser} from '../../redux/user/user.selectors';
+import {selectCurrentUser, selectUserError} from '../../redux/user/user.selectors';
 import {signOutStart, clearUserError} from '../../redux/user/user.actions'
 import {createStructuredSelector} from 'reselect';
 import Button from '@material-ui/core/Button';
@@ -36,21 +36,22 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
-const HeaderComponent=({toggleDropdown,signOutUser, currentUser, clearLoginError, history, recipeError, clearRecipeError})=>
+const HeaderComponent=({toggleDropdown,signOutUser, currentUser, clearLoginError, history, recipeError, userError, clearRecipeError})=>
 {
     const classes=useStyles();
 
 
 const handleClose=()=>{
     clearRecipeError()
+    clearLoginError()
 }
     return (
    
     <HeaderComponentDiv>
         <Portal>
-        <Snackbar open={recipeError!==null} onClose={handleClose}>
+        <Snackbar open={recipeError!==null || userError!==null} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error">
-          {recipeError}
+          {userError?userError:recipeError}
         </Alert>
       </Snackbar>
       </Portal>
@@ -88,6 +89,7 @@ const mapDispatchToProps=dispatch=>({
 const mapStateToProps=createStructuredSelector({
     hidden:selectHiddenSignInModal,
     currentUser:selectCurrentUser,
-    recipeError:selectRecipeError
+    recipeError:selectRecipeError,
+    userError: selectUserError
 });
 export default withRouter(connect(mapStateToProps,mapDispatchToProps)(HeaderComponent))
