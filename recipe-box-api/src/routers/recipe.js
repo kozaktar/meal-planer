@@ -90,10 +90,8 @@ router.get('/recipes/public/featured', async (req, res) => {
 
 //send all user's recipe titles for search
 router.get('/recipes/mytitles', auth, async (req, res) => {
-    console.log('user',req.user.authID)
     try {
       const titles= await Recipe.find({users: req.user.authID}, {recipeTitle: 1})
-      console.log('titles: ',titles)
         res.send(titles)
     } catch (e) {
         res.status(500).send(e)
@@ -128,12 +126,17 @@ router.get('/recipes/id/:id', async (req, res) => {
     }
 })
 
-router.get('/recipes/search/:term', async (req, res) => {
-    const term = req.params.term
+router.get('/recipes/search/', async (req, res) => {
+    const term = req.query.term //search term
+    const type = req.query.type //search type public vs loged in user
     const searchTerm = new RegExp(`\\b${term}\\b`,'i');
+    let recipe =null
     if(req.header('userID')){
         try {
-            let recipe = await Recipe.find({ recipeTitle: {"$regex": searchTerm}, users: req.header('userID') })
+            type==='private'?
+                recipe = await Recipe.find({ recipeTitle: {"$regex": searchTerm}, users: req.header('userID') }):
+                recipe = await Recipe.find({ recipeTitle: {"$regex": searchTerm}, visibility: 'public' })
+                
             if (recipe.length<1) {
                 recipe=['No recipes found']
             }

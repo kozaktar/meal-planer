@@ -45,13 +45,6 @@ const SearchBar=({userRecipeTitles, publicRecipeTitles, searchStart, location, t
     else{
       recipeTitles=userRecipeTitles
     }
-    console.log('titlesLoading', titlesLoading)
-    console.log('public:', publicRecipeTitles)
-
-     
-
-    
-
     const [searchQuery, setSearchQuery]= useState('');
     const [textFieldValue, settextFieldValue]= useState(null);
     
