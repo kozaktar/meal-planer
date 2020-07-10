@@ -34,10 +34,13 @@ function* FetchFeaturedRecipes({payload}){
     }
 }
 
-
+// GET /search?type=public&term=searchTerm
 function* FetchSearchedRecipes({payload}){
     try{
-        const path=recipesAPIpath+'/search/'+payload
+        const searchType=payload.type
+        const searchTerm=payload.term
+        const path=recipesAPIpath+'/search?type='+searchType+'&term='+searchTerm
+        console.log('search path', path)
         const recipes=yield axios.get(path)
         
         yield put(fetchSearchedRecipesSuccess(recipes.data))

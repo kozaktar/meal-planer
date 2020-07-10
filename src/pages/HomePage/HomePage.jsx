@@ -41,7 +41,7 @@ const HomePage=({loadingTitles})=>{
     return (
         <div className={classes.background}>
             <div className={classes.SearchBar}>
-                <SearchWithSpinner isloading={loadingTitles}/>
+                <SearchBar isloading={loadingTitles} type='public'/>
             </div>
             <div className={classes.FeaturedRecipes}>
                 <FeaturedRecipesPanel/>

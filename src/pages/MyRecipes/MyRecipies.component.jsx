@@ -73,7 +73,7 @@ return(
   <div className={classes.root}>
       
         <div className={classes.alignItemsAndJustifyContent}>
-          <SearchBar/>
+          <SearchBar type='private'/>
           {/* <Button
           variant="contained"
           color="primary"

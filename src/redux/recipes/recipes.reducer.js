@@ -8,7 +8,9 @@ const INITIAL_STATE={
     userRecipesTitles:[],
     publicRecipesTitles:[],
     fetchingRecipeTitles: false,
-    searchQuery:null,
+    searchQuery:{
+        term:null
+    },
     searchResults:[],
     recipeDisplayLoading:false,
     recipePageRecipe:null,
@@ -100,7 +102,7 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
             return {...state, recipes:[]};
 
         case RecipeActionTypes.CLEAR_SEARCH_QUERY:
-            return {...state, searchQuery:null, searchResults:[]}
+            return {...state, searchQuery:{term:null}, searchResults:[]}
             
         case RecipeActionTypes.CLEAR_CURRENT_RECIPE:
             return {...state, recipePageRecipe:null }  

@@ -41,11 +41,14 @@ export const fetchRecipesByIDFailure=(error)=>(
         payload:error
     }
 );
-
-export const fetchSearchedRecipesStart=(searchString)=>(
+// searchObject={
+//    type: public/private
+//    term: searchTerm  
+//  }
+export const fetchSearchedRecipesStart=(searchObject)=>(
     {
         type:RecipeActionTypes.FETCH_SEARCHED_RECIPES_START,
-        payload:searchString
+        payload:searchObject
     }
 );
 

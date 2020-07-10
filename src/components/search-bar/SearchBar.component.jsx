@@ -35,11 +35,11 @@ const useStyles = makeStyles(theme => ({
     
   }));
 
-const SearchBar=({userRecipeTitles, publicRecipeTitles, searchStart, location, titlesLoading})=>{
+const SearchBar=({userRecipeTitles, publicRecipeTitles, searchStart, titlesLoading, type})=>{
     const classes = useStyles();
     let recipeTitles=null;
 
-    if(location.pathname==='/'){
+    if(type==='public'){
       recipeTitles=publicRecipeTitles
     }
     else{
@@ -51,7 +51,8 @@ const SearchBar=({userRecipeTitles, publicRecipeTitles, searchStart, location, t
 
     const handleSubmit=(event)=>{
       event.preventDefault();
-      searchStart(searchQuery);
+      const searchObject={type, term:searchQuery}
+      searchStart(searchObject);
     }
 
 
@@ -77,7 +78,7 @@ const SearchBar=({userRecipeTitles, publicRecipeTitles, searchStart, location, t
                 options={textFieldValue && !titlesLoading ? recipeTitles.map((option) => option.recipeTitle):[]}
                 renderInput={(params) => (
                   <TextField {...params}
-                  placeholder="Search Recipes"
+                  placeholder={type==='public'?"Search Recipes":"Search Your Recipes"}
                   onChange={textFieldChange}
                   margin="none"
                   id='searchValue'

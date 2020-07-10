@@ -27,7 +27,6 @@ const upload = multer(
 //create recipe
 router.post('/recipes', upload.single('picture'), auth, async (req, res) => {
     let recipe=null
-    console.log('adding recipe...')
     
     recipe = new Recipe({
         recipeTitle: req.body.recipeTitle,
@@ -45,7 +44,6 @@ router.post('/recipes', upload.single('picture'), auth, async (req, res) => {
     if(req.file){
         recipe.picture=req.file.buffer
     }
-    console.log('new recipe', recipe)
 
     try {
         await recipe.save()
@@ -81,7 +79,6 @@ router.get('/recipes/public/featured', async (req, res) => {
         let publicRecipes= await Recipe.aggregate([{$match: {visibility:'public'}}, {$sample: {size: limit}}, {$project: {_id: 1}}])
         publicRecipes=publicRecipes.map(item=>item._id)
         const response=await Recipe.find({'_id': {'$in':publicRecipes}})
-        console.log(response)
         res.status(201).send(response)
     } catch (e) {
         res.status(500).send(e)
@@ -126,9 +123,14 @@ router.get('/recipes/id/:id', async (req, res) => {
     }
 })
 
+// GET /recipes/search?type=public&term=searchTerm
 router.get('/recipes/search/', async (req, res) => {
+    console.log('search!!!!')
     const term = req.query.term //search term
     const type = req.query.type //search type public vs loged in user
+    console.log(term)
+    console.log(type)
+    console.log(req.header('userID'))
     const searchTerm = new RegExp(`\\b${term}\\b`,'i');
     let recipe =null
     if(req.header('userID')){
@@ -136,7 +138,7 @@ router.get('/recipes/search/', async (req, res) => {
             type==='private'?
                 recipe = await Recipe.find({ recipeTitle: {"$regex": searchTerm}, users: req.header('userID') }):
                 recipe = await Recipe.find({ recipeTitle: {"$regex": searchTerm}, visibility: 'public' })
-                
+
             if (recipe.length<1) {
                 recipe=['No recipes found']
             }
@@ -150,7 +152,6 @@ router.get('/recipes/search/', async (req, res) => {
 })
 
 router.patch('/recipes/:id', upload.single('picture'), auth, async (req, res) => {
-    console.log(req.body)
     const updates = Object.keys(req.body)
     const allowedUpdates = ['recipeTitle', 'recipeIngredients', 'recipeDirections', 'visibility', 'picture', 'recipeDescription', 'portions', 'prepTime', 'users']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
@@ -165,7 +166,6 @@ router.patch('/recipes/:id', upload.single('picture'), auth, async (req, res) =>
         if (!recipe) {
             return res.status(404).send()
         }
-        console.log(updates)
 
         updates.forEach((update) => {
             if(update==='recipeIngredients' || update==='recipeDirections' || update==='users'){

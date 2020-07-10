@@ -37,9 +37,10 @@ const useStyles = makeStyles(theme => ({
       
   }));
 
-const RecipeDisplay=({recipes, searchResults, queryString, clearQuery, title})=>{
+const RecipeDisplay=({recipes, searchResults, queryObject, clearQuery, title})=>{
 
     const classes=useStyles();
+    const queryString=queryObject.term
 
     if(searchResults.length>0){
         if(searchResults[0]==='No recipes found')
@@ -85,7 +86,7 @@ const RecipeDisplay=({recipes, searchResults, queryString, clearQuery, title})=>
 
 const mapStateToProps=createStructuredSelector({
     searchResults: selectSearchResults,
-    queryString: selectSearchQuery
+    queryObject: selectSearchQuery
 })
 
 const mapDispatchToProps=dispatch=>(
