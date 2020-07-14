@@ -1,0 +1,13 @@
+{
+    "AWSEBDockerrunVersion": "1",
+    "Image": {
+        "Name": "tkozak14/recipe-box",
+        "Update": "true"
+    },
+    "Logging": "/var/log/nginx",
+    "Ports": [
+        {
+            "ContainerPort": "80"
+        }
+    ]
+}

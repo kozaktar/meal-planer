@@ -1,13 +1,23 @@
 {
-    "AWSEBDockerrunVersion": "1",
-    "Image": {
-      "Name": "tkozak14/recipe-box",
-      "Update": "true"
-    },
-    "Ports": [
-      {
-        "ContainerPort": "80"
-      }
-    ],
-    "Logging": "/var/log/nginx"
-  }
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "containerPort": 80,
+            "essential": true,
+            "image": "tkozak14/recipe-box",
+            "memory": 512,
+            "mountPoints": [
+                {
+                    "containerPath": "/var/log/nginx",
+                    "sourceVolume": "awseb-logs-myapp"
+                }
+            ],
+            "name": "myapp",
+            "portMappings": [
+                {
+                    "hostPort": 80
+                }
+            ]
+        }
+    ]
+}
