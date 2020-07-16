@@ -7,8 +7,8 @@ import TextField from '@material-ui/core/TextField';
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 import {selectUserRecipesTitles, selectPublicRecipesTitles} from '../../redux/recipes/recipes.selectors'
-import {fetchSearchedRecipesStart} from './../../redux/recipes/recipes.actions';
-import {withRouter} from 'react-router-dom';
+import {fetchSearchedRecipesStart, clearSearchQuery} from './../../redux/recipes/recipes.actions';
+import {useLocation} from 'react-router-dom';
 import {selectCurrentUser} from '../../redux/user/user.selectors';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {selectFetchingRecipeTitles} from '../../redux/recipes/recipes.selectors'
@@ -35,9 +35,15 @@ const useStyles = makeStyles(theme => ({
     
   }));
 
-const SearchBar=({userRecipeTitles, publicRecipeTitles, searchStart, titlesLoading, type})=>{
+const SearchBar=({userRecipeTitles, publicRecipeTitles, searchStart, clearSearch, titlesLoading, type})=>{
     const classes = useStyles();
     let recipeTitles=null;
+    const currentlocation=useLocation();
+    const currentPath=currentlocation.pathname;
+
+    useEffect(()=>{
+      clearSearch()
+    }, [currentPath])
 
     if(type==='public'){
       recipeTitles=publicRecipeTitles
@@ -111,7 +117,8 @@ const mapStateToProps=createStructuredSelector(
 const mapDispatchToProps=dispatch=>(
   {
   searchStart:(searchString)=>dispatch(fetchSearchedRecipesStart(searchString)),
+  clearSearch:()=>dispatch(clearSearchQuery())
 }
 )
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchBar))
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBar)

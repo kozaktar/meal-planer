@@ -3,7 +3,7 @@ import axios from 'axios';
 import {fetchShopingListSuccess, fetchShopingListFailure, updateShopingListSuccess, updateShopingListFailure} from '../shopingList/shopingList.actions'
 import ShopingListActionTypes from '../shopingList/shopingList.types'
 
-const shopingListAPIpath='http://localhost:3001/shoping-list'
+const shopingListAPIpath='http://127.0.0.1:3001/shoping-list'
 
 function* FetchShopingList({payload}){
     try{

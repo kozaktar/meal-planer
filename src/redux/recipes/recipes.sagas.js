@@ -5,7 +5,7 @@ import {fetchRecipesSuccess, fetchRecipesFailure, addRecipeSuccess, addRecipesFa
 import toggleAddRecipeDropdown from '../addRecipeModal/addRecipeModal.actions';
 
 
-const recipesAPIpath='http://localhost:3001/recipes';
+const recipesAPIpath='http://127.0.0.1:3001/recipes';
 
 
 
@@ -212,7 +212,7 @@ function* AddRecipes({payload}){
     yield formData.append('prepTime',payload.prepTime)
     try{
         console.log('about to send...')
-        yield axios.post('http://localhost:3001/recipes',formData).then((response)=>payload=response.data)
+        yield axios.post('http://127.0.0.1:3001/recipes',formData).then((response)=>payload=response.data)
         yield put(addRecipeSuccess(payload))
         yield put(toggleAddRecipeDropdown())
     }

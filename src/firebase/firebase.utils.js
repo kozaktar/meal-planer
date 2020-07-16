@@ -2,7 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import axios from 'axios';
 
-const userAPIpath='http://localhost:3001/users'
+const userAPIpath='http://127.0.0.1:3001/users'
 
 const config={
     apiKey: "AIzaSyCaEY2wI_BYydMA0FjcoJyd0DqJ3w5bEFc",
