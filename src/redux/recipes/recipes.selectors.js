@@ -77,3 +77,8 @@ export const selectSavingRecipe=createSelector(
     [selectRecipes],
     recipes=>recipes.savingRecipe
 );
+
+export const selectLoadingFeaturedRecipes=createSelector(
+    [selectRecipes],
+    recipes=>recipes.loadingFeaturedRecipes
+)

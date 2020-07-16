@@ -8,8 +8,9 @@ const spinerStyle={
   zIndex:999
 }
 
-const WithSpinner=WrappedComponent=>({isloading, ...otherProps})=>{
-    return isloading ? <CircularProgress style={spinerStyle}/>:
+const WithSpinner=WrappedComponent=>({isloading, styles, ...otherProps})=>{
+  console.log('spinner style:', styles)
+    return isloading ? <CircularProgress style={styles?styles:spinerStyle}/>:
     <WrappedComponent {...otherProps}/>
 }
 

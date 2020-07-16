@@ -66,7 +66,10 @@ function* onSingOutStart(){
 function* isUserAuthenticated(){
     try{
         const userAuth=yield getCurrentUser()
-        if(!userAuth) return;
+        if(!userAuth){
+            yield put(signOutSuccess())
+            return;
+        }
         const user=yield createUserProfileDocument(userAuth);
         yield put(signInSuccess(user));
         yield put(fetchShopingListStart(user.authID));
@@ -76,6 +79,10 @@ function* isUserAuthenticated(){
     catch(error){
         yield put(signInFailure(error.message))
     }
+}
+
+function* onCheckUserSessionStart(){
+    yield takeLatest(UserActionTypes.CHECK_USER_SESSION,isUserAuthenticated)
 }
 
 function* signUp({payload:{email,confirmEmail,password,confirmPassword,username}}){
@@ -102,6 +109,6 @@ function* onSignUpStart(){
 }
 
 export function* userSagas(){
-    yield all([call(onGoogleSignInStart), call(onEmailSignInStart), call(isUserAuthenticated), call(onSingOutStart), call(onSignUpStart)])
+    yield all([call(onGoogleSignInStart), call(onEmailSignInStart), call(onCheckUserSessionStart), call(onSingOutStart), call(onSignUpStart)])
 }
 

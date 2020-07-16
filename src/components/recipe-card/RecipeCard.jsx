@@ -5,16 +5,18 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import CardActions from '@material-ui/core/CardActions';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import {withRouter} from 'react-router-dom';
 import PlaceHolderImg from '../../assets/placeholder.jpg';
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
-import {selectCurrentUser} from '../../redux/user/user.selectors';
+import {selectCurrentUser, selectUserLoading} from '../../redux/user/user.selectors';
 import {truncateString} from './CardUtils';
 import {saveRecipeStart, unsaveRecipeStart} from '../../redux/recipes/recipes.actions'
 import BookmarkButton from '../bookmark-button/BookmarkButton.component';
+import WithSpinner from '../spiner/withSpiner.component';
+
+const BookmarWithSpinner=WithSpinner(BookmarkButton);
 
 
 
@@ -58,7 +60,17 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const RecipeCard=({recipe, history})=>{
+const bookmarkSyles={
+  position:"absolute",
+  top:'20%',
+  right:'5%',
+  background:'rgba(79, 78, 78, 0.32)',
+  zIndex:999,
+  color:'white',
+  borderRadius:'50%'
+}
+
+const RecipeCard=({recipe, history, loading})=>{
 
 
   const classes = useStyles();
@@ -71,7 +83,7 @@ const RecipeCard=({recipe, history})=>{
   return (
     <Card className={classes.root}>
      
-   <BookmarkButton recipe={recipe} classes={classes}/>
+   <BookmarWithSpinner recipe={recipe} classes={classes} isloading={loading} styles={bookmarkSyles}/>
   
       
       <CardHeader
@@ -103,6 +115,7 @@ const RecipeCard=({recipe, history})=>{
 
 const mapStateToProps=createStructuredSelector({
   currentUser: selectCurrentUser,
+  loading: selectUserLoading
   })
 
 const mapDispatchToProps=dispatch=>({
