@@ -42,9 +42,9 @@ export const selectSearchResults=createSelector(
     recipes=>recipes.searchResults
 )
 
-export const selectSearchLoading=createSelector(
+export const selectDisplayLoading=createSelector(
     [selectRecipes],
-    recipes=>recipes.recipeSearching
+    recipes=>recipes.recipeDisplayLoading
 );
 
 export const selectCurrentRecipe=createSelector(

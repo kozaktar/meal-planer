@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {fetchFeaturedRecipesStart} from '../../redux/recipes/recipes.actions';
-import {selectFeaturedRecipe, selectLoadingFeaturedRecipes} from '../../redux/recipes/recipes.selectors';
+import {selectFeaturedRecipe, selectLoadingFeaturedRecipes, selectDisplayLoading} from '../../redux/recipes/recipes.selectors';
 import {selectUserLoading} from '../../redux/user/user.selectors'
 import {createStructuredSelector} from 'reselect';
 import RecipeDisplay from '../recipeDisplay/RecipeDisplay.component';
@@ -10,12 +10,12 @@ import WithSpinner from '../spiner/withSpiner.component';
 
 const RecipeDisplayWithSpiner=WithSpinner(RecipeDisplay)
 
-const FeaturedRecipes=({featuredRecipes, getFeaturedRecipes, loading, userLoading})=>{
+const FeaturedRecipes=({featuredRecipes, getFeaturedRecipes, recipeDisplayLoading})=>{
     useEffect(()=>{ getFeaturedRecipes(3) }, [])
         
        return (
             <Grid container spacing={2}>
-                <RecipeDisplayWithSpiner isloading={loading && userLoading} recipes={featuredRecipes} title={'Featured Recipes:'}/>
+                <RecipeDisplayWithSpiner isloading={recipeDisplayLoading} recipes={featuredRecipes} title={'Featured Recipes:'}/>
             </Grid>
         )
 }
@@ -27,6 +27,7 @@ const mapDispatchToProps=dispatch=>({
 const mapStateToProps=createStructuredSelector({
     featuredRecipes: selectFeaturedRecipe,
     loading: selectLoadingFeaturedRecipes,
-    userLoading:selectUserLoading
+    userLoading:selectUserLoading,
+    recipeDisplayLoading: selectDisplayLoading
 })
 export default connect(mapStateToProps, mapDispatchToProps)(FeaturedRecipes)

@@ -10,8 +10,6 @@ import {selectRecipeLoading, selectFetchingRecipeTitles} from '../../redux/recip
 import WithSpinner from '../../components/spiner/withSpiner.component';
 
 
-const SearchWithSpinner=WithSpinner(SearchBar);
-
 const useStyles=makeStyles(theme=>({
     background:{
         backgroundImage:`url(${BackgroundImage})`,
