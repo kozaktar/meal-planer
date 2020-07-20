@@ -8,7 +8,7 @@ import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 import {selectUserRecipesTitles, selectPublicRecipesTitles} from '../../redux/recipes/recipes.selectors'
 import {fetchSearchedRecipesStart, clearSearchQuery} from './../../redux/recipes/recipes.actions';
-import {useLocation} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import {selectCurrentUser} from '../../redux/user/user.selectors';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {selectFetchingRecipeTitles} from '../../redux/recipes/recipes.selectors'
@@ -35,10 +35,10 @@ const useStyles = makeStyles(theme => ({
     
   }));
 
-const SearchBar=({userRecipeTitles, publicRecipeTitles, searchStart, clearSearch, titlesLoading, type})=>{
+const SearchBar=({userRecipeTitles, publicRecipeTitles, searchStart, clearSearch, titlesLoading, type, location})=>{
     const classes = useStyles();
     let recipeTitles=null;
-    const currentlocation=useLocation();
+    const currentlocation=location;
     const currentPath=currentlocation.pathname;
 
     useEffect(()=>{
@@ -121,4 +121,4 @@ const mapDispatchToProps=dispatch=>(
 }
 )
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchBar)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchBar))

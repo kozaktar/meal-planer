@@ -8,6 +8,7 @@ import {selectUserShopingList} from '../../redux/shopingList/shopingList.selecto
 import {createStructuredSelector} from 'reselect';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert'; 
+import { textAlign } from '@material-ui/system';
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -18,6 +19,14 @@ const styles={
         listStyleType:'none',
         columnCount:'2',
         columnWidth:'200px'
+    },
+    listElement:{
+        display:'flex',
+    },
+    listButton:{
+        '&:hover': {
+            backgroundColor: 'transparent'
+         },
     }
 }
 
@@ -30,6 +39,7 @@ class IngredientList extends React.Component{
             open:false,
             added:null
         }
+
     }
 
     handleClose = (event, reason) => {
@@ -61,11 +71,11 @@ class IngredientList extends React.Component{
           
             <ul style={styles.list}>
                 {ingredients.map((ingredient, idx)=>(
-                <li key={idx}>
+                <li key={idx} style={styles.listElement}>
                     <IconButton onClick={()=>{this.addIngredient(idx); this.setState({added:ingredient ,open:true})}}>
                         <AddShoppingCartIcon/>
                     </IconButton>
-                    {ingredient}
+                    <span style={{marginTop:11}}>{ingredient}</span>
                 </li>))}
             </ul>
             </Fragment>

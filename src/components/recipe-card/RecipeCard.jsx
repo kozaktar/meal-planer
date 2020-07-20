@@ -47,6 +47,7 @@ const useStyles = makeStyles(theme => ({
   descriptionText:{
     textAlign:'left',
     height:30,
+    marginBottom:20
   },
   bookmark:{
     position:"absolute",
