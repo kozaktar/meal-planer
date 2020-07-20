@@ -12,7 +12,6 @@ import MyRecipeBoxPage from './pages/MyRecipeBox/MyRecipeBoxPage.component';
 import RecipePage from './pages/RecipePage/RecipePage.component';
 import AuthPage from './pages/AuthPage/AuthPage.component';
 import {fetchPublicRecipeTitlesStart} from './redux/recipes/recipes.actions'
-import {signOutStart} from './redux/user/user.actions'
 
 
 

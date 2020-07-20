@@ -11,7 +11,7 @@ import WithSpinner from '../spiner/withSpiner.component';
 const RecipeDisplayWithSpiner=WithSpinner(RecipeDisplay)
 
 const FeaturedRecipes=({featuredRecipes, getFeaturedRecipes, recipeDisplayLoading, loading})=>{
-    useEffect(()=>{ getFeaturedRecipes(3) }, [])
+    useEffect(()=>{ getFeaturedRecipes(3) }, [getFeaturedRecipes])
         
        return (
             <Grid container spacing={2}>

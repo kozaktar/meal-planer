@@ -228,18 +228,12 @@ const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,togg
           break;
       case 'portions':
           dispatch(updatePortions(value))
-          break;
-      case 'portions':
-          dispatch(updatePortions(value))
           break;              
       case 'directions':
           dispatch(updateDirections(value,event.target.id.replace('directions-','')))    
           break;
       case 'ingredients':
           dispatch(updateIngredients(value,event.target.id.replace('ingredient-','')))   
-          break;
-      case 'portions':
-          dispatch(updatePortions(value))
           break; 
       case 'prepTime':
         dispatch(updatePrepTime(value))

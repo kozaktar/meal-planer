@@ -43,7 +43,7 @@ class SignUpFrom extends React.Component {
 
     render() {
         const {displayName, email, confirmEmail, password, confirmPassword}=this.state;
-        const {userLoading, userLoginError}=this.props;
+        const {userLoading}=this.props;
 
         return (
             <div style={{maxWidth:"500px"}}>

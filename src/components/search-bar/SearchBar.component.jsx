@@ -43,7 +43,7 @@ const SearchBar=({userRecipeTitles, publicRecipeTitles, searchStart, clearSearch
 
     useEffect(()=>{
       clearSearch()
-    }, [currentPath])
+    }, [currentPath, clearSearch])
 
     if(type==='public'){
       recipeTitles=publicRecipeTitles

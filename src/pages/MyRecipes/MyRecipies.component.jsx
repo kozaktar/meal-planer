@@ -35,7 +35,8 @@ const useStyles = makeStyles(theme => ({
     height: 80,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginTop:20
   },
   card:{
     maxWidth: 345,
@@ -93,8 +94,9 @@ return(
             <AddRecipeForm onClose={toggleAddRecipeDropdown}/>
           </ModalWithSpinner>
         </div>
+        <div style={{marginTop:30}}>
         <RecipeDisplay recipes={recipes}/>
-        
+        </div>
   </div>
         )
     

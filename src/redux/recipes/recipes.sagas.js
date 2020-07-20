@@ -110,7 +110,7 @@ function* UpdateRecipe({payload}){
     }
     catch(error){
 
-        if(error.response.status==500)
+        if(error.response.status===500)
             yield put(updateRecipesFailure('Error 500: File must be a valid image format and not larger than 2 MB.'))
         else
             yield put(updateRecipesFailure(error.response.data.error))
@@ -217,7 +217,7 @@ function* AddRecipes({payload}){
         yield put(toggleAddRecipeDropdown())
     }
     catch(error){
-    if(error.response.status==500)
+    if(error.response.status===500)
         yield put(addRecipesFailure('Error 500: File must be a valid image format and not larger than 2 MB.'))
     else
         yield put(addRecipesFailure(error.message))

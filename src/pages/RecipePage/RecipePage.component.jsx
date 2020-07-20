@@ -52,7 +52,7 @@ const styles=makeStyles(theme=>(
         marginRight: 'auto',
         padding:'10px',
         objectFit:'cover',
-        maxHeight:'50vh'
+        height:'40vh'
     },
     paper:{
         paddingLeft:'10px',

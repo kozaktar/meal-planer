@@ -87,7 +87,7 @@ const ImageUpload=({onDrop, removeImages, initialImage})=>{
         <Fragment>
             {image?
             <div className={classes.imgDiv}>
-                <img src={processDisplayImage()} className={classes.img}/>
+                <img src={processDisplayImage()} className={classes.img} alt=''/>
                 <Tooltip title="Delete Image" className={classes.deleteButtonHelperText}>
                 <IconButton aria-label="delete"  onClick={handleImageDelete} className={classes.deleteButton} size='small'>
                  <DeleteIcon fontSize="small" className={classes.deleteIcon} />

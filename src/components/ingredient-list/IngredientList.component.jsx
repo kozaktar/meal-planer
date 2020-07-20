@@ -1,7 +1,5 @@
 import React, { Fragment } from 'react';
 import IconButton from '@material-ui/core/IconButton';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import AddIcon from '@material-ui/icons/Add';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { connect } from 'react-redux';
 import {addToShopingList} from '../../redux/shopingList/shopingList.actions';
