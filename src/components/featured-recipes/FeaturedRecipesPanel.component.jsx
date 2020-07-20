@@ -10,12 +10,12 @@ import WithSpinner from '../spiner/withSpiner.component';
 
 const RecipeDisplayWithSpiner=WithSpinner(RecipeDisplay)
 
-const FeaturedRecipes=({featuredRecipes, getFeaturedRecipes, recipeDisplayLoading})=>{
+const FeaturedRecipes=({featuredRecipes, getFeaturedRecipes, recipeDisplayLoading, loading})=>{
     useEffect(()=>{ getFeaturedRecipes(3) }, [])
         
        return (
             <Grid container spacing={2}>
-                <RecipeDisplayWithSpiner isloading={recipeDisplayLoading} recipes={featuredRecipes} title={'Featured Recipes:'}/>
+                <RecipeDisplayWithSpiner isloading={recipeDisplayLoading && loading} recipes={featuredRecipes} title={'Featured Recipes:'}/>
             </Grid>
         )
 }

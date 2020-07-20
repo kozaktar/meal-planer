@@ -15,6 +15,7 @@ import {truncateString} from './CardUtils';
 import {saveRecipeStart, unsaveRecipeStart} from '../../redux/recipes/recipes.actions'
 import BookmarkButton from '../bookmark-button/BookmarkButton.component';
 import WithSpinner from '../spiner/withSpiner.component';
+import Avatar from '@material-ui/core/Avatar';
 
 const BookmarWithSpinner=WithSpinner(BookmarkButton);
 
@@ -23,7 +24,8 @@ const BookmarWithSpinner=WithSpinner(BookmarkButton);
 const useStyles = makeStyles(theme => ({
   root: {
     width: 375,
-    height:370,
+    height:400,
+    textAlign:'left',
     position:'relative',
     [theme.breakpoints.down('sm')]:{
       minWidth: 180,
@@ -31,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   media: {
-    height: 0,
+    height: 270,
     paddingTop: '56.25%', // 16:9
   },
   cardActions:{
@@ -44,25 +46,39 @@ const useStyles = makeStyles(theme => ({
   },
   descriptionText:{
     textAlign:'left',
-    height:30
+    height:30,
   },
   bookmark:{
     position:"absolute",
-    top:'20%',
+    top:'5%',
     right:'5%',
     background:'rgba(79, 78, 78, 0.32)',
     zIndex:999,
     color:'white',
     borderRadius:'50%'
   },
-  gold:{
-    color:'rgb(212,175,55)'
+  title:{
+    marginBottom:'-30px',
+  },
+  author:{
+    display:'flex',
+    color:'grey',
+    marginTop:10
+  },
+  avatar:{
+    height:theme.spacing(3),
+    width:theme.spacing(3),
+    fontSize:14,
+    marginRight:3,
+    marginTop:-4,
+    background:'red'
   }
+  
 }));
 
 const bookmarkSyles={
   position:"absolute",
-  top:'20%',
+  top:'5%',
   right:'5%',
   background:'rgba(79, 78, 78, 0.32)',
   zIndex:999,
@@ -85,29 +101,26 @@ const RecipeCard=({recipe, history, loading})=>{
      
    <BookmarWithSpinner recipe={recipe} classes={classes} isloading={loading} styles={bookmarkSyles}/>
   
-      
-      <CardHeader
-        title={recipe.recipeTitle}
-      />
-      <CardActionArea onClick={handleActionAreaClick}>
-       <CardMedia
+   <CardActionArea onClick={handleActionAreaClick}>
+   <CardMedia
        className={classes.media}
        image={picture}
        title={recipe.recipeTitle}
      />
+      <CardHeader className={classes.title}
+        title={recipe.recipeTitle}
+      />
+      
+      
   
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p" className={classes.descriptionText}>
           {truncateString(recipe.recipeDescription, 100)}
         </Typography>
+  <div className={classes.author}><Avatar className={classes.avatar}>{recipe.author[0].toUpperCase()}</Avatar>By <span style={{color:'black', marginLeft:4}}>{recipe.author}</span></div>
       </CardContent>
       
       </CardActionArea>
-      {/* {location.pathname==='/myrecipebox/myrecipes' && recipe.owner===currentUser.authID?
-      (<CardActions disableSpacing className={classes.cardActions}>
-        <EditRecipeButton id={recipe._id} style={currentUser===null || currentUser.authID!==recipe.owner?{display:'none'}:null}/>
-        <DeleteRecipeButton id={recipe._id} style={currentUser===null ||currentUser.authID!==recipe.owner?{display:'none'}:null}/>
-        </CardActions>):null} */}
       
     </Card>
   );
