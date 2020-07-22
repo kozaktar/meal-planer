@@ -17,8 +17,7 @@ const INITIAL_STATE={
     recipePageLoading:false,
     deletingRecipesInProgress:false,
     featuredRecipes:[],
-    savingRecipe:null,
-    loadingFeaturedRecipes:false
+    savingRecipe:null
 }
 
 const recipesReducer=(state=INITIAL_STATE,action)=>{
@@ -26,7 +25,7 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
         case RecipeActionTypes.FETCH_RECIPES_START:
             return {...state, loading:true};
         case RecipeActionTypes.FETCH_FEATURED_RECIPES_START:
-            return {...state, loadingFeaturedRecipes:true};
+            return {...state, recipeDisplayLoading:true};
 
         case RecipeActionTypes.FETCH_RECIPE_BY_ID_START:
             return {...state, recipePageLoading:true};
@@ -66,7 +65,7 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
             return {...state, loading:false, recipes:[...state.recipes , ...action.payload], recipesError:null}; 
 
         case RecipeActionTypes.FETCH_FEATURED_RECIPES_SUCCESS:
-            return {...state, loadingFeaturedRecipes:false, featuredRecipes:action.payload, recipesError:null};     
+            return {...state, recipeDisplayLoading:false, featuredRecipes:action.payload, recipesError:null};     
 
         case RecipeActionTypes.FETCH_RECIPE_BY_ID_SUCCESS:
             return {...state, recipePageLoading:false, recipePageRecipe:action.payload};
@@ -86,7 +85,7 @@ const recipesReducer=(state=INITIAL_STATE,action)=>{
         case RecipeActionTypes.FETCH_RECIPES_FAILURE:
             return {...state, recipesError:action.payload, loading:false};
         case RecipeActionTypes.FETCH_FEATURED_RECIPES_FAILURE:    
-            return {...state, recipesError:action.payload, loadingFeaturedRecipes:false};
+            return {...state, recipesError:action.payload, recipeDisplayLoading:false};
 
         case RecipeActionTypes.ADD_RECIPES_FAILURE:
         case RecipeActionTypes.UPDATE_RECIPE_FAILURE:    

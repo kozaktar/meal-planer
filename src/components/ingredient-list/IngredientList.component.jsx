@@ -8,7 +8,6 @@ import {selectUserShopingList} from '../../redux/shopingList/shopingList.selecto
 import {createStructuredSelector} from 'reselect';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert'; 
-import { textAlign } from '@material-ui/system';
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -18,7 +17,8 @@ const styles={
     list:{
         listStyleType:'none',
         columnCount:'2',
-        columnWidth:'200px'
+        columnWidth:'200px',
+        margin:10
     },
     listElement:{
         display:'flex',

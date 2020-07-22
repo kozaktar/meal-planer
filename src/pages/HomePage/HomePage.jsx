@@ -4,7 +4,7 @@ import SearchBar from '../../components/search-bar/SearchBar.component';
 import FeaturedRecipesPanel from '../../components/featured-recipes/FeaturedRecipesPanel.component';
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
-import {selectRecipeLoading, selectFetchingRecipeTitles} from '../../redux/recipes/recipes.selectors'
+import {selectDisplayLoading, selectFetchingRecipeTitles} from '../../redux/recipes/recipes.selectors'
 
 
 
@@ -25,7 +25,7 @@ const useStyles=makeStyles(theme=>({
 
 }))
 
-const HomePage=({loadingTitles})=>{
+const HomePage=({loadingTitles, loading})=>{
     const classes=useStyles()
 
     return (
@@ -41,7 +41,7 @@ const HomePage=({loadingTitles})=>{
 }
 
 const mapStateToProps=createStructuredSelector({
-    loading: selectRecipeLoading,
+    loading: selectDisplayLoading,
     loadingTitles: selectFetchingRecipeTitles
 })
 
