@@ -24,7 +24,7 @@ const BookmarWithSpinner=WithSpinner(BookmarkButton);
 const useStyles = makeStyles(theme => ({
   root: {
     width: 375,
-    height:400,
+    height:430,
     textAlign:'left',
     position:'relative',
     [theme.breakpoints.down('sm')]:{
@@ -64,7 +64,7 @@ const useStyles = makeStyles(theme => ({
   author:{
     display:'flex',
     color:'grey',
-    marginTop:10
+    marginTop:50,
   },
   avatar:{
     height:theme.spacing(3),
