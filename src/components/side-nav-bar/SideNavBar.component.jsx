@@ -8,6 +8,8 @@ import FastfoodIcon from '@material-ui/icons/Fastfood';
 import {withRouter} from 'react-router-dom';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import ListItemLink from '../listItemLink/ListItemLink.component'
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 
 
@@ -57,6 +59,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SideNavBar=({location})=> {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('md'));
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -71,8 +75,8 @@ const SideNavBar=({location})=> {
   return (
     <div>
       <Drawer
-        onMouseEnter={handleDrawerOpen}
-        onMouseLeave={handleDrawerClose}
+        onMouseEnter={matches?handleDrawerOpen:null}
+        onMouseLeave={matches?handleDrawerClose:null}
         variant="permanent"
         className={clsx(classes.drawer, {
           [classes.drawerOpen]: open,
