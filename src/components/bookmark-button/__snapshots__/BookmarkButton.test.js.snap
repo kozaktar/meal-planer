@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bookmark button component should render the bookmark button 1`] = `undefined`;
+
+exports[`My Connected React-Redux Component Bookmark button should render without crashing 1`] = `
+<button
+  className="MuiButtonBase-root MuiIconButton-root"
+  disabled={false}
+  id="bookmarkButton"
+  onBlur={[Function]}
+  onClick={[Function]}
+  onDragLeave={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onMouseDown={[Function]}
+  onMouseLeave={[Function]}
+  onMouseUp={[Function]}
+  onTouchEnd={[Function]}
+  onTouchMove={[Function]}
+  onTouchStart={[Function]}
+  tabIndex={0}
+  type="button"
+>
+  <span
+    className="MuiIconButton-label"
+  >
+    <svg
+      aria-describedby={null}
+      aria-hidden={true}
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge"
+      focusable="false"
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseLeave={[Function]}
+      onMouseOver={[Function]}
+      onTouchEnd={[Function]}
+      onTouchStart={[Function]}
+      title="Remove recipe"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"
+      />
+    </svg>
+  </span>
+  <span
+    className="MuiTouchRipple-root"
+  />
+</button>
+`;

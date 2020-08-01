@@ -1,7 +1,7 @@
 import React from 'react';
 import {Group, FormInputField, InputLabel} from './form-input.styles';
 
-const FormInput = ({ handleChange, label, type, ...otherProps }) => (
+const FormInput = ({ handleChange, type, ...otherProps }) => (
   <Group>
     <FormInputField onChange={handleChange} {...otherProps} type={type}/>
     {label ? (

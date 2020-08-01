@@ -11,6 +11,8 @@ import toggleAddRecipeDropdown from '../../redux/addRecipeModal/addRecipeModal.a
 import {selectRecipeAddingProgress, selectAddRecipeError} from '../../redux/recipes/recipes.selectors';
 import {selectAdd_Recipe_Modal_Visible} from '../../redux/addRecipeModal/addRecipeModal.selectors'
 import WithSpinner from '../spiner/withSpiner.component';
+import recipeFormReducer from './addRecipeFormReducer';
+import {updateTitle, updateDescription, updateDirections, updateIngredients, updatePortions,updatePrepTime, updateVisibility, removeDirections, removeImage, removeIngredients, addDirections, addImage, addIngredients} from './addRecipeFormActions';
 
 const ButtonWithSpinner=WithSpinner(Button);
 
@@ -49,140 +51,6 @@ const useStyles = makeStyles(theme => ({
 
 
 
-const reducer=(state,action)=>{
-  switch(action.type){
-    case 'updateTitle':
-      return {...state, title:action.payload};
-    case 'updateDescription':
-      return {...state, description:action.payload};
-    case 'updatePortions':
-      return {...state, portions:action.payload};
-    case 'updatePrepTime':
-      return {...state, prepTime:action.payload};  
-    case 'updateIngredients':
-      const updatedIngredients=[...state.ingredients]
-      updatedIngredients[action.idx]=action.payload;
-      return {...state, ingredients:updatedIngredients};
-    case 'updateDirections':
-      const updatedDirections=[...state.directions]
-      updatedDirections[action.idx]=action.payload;
-      return {...state, directions:updatedDirections};
-    case 'addDirections':
-        return {...state, directions:[...state.directions,'']};
-    case 'removeDirections':
-        const directionsPostDeletion=[...state.directions];
-        directionsPostDeletion.splice(action.payload, 1);
-        return {...state, directions:directionsPostDeletion};  
-    case 'addIngredients':
-        return {...state, ingredients:[...state.ingredients,'']};
-    case 'removeIngredients':
-        const ingredientsPostDeletion=[...state.ingredients];
-        ingredientsPostDeletion.splice(action.payload,1);
-        return {...state, ingredients:ingredientsPostDeletion};
-    case 'addImage':
-        return {...state, img:action.payload};
-    case 'removeImage':
-      return {...state, img:null};
-    case 'updateVisibility':
-        return {...state, visibility:action.payload};
-    default:
-       return state;
-  }
-}
-
-const updateTitle=(payload)=>(
-  {
-    type:'updateTitle',
-    payload
-  }
-)
-
-const updateDescription=(payload)=>(
-  {
-    type:'updateDescription',
-    payload
-  }
-)
-
-const updatePortions=(payload)=>(
-  {
-    type:'updatePortions',
-    payload
-  }
-)
-
-const updatePrepTime=(payload)=>(
-  {
-    type:'updatePrepTime',
-    payload
-  }
-)
-
-const updateDirections=(payload, idx)=>(
-  {
-    type:'updateDirections',
-    payload,
-    idx
-  }
-)
-
-const addDirections=()=>(
-  {
-    type:'addDirections'
-  }  
-)
-
-const removeDirections=(idx)=>{
-  
-  return (
-  {
-    type:'removeDirections',
-    payload:idx
-  }
-)}
-const updateIngredients=(payload, idx)=>(
-  {
-    type:'updateIngredients',
-    payload,
-    idx
-  }
-)
-
-const removeIngredients=(idx)=>{
-  return (
-  {
-    type:'removeIngredients',
-    payload:idx
-  }
-)}
-
-const addIngredients=()=>(
-  {
-    type:'addIngredients'
-  }  
-)
-
-const addImage=(image)=>(
-  {
-    type:'addImage',
-    payload:image
-  }  
-)
-
-const removeImage=()=>(
-  {
-    type:'removeImage'
-  }  
-)
-
-const updateVisibility=(payload)=>(
-  {
-    type:'updateVisibility',
-    payload
-  }
-)
-
-
 const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,toggleAddRecipeDropdown, recipe, updateRecipe}) =>{
 
 
@@ -208,7 +76,7 @@ const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,togg
     initialState.prepTime=recipe.prepTime
   }
 
-  const [state, dispatch]= useReducer(reducer, initialState)
+  const [state, dispatch]= useReducer(recipeFormReducer, initialState)
  
   const removeImages=()=>dispatch(removeImage());
 
