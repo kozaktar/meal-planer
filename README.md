@@ -1,5 +1,6 @@
 Recipe Box is a recipe managment app that lets you save your recipes and share them with others as well as maintain shopping lists.
 Features:
+
 -Save recipes using an easy to use recipe form that allows you to list steps, ingredients, recipe description and pictures
 -add items from the recipe to a shoping list and remove them if needed
 -search publicly available recipes on the main page and search your own recipes from your recipe box account.
