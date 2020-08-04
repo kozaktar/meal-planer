@@ -15,6 +15,8 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import Portal from '@material-ui/core/Portal';
 import {clearRecipeError} from '../../redux/recipes/recipes.actions';
+import TemporaryDrawer from '../temporary-sidebar/TemporarySideNavBar.component';
+
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -36,10 +38,9 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
-const HeaderComponent=({toggleDropdown,signOutUser, currentUser, clearLoginError, history, recipeError, userError, clearRecipeError})=>
+const HeaderComponent=({toggleDropdown,signOutUser, currentUser, clearLoginError, history, location, recipeError, userError, clearRecipeError})=>
 {
     const classes=useStyles();
-
 
 const handleClose=()=>{
     clearRecipeError()
@@ -55,8 +56,10 @@ const handleClose=()=>{
         </Alert>
       </Snackbar>
       </Portal>
-
+      <div style={{display:'flex', flexDirection:'row'}}>
+        <TemporaryDrawer/>
         <LogoContainer to={'/'}>Recipe Box</LogoContainer>
+        </div>
         <LinksContainerDiv>
             {currentUser ? (
             <div style={{display:'flex', flexDirection:'row'}}>   

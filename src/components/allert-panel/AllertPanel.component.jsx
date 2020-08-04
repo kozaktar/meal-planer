@@ -6,6 +6,7 @@ function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
 
+//Snackbar for diplaying allert messages
 const AllertPanel=({severity, message, open, handleClose})=>{
 
       return (<Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>

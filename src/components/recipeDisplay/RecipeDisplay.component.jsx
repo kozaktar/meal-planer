@@ -26,6 +26,7 @@ const useStyles = makeStyles(theme => ({
         }
     },
     queryString:{
+        display:'inline-block',
        color:'grey',
        fontStyle:'italic',
        fontSize:20,
@@ -63,7 +64,7 @@ const RecipeDisplay=({recipes, searchResults, queryObject, clearQuery, title})=>
                             <CancelIcon fontSize='small'/>
                         </IconButton>
                        </div>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} style={{ minHeight: '50vh', maxWidth: '100%' }}>
                        {searchResults.map(item=>(<Grid item key={item._id}>
                     <RecipeCard recipe={item}/>
                      </Grid>) 
@@ -75,7 +76,7 @@ const RecipeDisplay=({recipes, searchResults, queryObject, clearQuery, title})=>
     else
         return (<>
         {title?<Typography variant='h5' style={{marginBottom:30}}>{title}</Typography>:null}
-        <Grid container spacing={2}>
+        <Grid container spacing={2} style={{ minHeight: '50vh', maxWidth: '100%' }}>
             {recipes.map(item=>(<Grid item key={item._id}>
             <RecipeCard recipe={item}/>
           </Grid>))}

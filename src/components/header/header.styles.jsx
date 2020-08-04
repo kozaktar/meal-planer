@@ -9,7 +9,7 @@ export const HeaderComponentDiv=styled.div`
     background:white;
     justify-content: space-between;
     z-index: 1201;
-    padding: 2rem;
+    padding: 1rem;
     height:8vh;
     // border-bottom: 1px solid grey;
     box-shadow: 0px 2px 13px 0px rgba(196,196,196,1);

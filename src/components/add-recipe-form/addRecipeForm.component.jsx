@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
 
 const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,toggleAddRecipeDropdown, recipe, updateRecipe}) =>{
 
-
+//initial state for useReducer
   const initialState={
     img:null,
     title:'',
@@ -65,6 +65,7 @@ const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,togg
     visibility:'public'
   }
 
+//if component received recipe as prop then fill in initial values from the recipe object [used in recipe eddit case] otherwise use inital values [add new recipe case]  
   if(recipe){
     initialState.img=recipe.picture
     initialState.title=recipe.recipeTitle
@@ -80,6 +81,7 @@ const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,togg
  
   const removeImages=()=>dispatch(removeImage());
 
+//image upload handle  
   const handleDrop=(acceptedFiles)=>{
     dispatch(addImage(acceptedFiles[0]))
   }
@@ -115,7 +117,9 @@ const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,togg
     }
   }
 
+
   const handleSubmit=()=>{
+    //updated recipe to submit
     const recipeToSubmit={
     'recipeTitle':state.title,
     'recipeDescription':state.description,
@@ -128,9 +132,11 @@ const AddRecipeForm=({currentUser, addRecipe, addingRecipeLoad, recipeError,togg
     'prepTime':state.prepTime
   }
 
+  //if recipe object was not passed in props [add new recipe case]
     if(!recipe)
       addRecipe(recipeToSubmit)
     else{
+      //edit recipe case
       const updates={}
       updates._id=recipe._id
       for(const prop in recipeToSubmit){

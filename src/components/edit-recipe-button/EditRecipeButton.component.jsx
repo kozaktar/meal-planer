@@ -17,16 +17,13 @@ const useStyles = makeStyles(theme => ({
       
   }));
 
-const EditRecipeButton=({openEditModal, disabled})=>{
+//used to open edit recipe dialog
+export const EditRecipeButton=({openEditModal, disabled})=>{
 
     const classes=useStyles();
 
-    const handleClick=()=>{
-        openEditModal()
-    }
-
     return(
-    <IconButton aria-label="delete" size='medium' onClick={handleClick} className={classes.addButton} disableTouchRipple disabled={disabled}>
+    <IconButton aria-label="edit" size='medium' onClick={openEditModal} className={classes.addButton} disableTouchRipple disabled={disabled}>
         <span style={{fontSize:'14px', marginRight:'2px'}}>Edit Recipe</span> <EditIcon fontSize='default'/>
     </IconButton>
     )

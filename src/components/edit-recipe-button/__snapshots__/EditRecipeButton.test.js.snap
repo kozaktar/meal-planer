@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AllertPanel test EditRecipeButton is rendering without crashing 1`] = `
+<WithStyles(ForwardRef(IconButton))
+  aria-label="edit"
+  className="makeStyles-addButton-1"
+  disableTouchRipple={true}
+  size="medium"
+>
+  <span
+    style={
+      Object {
+        "fontSize": "14px",
+        "marginRight": "2px",
+      }
+    }
+  >
+    Edit Recipe
+  </span>
+   
+  <EditIcon
+    fontSize="default"
+  />
+</WithStyles(ForwardRef(IconButton))>
+`;

@@ -15,6 +15,9 @@ import IconButton from '@material-ui/core/IconButton';
 import RecipeDisplay from '../../components/recipeDisplay/RecipeDisplay.component';
 import WithSpinner from '../../components/spiner/withSpiner.component';
 import Tooltip from '@material-ui/core/Tooltip';
+import Button from '@material-ui/core/Button';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 
 const ModalWithSpinner=WithSpinner(Modal);
 
@@ -24,7 +27,11 @@ const useStyles = makeStyles(theme => ({
     marginRight:'10px',
     maxWidth: '92vw',
     marginLeft:'60px',
-    textAlign:'center'
+    textAlign:'center',
+    [theme.breakpoints.down('sm')]:{
+      marginRight:'auto',
+      marginLeft:'-5px'
+    }
   },
   paper: {
     padding: theme.spacing(2),
@@ -70,25 +77,29 @@ const handleAddRecipeButtonClick=()=>{
   toggleAddRecipeDropdown();
 }
 
+const theme = useTheme();
+const matches = useMediaQuery(theme.breakpoints.down('sm'));
+
+
 return(
   <div className={classes.root}>
       
         <div className={classes.alignItemsAndJustifyContent}>
           <SearchBar type='private'/>
-          {/* <Button
+          <Button
           variant="contained"
           color="primary"
-          size="large"
-          style={{marginLeft:'2vw'}}
-          onClick={()=>toggleAddRecipeDropdown()}
+          size={matches?'small':'large'}
+          style={{marginLeft:'1vw'}}
+          onClick={()=>handleAddRecipeButtonClick()}
           >
             Add Recipe 
-          </Button> */}
-          <Tooltip title='Add Recipe'>
+          </Button> 
+          {/* <Tooltip title='Add Recipe'>
           <IconButton className={classes.addButton} onClick={()=>handleAddRecipeButtonClick()} >
              <AddCircleIcon color="primary" className={classes.addIcon}/>
           </IconButton>
-          </Tooltip>
+          </Tooltip> */}
 
           <ModalWithSpinner title={currentRecipe?"Edit Recipe":"Add New Recipe"} handleClose={toggleAddRecipeDropdown} open={addRecipeVisible} isloading={loadingRecipeInfo}>
             <AddRecipeForm onClose={toggleAddRecipeDropdown}/>

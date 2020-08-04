@@ -11,7 +11,9 @@ import {fetchSearchedRecipesStart, clearSearchQuery} from './../../redux/recipes
 import {withRouter} from 'react-router-dom';
 import {selectCurrentUser} from '../../redux/user/user.selectors';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import {selectFetchingRecipeTitles} from '../../redux/recipes/recipes.selectors'
+import {selectFetchingRecipeTitles} from '../../redux/recipes/recipes.selectors';
+
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -19,9 +21,10 @@ const useStyles = makeStyles(theme => ({
       alignItems: 'center',
       width:'50vw',
       border:'1px solid grey',
-      [theme.breakpoints.down('sm')]:{
-        width:'63vw',
-        marginLeft:'30px'
+      [theme.breakpoints.down('xs')]:{
+        minWidth:'75vw',
+        maxWidth:'80vw',
+        marginLeft:'auto'
       }
     },
     input: {
@@ -32,14 +35,18 @@ const useStyles = makeStyles(theme => ({
     iconButton: {
       padding: 5,
     },
+    textField: {
+      
+    }
     
   }));
 
 const SearchBar=({userRecipeTitles, publicRecipeTitles, searchStart, clearSearch, titlesLoading, type, location})=>{
     const classes = useStyles();
     let recipeTitles=null;
-    const currentlocation=location;
-    const currentPath=currentlocation.pathname;
+    const currentPath=location.pathname;
+
+    
 
     useEffect(()=>{
       clearSearch()
@@ -57,14 +64,20 @@ const SearchBar=({userRecipeTitles, publicRecipeTitles, searchStart, clearSearch
 
     const handleSubmit=(event)=>{
       event.preventDefault();
+
       const searchObject={type, term:searchQuery}
       searchStart(searchObject);
     }
 
 
     const handleChange=(event, newValue)=>{
-        setSearchQuery(newValue)
+      setSearchQuery(newValue)
+      if(newValue && newValue.length>0){
+        const searchObject={type, term:newValue}
+        searchStart(searchObject);
+      }
     }
+
 
     const textFieldChange=(event)=>{
       settextFieldValue(event.target.value)
@@ -79,7 +92,9 @@ const SearchBar=({userRecipeTitles, publicRecipeTitles, searchStart, clearSearch
                 value={searchQuery}
                 onChange={handleChange}
                 className={classes.input}
-                id="free-solo-demo"
+                selectOnFocus
+                clearOnBlur
+                id="free-solo"
                 freeSolo
                 options={textFieldValue && !titlesLoading ? recipeTitles.map((option) => option.recipeTitle):[]}
                 renderInput={(params) => (
@@ -88,7 +103,7 @@ const SearchBar=({userRecipeTitles, publicRecipeTitles, searchStart, clearSearch
                   onChange={textFieldChange}
                   margin="none"
                   id='searchValue'
-                  InputProps={{ ...params.InputProps, type: 'search', disableUnderline: true,
+                  InputProps={{ ...params.InputProps, disableUnderline: true,
                   endAdornment: (
                     <React.Fragment>
                       {titlesLoading ? <CircularProgress color="inherit" size={20} /> : null}

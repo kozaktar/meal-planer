@@ -20,7 +20,7 @@ const useStyles=makeStyles(theme=>({
         marginTop:30,
         paddingLeft:'4vw',
         height:'73.5vh',
-        maxWidth:'95vw'
+        maxWidth:'95vw',
     }
 
 }))

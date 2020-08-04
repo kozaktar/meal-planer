@@ -27,9 +27,9 @@ const useStyles = makeStyles(theme => ({
     height:430,
     textAlign:'left',
     position:'relative',
-    [theme.breakpoints.down('sm')]:{
-      minWidth: 180,
-      maxWidth:'76vw'
+    [theme.breakpoints.down('xs')]:{
+      minWidth: '80vw',
+      maxWidth:'95vw'
     }
   },
   media: {

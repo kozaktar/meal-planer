@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AllertPanel test AllertPanel is rendering without crashing 1`] = `
+<WithStyles(ForwardRef(Snackbar))
+  autoHideDuration={3000}
+>
+  <Alert />
+</WithStyles(ForwardRef(Snackbar))>
+`;

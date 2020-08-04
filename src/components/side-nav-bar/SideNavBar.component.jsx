@@ -77,7 +77,7 @@ const SideNavBar=({location})=> {
       <Drawer
         onMouseEnter={matches?handleDrawerOpen:null}
         onMouseLeave={matches?handleDrawerClose:null}
-        variant="permanent"
+        variant={matches?'permanent':'temporary'}
         className={clsx(classes.drawer, {
           [classes.drawerOpen]: open,
           [classes.drawerClose]: !open,

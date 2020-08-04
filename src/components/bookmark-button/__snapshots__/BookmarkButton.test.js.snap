@@ -1,8 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Bookmark button component should render the bookmark button 1`] = `undefined`;
-
-exports[`My Connected React-Redux Component Bookmark button should render without crashing 1`] = `
+exports[`Bookmark button tests Bookmark button should render without crashing 1`] = `
 <button
   className="MuiButtonBase-root MuiIconButton-root"
   disabled={false}
