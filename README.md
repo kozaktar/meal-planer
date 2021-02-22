@@ -4,11 +4,15 @@
 
 Recipe Box is a recipe managment app that lets you save your recipes and share them with others as well as maintain shopping lists.
 
+- [Technical Information](#technical-information)
 - [User Login](#user-login)
 - [Public Recipes](#public-recipes)
 - [Recipe Cards and Recipe Page](#recipe-cards-and-recipe-page)
 - [Users Recipe Box](#users-recipe-box)
 - [Shipping List](#shipping-list)
+- 
+### Technical Information
+This app was developed using React and Material UI for fronend and Express.js and MongoDB for backend.  Google login was implemented using Firebase auth.
 
 ### User Login
 
