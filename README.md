@@ -6,6 +6,9 @@ Recipe Box is a recipe managment app that lets you save your recipes and share t
 
 - [User Login](#user-login)
 - [Public Recipes](#public-recipes)
+- [Recipe Cards and Recipe Page](#recipe-cards-and-recipe-page)
+- [Users Recipe Box](#users-recipe-box)
+- [Shipping List](#shipping-list)
 
 ### User Login
 
@@ -24,7 +27,7 @@ Public recipes are displayed on the main page. Users can search through all the 
 **Recipe Search:**
 ![search](https://user-images.githubusercontent.com/20387499/108730124-359b9700-74f9-11eb-9658-920c8672d654.gif)
 
-### Recipe Cards & Recipe Page
+### Recipe Cards and Recipe Page
 
 Recipe cards are used to display basic recipe information.  Logged in users can save a recipe to their recipe box by clicking 
 
@@ -38,7 +41,7 @@ Recipe page displays full recipe information and enables logged in user to add i
 
 ![recipe_page](https://user-images.githubusercontent.com/20387499/108744017-73072100-7507-11eb-8df0-fedc4e82afbf.gif)
 
-### User's Recipe Box
+### Users Recipe Box
 
 Logged in user can access their recipe box where all their saved recipes are kept. They can search their saved recipes using the search bar and create new recipes. Users can also access their shopping list on this page.
 
@@ -57,7 +60,7 @@ The user can add the following information:
 -Mark recipe as public (visible to everyone through public recipe page) or private (only visible to the author)
 
 **Add Recipe Dialog:
-![recipe_box](https://user-images.githubusercontent.com/20387499/108746891-e2324480-750a-11eb-91ca-068e2d6a5ea9.gif)
+![add_recipe](https://user-images.githubusercontent.com/20387499/108749116-6980b780-750d-11eb-890d-4c85066a40eb.gif)
 
 ### Shipping List
 
